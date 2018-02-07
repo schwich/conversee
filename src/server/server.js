@@ -18,6 +18,7 @@ const compiler = webpack(config);
 
 // routes
 const index = require('./routes/index');
+const posts = require('./routes/posts');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,16 +29,18 @@ app.set('view engine', 'ejs');
 
 // Tell express to use the webpack-dev-middleware and use the webpack.config.js
 // configuration file as a base.
-app.use(webpackDevMiddleware(compiler, {
-  publicPath: config.output.publicPath
-}));
+// app.use(webpackDevMiddleware(compiler, {
+//   publicPath: config.output.publicPath
+// }));
 
 // middleware
 app.use(logger('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.static(path.join(__dirname, '../../dist/app')));
 
 // for CORS
 app.use(function (req, res, next) {
@@ -48,6 +51,7 @@ app.use(function (req, res, next) {
 
 // register routes files
 app.use('/', index);
+app.use('/api/posts/', posts);
 
 // middleware for errors
 // catch 404 and forward to error handler
