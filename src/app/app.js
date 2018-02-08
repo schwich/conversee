@@ -2,6 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { sayHelloWorld } from './redux/actions';
+import DisplayText from './components/DisplayText';
 
 class App extends React.Component {
 
@@ -11,17 +12,17 @@ class App extends React.Component {
 
   handleClick = (event) => {
     this.props.dispatch(sayHelloWorld(this.state.text));
+    this.setState({ text: ''})
   }
 
   handleChange = (event) => {
-    const value = event.target.value;
-    this.setState({ text: value})
+    this.setState({ text: event.target.value})
   }
 
   render() {
     return (
       <div>
-        <p>{this.props.hello}</p>
+        <DisplayText />
         <input 
           type='text'
           value={this.state.text}
@@ -33,10 +34,4 @@ class App extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    hello: state.posts.hello
-  }
-}
-
-export default connect(mapStateToProps)(App)
+export default connect()(App)
