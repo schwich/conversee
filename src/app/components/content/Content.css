@@ -1,0 +1,75 @@
+.content-post {
+  display: flex;
+
+  margin-left: 25px;
+  margin-bottom: 10px;
+}
+
+.content-vote-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  text-align: center;
+
+  margin: 10px;
+  padding: 5px;
+}
+
+.content-vote-panel button {
+  border: none;
+  background-color: white;
+  cursor: pointer;
+}
+
+.content-vote-panel button i {
+  font-size: 22px;
+}
+
+.content-wrapper {
+
+}
+
+.content-title {
+  display: flex;
+}
+
+.content-title-main {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.content-title-domain {
+  margin-left: 10px;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.content-tag-panel {
+  display: flex;
+  margin-right: 5px;
+}
+
+.content-tag-panel .content-tag {
+  margin-right: 5px;
+  padding: 2px 5px;
+  font-size: 12px;
+}
+
+.content-tag a {
+  color: black;
+}
+
+.content-meta-panel {
+  font-size: 11px;
+}
+
+.content-control-panel {
+
+}
+
+.content-control-panel button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
