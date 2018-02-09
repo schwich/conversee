@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const db = require('../db');
 
 /* GET posts listing. */
@@ -15,9 +16,7 @@ router.get('/', function (req, res, next) {
     });
 });
 
-/* POST create new post */
-router.post('/', function (req, res, next) {
-
+router.post('/', passport.authenticate('jwt', { session: false }), function (req, res) {
   db.one('INSERT INTO posts(title, link, content, num_points) VALUES ($1, $2, $3, 0) RETURNING *', [
     req.body.title,
     req.body.link,
@@ -27,6 +26,6 @@ router.post('/', function (req, res, next) {
       res.send(JSON.stringify(data));
     })
     .catch(error => { console.log(error) })
-});
+})
 
 module.exports = router;

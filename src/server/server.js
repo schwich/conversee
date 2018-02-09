@@ -6,12 +6,16 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
-// database tools
-const db = require('./db');
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const JwtStrategy = require('passport-jwt').Strategy;
 
 // init express
 const app = express();
+
+// database tools
+const db = require('./db');
 
 const config = require('../../webpack.config');
 const compiler = webpack(config);
@@ -20,6 +24,21 @@ const compiler = webpack(config);
 const index = require('./routes/index');
 const posts = require('./routes/posts');
 const users = require('./routes/users');
+const auth = require('./routes/auth');
+
+// middleware
+app.use(logger('combined'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+// app.use(express.static(path.join(__dirname, 'public')));
+
+// for CORS
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,26 +53,34 @@ app.set('view engine', 'ejs');
 //   publicPath: config.output.publicPath
 // }));
 
-// middleware
-app.use(logger('combined'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
+const jwtOptions = {}
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+jwtOptions.secretOrKey = 'secret';
+
+const strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
+  console.log('payload received ', jwt_payload);
+  // get user from DB
+  db.one('SELECT id FROM users WHERE id = $1', [jwt_payload.id])
+    .then(function (user) {
+      if (user) {
+        next(null, user);
+      }
+      else {
+        next(null, false);
+      }
+    })
+})
+
+passport.use(strategy);
+app.use(passport.initialize());
 
 app.use(express.static(path.join(__dirname, '../../dist/app')));
-
-// for CORS
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 
 // register routes files
 app.use('/', index);
 app.use('/api/posts/', posts);
 app.use('/api/users', users);
+app.use('/auth/', auth);
 
 // middleware for errors
 // catch 404 and forward to error handler
