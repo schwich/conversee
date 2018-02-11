@@ -12,14 +12,12 @@ const passport = require('passport');
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const JwtStrategy = require('passport-jwt').Strategy;
 
-// init express
-const app = express();
-
 // database tools
 const db = require('./db');
 
-const webpackConfig = require('../../webpack.config');
-const compiler = webpack(webpackConfig);
+// for webpack-dev-middleware
+// const webpackConfig = require('../../webpack.config');
+// const compiler = webpack(webpackConfig);
 
 // routes
 const index = require('./routes/index');
@@ -27,12 +25,18 @@ const posts = require('./routes/posts');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 
+// init express
+const app = express();
+
 // middleware
 app.use(logger('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../../dist/app')));
+
+// add cors middlware
+// add csurf (XSRF protection) middleware
 
 // for CORS
 // todo I think this is a middleware package
@@ -55,9 +59,10 @@ app.set('view engine', 'ejs');
 //   publicPath: config.output.publicPath
 // }));
 
-const jwtOptions = {}
-jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-jwtOptions.secretOrKey = config.JSON_WEB_TOKEN_SECRET;
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: config.JSON_WEB_TOKEN_SECRET
+}
 
 const strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
   console.log('payload received ', jwt_payload);
@@ -75,8 +80,6 @@ const strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
 
 passport.use(strategy);
 app.use(passport.initialize());
-
-app.use(express.static(path.join(__dirname, '../../dist/app')));
 
 // register routes files
 app.use('/', index);
