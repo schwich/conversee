@@ -1,4 +1,5 @@
 const express = require('express');
+const config = require('../../config/config');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const path = require('path');
@@ -17,8 +18,8 @@ const app = express();
 // database tools
 const db = require('./db');
 
-const config = require('../../webpack.config');
-const compiler = webpack(config);
+const webpackConfig = require('../../webpack.config');
+const compiler = webpack(webpackConfig);
 
 // routes
 const index = require('./routes/index');
@@ -34,6 +35,7 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
 // for CORS
+// todo I think this is a middleware package
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -55,7 +57,7 @@ app.set('view engine', 'ejs');
 
 const jwtOptions = {}
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-jwtOptions.secretOrKey = 'secret';
+jwtOptions.secretOrKey = config.JSON_WEB_TOKEN_SECRET;
 
 const strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
   console.log('payload received ', jwt_payload);

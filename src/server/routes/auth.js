@@ -3,19 +3,19 @@ const router = express.Router();
 const db = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const config = require('../../../config/config');
 
 router.post('/login', async function (req, res) {
   if (req.body.username && req.body.password) {
-
     try {
       const user = await db.one('SELECT id, username, password_hash FROM users WHERE username = $1', [req.body.username])
 
-      bcrypt.compare(req.body.password, user.password_hash, function (err, passportMatches) {
-        if (passportMatches) {
+      bcrypt.compare(req.body.password, user.password_hash, function (err, passwordMatches) {
+        if (passwordMatches) {
           console.log('password matches');
           const payload = { id: user.id };
           console.log(user.id)
-          const token = jwt.sign(payload, 'secret'); // todo how the fuck do I get this in this file? I should use environment variables mabye?
+          const token = jwt.sign(payload, config.JSON_WEB_TOKEN_SECRET);
           res.json({ token })
         }
         else {
