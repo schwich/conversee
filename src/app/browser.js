@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import * as reducers from './redux/reducers';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 
-import App from './app';
+import App from './App';
 
 import './browser.css';
 

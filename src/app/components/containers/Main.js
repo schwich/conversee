@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux'
 import Content from '../content/Content';
 import CreatePost from '../CreatePost';
 
 import { getAllPosts } from '../../api/posts-api';
+import { postsLoaded } from '../../redux/actions';
 
-export default class Main extends Component {
+import './Main.css';
+
+class Main extends Component {
 
   state = {
     posts: null
@@ -13,17 +16,18 @@ export default class Main extends Component {
 
   async componentDidMount() {
     const posts = await getAllPosts();
-    this.setState(() => ({ posts }));
+    this.props.dispatch(postsLoaded(posts));
   }
 
   render() {
     return (
-      <div className='container'>
+      <div className='main-container'>
         {
-          this.state.posts !== null
+          this.props.posts.posts !== null
             ?
-            this.state.posts.map((post) => {
+            this.props.posts.posts.map((post) => {
               return <Content
+                key={post.id}
                 title={post.title}
                 domain={post.domain_name}
                 numPoints={post.num_points}
@@ -36,3 +40,11 @@ export default class Main extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    posts: state.posts
+  }
+}
+
+export default connect(mapStateToProps)(Main)

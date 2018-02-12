@@ -16,7 +16,13 @@ router.post('/login', async function (req, res) {
           const payload = { id: user.id };
           console.log(user.id)
           const token = jwt.sign(payload, config.JSON_WEB_TOKEN_SECRET);
-          res.json({ token })
+          res.json({
+            token,
+            user: {
+              uid: user.id,
+              username: user.username
+            }
+          })
         }
         else {
           res.status(401).json({ error: 'password or username does not match' })

@@ -1,16 +1,27 @@
 .top-bar-nav {
   display: flex;
+
+}
+.top-bar-nav-login {
+  display: flex;
+  margin-left: auto;
 }
 
 .top-bar-nav li {
   margin-right: 15px;
+  padding: 2px;
+  border-bottom: 3px solid transparent;
+}
+.top-bar-nav li:hover {
+  border-bottom: 3px solid black;
+  cursor: pointer;
 }
 
 .top-bar-nav li a {
   padding: 2px;
 }
 
-.active {
+.active-top-nav {
   font-weight: bold;
-  border-bottom: 3px solid black;
 }
+

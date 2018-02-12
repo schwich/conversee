@@ -1,6 +1,8 @@
+const config = require('../../../config/config');
+
 export async function getAllPosts() {
   try {
-    const results = await fetch('http://localhost:3002/api/posts');
+    const results = await fetch(`${config.BACKEND_API}/posts`);
     return results.json();
   }
   catch (error) {
@@ -10,7 +12,7 @@ export async function getAllPosts() {
 
 export async function submitPost(post) {
   try {
-    const response = await fetch('http://localhost:3002/api/posts', {
+    const response = await fetch(`${config.BACKEND_API}/posts`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

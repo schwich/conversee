@@ -45,8 +45,8 @@ class Content extends Component {
 function VotePanel(props) {
   return (
     <div className='content-vote-panel'>
-      <button onClick={() => props.handleVote('up')}><i className='fa fa-arrow-circle-up' aria-hidden='true'></i></button>
-      <button onClick={() => props.handleVote('down')}><i className='fa fa-arrow-circle-down' aria-hidden='true'></i></button>
+      <button onClick={() => props.handleVote('up')}><i className='fas fa-arrow-up' aria-hidden='true'></i></button>
+      <button onClick={() => props.handleVote('down')}><i className='fas fa-arrow-down' aria-hidden='true'></i></button>
     </div>
   )
 }
@@ -57,9 +57,16 @@ function Title(props) {
       <div className='content-title-main'>
         <a href='#'>{props.title}</a>
       </div>
-      <div className='content-title-domain'>
-        <a href='#' className='subtle-underline'>({props.domain})</a>
-      </div>
+      {
+        props.domain !== null
+        &&
+        (
+          <div className='content-title-domain'>
+            <a href='#' className='subtle-underline'>({props.domain})</a>
+          </div>
+        )
+      }
+
     </div>
   )
 }

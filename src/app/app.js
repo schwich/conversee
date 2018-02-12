@@ -7,6 +7,8 @@ import { getAllPosts } from './api/posts-api';
 import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
 import Main from './components/containers/Main';
 import CreatePost from './components/CreatePost';
+import Login from './components/Login';
+import Account from './components/account/Account';
 
 class App extends React.Component {
 
@@ -15,10 +17,10 @@ class App extends React.Component {
     posts: null
   }
 
-  async componentDidMount() {
-    const posts = await getAllPosts();
-    this.setState(() => ({ posts }))
-  }
+  // async componentDidMount() {
+  //   const posts = await getAllPosts();
+  //   this.setState(() => ({ posts }))
+  // }
 
   // handleClick = (event) => {
   //   this.props.dispatch(sayHelloWorld(this.state.text));
@@ -37,21 +39,13 @@ class App extends React.Component {
           <Switch>
             <Route exact path='/' component={Main} />
             <Route path='/posts/create' component={CreatePost} />
+            <Route path='/login' component={Login} />
+            <Route path='/account' component={Account} />
           </Switch>
         </div>
       </Router>
-
-      // <div>
-      //   <DisplayText />
-      //   <input
-      //     type='text'
-      //     value={this.state.text}
-      //     onChange={this.handleChange} />
-      //   <button onClick={this.handleClick}>Click</button>
-      // </div>
-
     )
   }
 }
+
 export default App;
-// export default connect()(App)

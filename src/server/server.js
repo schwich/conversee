@@ -85,7 +85,7 @@ app.use(passport.initialize());
 app.use('/', index);
 app.use('/api/posts/', posts);
 app.use('/api/users', users);
-app.use('/auth/', auth);
+app.use('/api/auth/', auth);
 
 // middleware for errors
 // catch 404 and forward to error handler
