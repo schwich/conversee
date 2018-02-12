@@ -29,7 +29,7 @@ class Main extends Component {
               return <Content
                 key={post.id}
                 title={post.title}
-                domain={post.domain_name}
+                domain={post.link}
                 numPoints={post.num_points}
                 timestamp={post.created} />
             })

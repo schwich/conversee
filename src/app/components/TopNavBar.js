@@ -23,17 +23,24 @@ class TopNavBar extends Component {
           </li>
           {
             this.props.userIsAuthed === false &&
-            <li className='top-bar-nav-login'>
-              <NavLink activeClassName='active-top-nav' to='/login'>
-                Login <i className="fas fa-sign-in-alt"></i>
-              </NavLink>
-            </li>
+            <div className='top-bar-nav-right-block'>
+              <li>
+                <NavLink activeClassName='active-top-nav' to='/login'>
+                  Login <i className="fas fa-sign-in-alt"></i>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink activeClassName='active-top-nav' to='/register'>
+                  Register <i className="fas fa-user-plus"></i>
+                </NavLink>
+              </li>
+            </div>
           }
           {
-            this.props.userIsAuthed
+            this.props.userIsAuthed === true
             &&
-            <div className='top-bar-nav-login'>
-              <li >
+            <div className='top-bar-nav-right-block'>
+              <li>
                 <NavLink activeClassName='active-top-nav' to='/account'>
                   <i className="fas fa-user"></i> {this.props.username}
                 </NavLink>

@@ -1,13 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+import {registerUser} from '../api/auth-api';
+import {userIsRegistering, userRegistrationSuccess, userRegistrationFailure} from '../redux/actions';
 
-import { loginUser } from '../api/auth-api';
-
-import { userIsAuthing, userAuthSuccess, userAuthFailure } from '../redux/actions';
-
-import './Login.css';
-
-class Login extends React.Component {
+class Register extends React.Component {
 
   constructor(props) {
     super(props);
@@ -17,7 +13,8 @@ class Login extends React.Component {
 
   state = {
     username: '',
-    password: ''
+    password: '',
+    email: ''
   }
 
   handleChange = (event) => {
@@ -28,15 +25,20 @@ class Login extends React.Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    this.props.dispatch(userIsAuthing());
+    this.props.dispatch(userIsRegistering());
 
     try {
-      const response = await loginUser(this.state.username, this.state.password);
-      this.props.dispatch(userAuthSuccess(response.user, response.token));
+      const response = await registerUser(
+        this.state.username,
+        this.state.password,
+        this.state.email
+      );
+
+      this.props.dispatch(userRegistrationSuccess(response.user, response.token));
     }
     catch (error) {
-      console.log(error.toString());
-      this.props.dispatch(userAuthFailure(error.toString()));
+      console.log(error);
+      this.props.dispatch(userRegistrationFailure(error.toString()));
     }
   }
 
@@ -60,6 +62,14 @@ class Login extends React.Component {
             onChange={this.handleChange} />
         </div>
         <div>
+          <label htmlFor='email'>email (optional):</label>
+          <input
+            type='text'
+            name='email'
+            value={this.state.email}
+            onChange={this.handleChange} />
+        </div>
+        <div>
           <input type="submit" value="Login" />
         </div>
       </form>
@@ -67,4 +77,4 @@ class Login extends React.Component {
   }
 }
 
-export default connect()(Login)
+export default connect()(Register)

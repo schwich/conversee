@@ -51,6 +51,10 @@ function VotePanel(props) {
   )
 }
 
+// domain should strip unneeded parts of link (URL)
+// prob will need to be upgraded to class
+// or maybe just use a helper function?
+// todo
 function Title(props) {
   return (
     <div className='content-title'>

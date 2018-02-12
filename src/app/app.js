@@ -9,6 +9,7 @@ import Main from './components/containers/Main';
 import CreatePost from './components/CreatePost';
 import Login from './components/Login';
 import Account from './components/account/Account';
+import Register from './components/Register';
 
 class App extends React.Component {
 
@@ -41,6 +42,7 @@ class App extends React.Component {
             <Route path='/posts/create' component={CreatePost} />
             <Route path='/login' component={Login} />
             <Route path='/account' component={Account} />
+            <Route path='/register' component={Register} />
           </Switch>
         </div>
       </Router>

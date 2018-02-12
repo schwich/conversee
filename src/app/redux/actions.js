@@ -6,7 +6,10 @@ export const actionTypes = {
     USER_AUTH_SUCCESS: 'USER_AUTH_SUCCESS',
     USER_AUTH_FAILURE: 'USER_AUTH_FAILURE',
     USER_IS_AUTHING: 'USER_IS_AUTHING',
-    USER_LOGGING_OUT: 'USER_LOGGING_OUT'
+    USER_LOGGING_OUT: 'USER_LOGGING_OUT',
+    USER_IS_REGISTERING: 'USER_IS_REGISTERING',
+    USER_REGISTRATION_SUCCESS: 'USER_REGISTRATION_SUCCESS',
+    USER_REGISTRATION_FAILURE: 'USER_REGISTRATION_FAILURE'
   }
 
 }
@@ -55,6 +58,27 @@ export function userAuthFailure(error) {
 export function userLoggedOut() {
   return {
     type: actionTypes.user.USER_LOGGING_OUT
+  }
+}
+
+export function userIsRegistering() {
+  return {
+    type: actionTypes.user.USER_IS_REGISTERING
+  }
+}
+
+export function userRegistrationSuccess(user, token) {
+  return {
+    type: actionTypes.user.USER_REGISTRATION_SUCCESS,
+    user,
+    token
+  }
+}
+
+export function userRegistrationFailure(error) {
+  return {
+    type: actionTypes.user.USER_REGISTRATION_FAILURE,
+    error
   }
 }
 

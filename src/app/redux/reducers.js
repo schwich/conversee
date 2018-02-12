@@ -28,11 +28,13 @@ export function posts(state = initialPostsState, action) {
 const initialUsersState = {
   username: '',
   uid: '',
-  authed: false
+  authed: false,
+  error: null
 }
 
 export function users(state = initialUsersState, action) {
   switch (action.type) {
+
     case actionTypes.user.USER_AUTH_SUCCESS:
       return {
         ...state,
@@ -43,10 +45,9 @@ export function users(state = initialUsersState, action) {
       }
 
     case actionTypes.user.USER_AUTH_FAILURE:
-      console.log('user auth error');
-      console.log(action.error);
       return {
-        ...state // todo
+        ...state, // todo
+        error: action.error
       }
 
     case actionTypes.user.USER_IS_AUTHING:
@@ -61,6 +62,26 @@ export function users(state = initialUsersState, action) {
         uid: '',
         authed: false,
         token: ''
+      }
+
+    case actionTypes.user.USER_IS_REGISTERING:
+      return {
+        ...state
+      }
+
+    case actionTypes.user.USER_REGISTRATION_SUCCESS:
+      return {
+        ...state,
+        username: action.user.username,
+        uid: action.user.uid,
+        authed: true,
+        token: action.token
+      }
+
+    case actionTypes.user.USER_REGISTRATION_FAILURE:
+      return {
+        ...state,
+        error: action.error
       }
 
     default:

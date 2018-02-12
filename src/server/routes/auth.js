@@ -36,18 +36,31 @@ router.post('/login', async function (req, res) {
   }
 })
 
-router.post('/register', function (req, res) {
+router.post('/register', async function (req, res) {
   if (req.body.username && req.body.password) {
-    bcrypt.hash(req.body.password, 10, function (err, hash) {
-      // storehash in DB
-      db.none('INSERT INTO users(username, password_hash) VALUES($1, $2)', [req.body.username, hash])
-        .then(() => {
-          res.status(200).end();
+    bcrypt.hash(req.body.password, 10, async function (err, hash) {
+      try {
+        let user = '';
+        if (req.body.email) {
+          user = await db.one('INSERT INTO users(username, password_hash, email) VALUES($1, $2, $3) RETURNING id, username', [req.body.username, hash, req.body.email]);
+        }
+        else {
+          user = await db.one('INSERT INTO users(username, password_hash) VALUES($1, $2) RETURNING id, username', [req.body.username, hash]);
+        }
+        
+        const token = jwt.sign({id: user.id}, config.JSON_WEB_TOKEN_SECRET);
+        res.json({
+          token,
+          user: {
+            uid: user.id,
+            username: user.username
+          }
         })
-        .catch(error => {
-          console.error(error);
-        })
-    })
+      }
+      catch (error) {
+        console.log(error);
+      }
+    });
   }
 })
 
