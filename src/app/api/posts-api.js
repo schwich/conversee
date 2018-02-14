@@ -1,4 +1,5 @@
 const config = require('../../../config/config');
+const apiConfig = require('./api-config');
 
 export async function getAllPosts() {
   try {
@@ -16,7 +17,8 @@ export async function submitPost(post) {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${window.localStorage.getItem('token')}`
       },
       body: JSON.stringify({
         title: post.title,

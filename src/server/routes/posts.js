@@ -17,7 +17,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', passport.authenticate('jwt', { session: false }), function (req, res) {
-  db.one('INSERT INTO posts(title, link, content, num_points) VALUES ($1, $2, $3, 0) RETURNING *', [
+  db.one('INSERT INTO posts(title, link, content) VALUES ($1, $2, $3) RETURNING *', [
     req.body.title,
     req.body.link,
     req.body.content,

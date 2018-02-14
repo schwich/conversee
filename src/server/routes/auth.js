@@ -18,10 +18,8 @@ router.post('/login', async function (req, res) {
           const token = jwt.sign(payload, config.JSON_WEB_TOKEN_SECRET);
           res.json({
             token,
-            user: {
-              uid: user.id,
-              username: user.username
-            }
+            uid: user.id,
+            username: user.username
           })
         }
         else {

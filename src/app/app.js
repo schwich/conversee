@@ -10,6 +10,7 @@ import CreatePost from './components/CreatePost';
 import Login from './components/Login';
 import Account from './components/account/Account';
 import Register from './components/Register';
+import {userAuthSuccess} from '../app/redux/actions';
 
 class App extends React.Component {
 
@@ -18,10 +19,14 @@ class App extends React.Component {
     posts: null
   }
 
-  // async componentDidMount() {
-  //   const posts = await getAllPosts();
-  //   this.setState(() => ({ posts }))
-  // }
+  componentDidMount() {
+    const token = window.localStorage.getItem('token');
+    const uid = window.localStorage.getItem('uid');
+    const username = window.localStorage.getItem('username');
+    if (token && uid && username) {
+      this.props.dispatch(userAuthSuccess(uid, username, token));
+    }
+  }
 
   // handleClick = (event) => {
   //   this.props.dispatch(sayHelloWorld(this.state.text));
@@ -50,4 +55,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default connect()(App);

@@ -21,10 +21,6 @@ export async function loginUser(username, password) {
   }
 }
 
-export async function logoutUser() {
-
-}
-
 export async function registerUser(username, password, email) {
   try {
     let response = null;

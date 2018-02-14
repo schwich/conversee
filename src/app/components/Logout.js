@@ -5,6 +5,7 @@ import { userLoggedOut } from '../redux/actions';
 class Logout extends React.Component {
 
   onClick = (event) => {
+    window.localStorage.clear();
     this.props.dispatch(userLoggedOut());
   }
 

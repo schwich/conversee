@@ -4,7 +4,7 @@
 }
 .top-bar-nav-right-block {
   display: flex;
-  margin-left: auto;
+  /* margin-left: auto; */
 }
 
 .top-bar-nav li {

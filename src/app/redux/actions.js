@@ -40,10 +40,11 @@ export function userIsAuthing() {
   }
 }
 
-export function userAuthSuccess(user, token) {
+export function userAuthSuccess(uid, username, token) {
   return {
     type: actionTypes.user.USER_AUTH_SUCCESS,
-    user,
+    uid,
+    username,
     token
   }
 }

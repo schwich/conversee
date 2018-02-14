@@ -32,7 +32,11 @@ class Login extends React.Component {
 
     try {
       const response = await loginUser(this.state.username, this.state.password);
-      this.props.dispatch(userAuthSuccess(response.user, response.token));
+      // store token in localstorage
+      window.localStorage.setItem('token', response.token);
+      window.localStorage.setItem('uid', response.uid);
+      window.localStorage.setItem('username', response.username);
+      this.props.dispatch(userAuthSuccess(response.uid, response.username, response.token));
     }
     catch (error) {
       console.log(error.toString());

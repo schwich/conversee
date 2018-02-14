@@ -38,8 +38,8 @@ export function users(state = initialUsersState, action) {
     case actionTypes.user.USER_AUTH_SUCCESS:
       return {
         ...state,
-        username: action.user.username,
-        uid: action.user.uid,
+        username: action.username,
+        uid: action.uid,
         authed: true,
         token: action.token
       }
