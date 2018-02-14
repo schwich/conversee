@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-
+import {connect} from 'react-redux';
 import { submitPost } from '../api/posts-api';
 
 import './CreatePost.css';
 
-export default class CreatePost extends Component {
+class CreatePost extends Component {
 
   constructor(props) {
     super(props);
@@ -16,7 +16,6 @@ export default class CreatePost extends Component {
     title: '',
     content: '',
     link: ''
-
   }
 
   handleChange = (event) => {
@@ -28,7 +27,10 @@ export default class CreatePost extends Component {
   async handleSubmit(event) {
     event.preventDefault();
     // todo form validation
-    const response = await submitPost(this.state);
+    const response = await submitPost({
+      ...this.state,
+      owner: this.props.owner
+    });
   }
 
   render() {
@@ -64,4 +66,12 @@ export default class CreatePost extends Component {
       </form>
     )
   }
-};
+}
+
+function mapStateToProps(state) {
+  return {
+    owner: state.users.uid
+  }
+}
+
+export default connect(mapStateToProps)(CreatePost)

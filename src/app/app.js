@@ -2,7 +2,6 @@ import React from 'react';
 import TopNavBar from './components/TopNavBar';
 import { connect } from 'react-redux';
 import { sayHelloWorld } from './redux/actions';
-import DisplayText from './components/DisplayText';
 import { getAllPosts } from './api/posts-api';
 import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
 import Main from './components/containers/Main';
@@ -27,15 +26,6 @@ class App extends React.Component {
       this.props.dispatch(userAuthSuccess(uid, username, token));
     }
   }
-
-  // handleClick = (event) => {
-  //   this.props.dispatch(sayHelloWorld(this.state.text));
-  //   this.setState({ text: '' })
-  // }
-
-  // handleChange = (event) => {
-  //   this.setState({ text: event.target.value })
-  // }
 
   render() {
     return (

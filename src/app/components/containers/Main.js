@@ -31,7 +31,9 @@ class Main extends Component {
                 title={post.title}
                 domain={post.link}
                 numPoints={post.num_points}
-                timestamp={post.created} />
+                timestamp={post.created}
+                tags={post.tags}
+                owner={post.owner} />
             })
             :
             <div>Loading...</div>

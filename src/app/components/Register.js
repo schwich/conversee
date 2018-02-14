@@ -34,6 +34,11 @@ class Register extends React.Component {
         this.state.email
       );
 
+      // save user details in localStorage
+      window.localStorage.setItem('token', response.token);
+      window.localStorage.setItem('uid', response.uid);
+      window.localStorage.setItem('username', response.username);
+
       this.props.dispatch(userRegistrationSuccess(response.user, response.token));
     }
     catch (error) {

@@ -1,5 +1,4 @@
 const config = require('../../../config/config');
-const apiConfig = require('./api-config');
 
 export async function getAllPosts() {
   try {
@@ -23,7 +22,8 @@ export async function submitPost(post) {
       body: JSON.stringify({
         title: post.title,
         link: post.link,
-        content: post.content
+        content: post.content,
+        owner: post.owner
       })
     });
 

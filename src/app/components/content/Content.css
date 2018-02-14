@@ -53,12 +53,21 @@
 .content-tag-panel {
   display: flex;
   margin-right: 5px;
+  margin-top: 2px;
 }
 
 .content-tag-panel .content-tag {
   margin-right: 5px;
   padding: 2px 5px;
   font-size: 12px;
+}
+
+.content-tag {
+  border: 1px solid transparent;
+}
+
+.content-tag:hover {
+  border: 1px solid black;
 }
 
 .content-tag a {

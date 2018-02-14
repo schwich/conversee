@@ -12,7 +12,7 @@ class Content extends Component {
   }
 
   render() {
-    const { title, domain, numPoints, timestamp } = this.props;
+    const { title, domain, numPoints, timestamp, tags, owner } = this.props;
 
     // there HAS to be a better way
     if (this.props.isOdd === false) {
@@ -29,11 +29,11 @@ class Content extends Component {
         <VotePanel handleVote={this.handleVote} />
         <div className='content-wrapper'>
           <Title title={title} domain={domain} />
-          <TagPanel tags={randomThreeTags()} />
+          <TagPanel tags={tags} />
           <MetaPanel
             numPoints={numPoints}
             timestamp={timestamp}
-            owner={randomUsername()}
+            owner={owner}
             subreddit={randomsubReddit()} />
           <ControlPanel numComments={randomNum()} />
         </div>
@@ -62,7 +62,7 @@ function Title(props) {
         <a href='#'>{props.title}</a>
       </div>
       {
-        props.domain !== null
+        props.domain !== ''
         &&
         (
           <div className='content-title-domain'>
@@ -80,19 +80,11 @@ function TagPanel(props) {
     <div className='content-tag-panel'>
       {
         props.tags.map((tag) => {
-          const styles = {
-            content: {
-              backgroundColor: `${tag.color}`,
-              color: 'white'
-            }
-          };
           return (
-            <div
-              className='content-tag'
-              style={{ backgroundColor: `${tag.color}`, color: 'white' }}>
-              <a href={tag.link}>
-                <i className='fa fa-tag' aria-hidden='true'></i>
-                {tag.name}
+            <div className='content-tag'>
+              <a href='#'>
+                <i className='fa fa-tag' aria-hidden='true' style={{marginRight: '2px'}}></i>
+                {tag}
               </a>
             </div>
           )

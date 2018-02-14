@@ -1,8 +1,9 @@
 exports.up = (pgm) => {
   pgm.addColumns('posts', {
     created: {
-      type: 'timestamp',
-      default: 'now()'
+      type: 'timestamptz',
+      default: pgm.func('CURRENT_TIMESTAMP'),
+      notNull: true
     }
   })
 };

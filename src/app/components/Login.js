@@ -36,6 +36,7 @@ class Login extends React.Component {
       window.localStorage.setItem('token', response.token);
       window.localStorage.setItem('uid', response.uid);
       window.localStorage.setItem('username', response.username);
+      
       this.props.dispatch(userAuthSuccess(response.uid, response.username, response.token));
     }
     catch (error) {
