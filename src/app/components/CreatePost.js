@@ -106,7 +106,6 @@ class CreatePost extends Component {
             </form>
           :
             <form onSubmit={this.handleSubmit}>
-              <div>
               <div className='form-item-container'>
                 <label htmlFor='link'>url</label>
                 <input
@@ -115,6 +114,7 @@ class CreatePost extends Component {
                   value={this.state.link}
                   onChange={this.handleChange} />
               </div>
+              <div className='form-item-container'>
                 <label htmlFor='title'>title</label>
                 <input
                   type="text"
@@ -122,7 +122,7 @@ class CreatePost extends Component {
                   value={this.state.title}
                   onChange={this.handleChange} />
               </div>
-              <div className='form-item-container'>
+              <div>
                 <input type="submit" value="Submit" />
               </div>
             </form>

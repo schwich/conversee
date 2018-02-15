@@ -6,7 +6,7 @@
 .main-container-posts-order-tab-bar ul {
   display: flex;
   flex-direction: row;
-  border-bottom: 3px solid var(--secondary-cobalt);
+  border-bottom: 3px solid var(--secondary-teal);
 }
 
 .main-container-posts-order-tab-bar ul li {
@@ -17,13 +17,14 @@
 }
 
 .main-container-posts-order-tab-bar ul .active-posts-order-tab {
-  background-color: var(--secondary-cobalt);
+  background-color: var(--secondary-teal);
   color: white;
 }
 
 .main-container-posts-container {
   margin-top: -16px;
-  border-right: 3px solid var(--secondary-cobalt);
-  border-bottom: 3px solid var(--secondary-cobalt);
-  border-left: 3px solid var(--secondary-cobalt);
+  padding: 10px 5px 5px 5px;
+  border-right: 3px solid var(--secondary-teal);
+  border-bottom: 3px solid var(--secondary-teal);
+  border-left: 3px solid var(--secondary-teal);
 }
