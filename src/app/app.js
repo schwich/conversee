@@ -9,6 +9,7 @@ import CreatePost from './components/CreatePost';
 import Login from './components/Login';
 import Account from './components/account/Account';
 import Register from './components/Register';
+import Post from './components/Post';
 import {userAuthSuccess} from '../app/redux/actions';
 
 class App extends React.Component {
@@ -38,6 +39,8 @@ class App extends React.Component {
             <Route path='/login' component={Login} />
             <Route path='/account' component={Account} />
             <Route path='/register' component={Register} />
+
+            <Route path="/posts/:post_id" component={Post} />
           </Switch>
         </div>
       </Router>

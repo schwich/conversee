@@ -32,7 +32,7 @@ const initialUsersState = {
   error: null
 }
 
-export function users(state = initialUsersState, action) {
+export function user(state = initialUsersState, action) {
   switch (action.type) {
 
     case actionTypes.user.USER_AUTH_SUCCESS:

@@ -58,8 +58,8 @@ class TopNavBar extends Component {
 
 function mapStateToProps(state) {
   return {
-    userIsAuthed: state.users.authed,
-    username: state.users.username
+    userIsAuthed: state.user.authed,
+    username: state.user.username
   }
 }
 
