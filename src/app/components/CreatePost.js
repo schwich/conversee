@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { submitPost } from '../api/posts-api';
-
+import Button from './Button';
 import './CreatePost.css';
 
 class CreatePost extends Component {
@@ -101,7 +101,7 @@ class CreatePost extends Component {
                   onChange={this.handleChange} />
               </div>
               <div>
-                <input type="submit" value="Submit" />
+                <Button text='submit' />
               </div>
             </form>
           :
@@ -123,7 +123,7 @@ class CreatePost extends Component {
                   onChange={this.handleChange} />
               </div>
               <div>
-                <input type="submit" value="Submit" />
+                <Button text='submit' />
               </div>
             </form>
         }
