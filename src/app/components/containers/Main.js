@@ -11,7 +11,14 @@ import './Main.css';
 class Main extends Component {
 
   state = {
-    posts: null
+    posts: null,
+    activeTab: 'best'
+  }
+
+  handleTabChange = (tabName) => {
+    this.setState({
+      activeTab: tabName
+    })
   }
 
   async componentDidMount() {
@@ -22,6 +29,31 @@ class Main extends Component {
   render() {
     return (
       <div className='main-container'>
+        <div className='main-container-posts-order-tab-bar'>
+          <ul>
+            <li
+              className={this.state.activeTab === 'best' ? 'active-posts-order-tab' : ''}
+              onClick={() => {this.handleTabChange('best')}}>
+              best
+            </li>
+            <li
+              className={this.state.activeTab === 'trending' ? 'active-posts-order-tab' : ''}
+              onClick={() => {this.handleTabChange('trending')}}>
+              trending
+            </li>
+            <li
+              className={this.state.activeTab === 'new' ? 'active-posts-order-tab' : ''}
+              onClick={() => {this.handleTabChange('new')}}>
+              new
+            </li>
+            <li
+              className={this.state.activeTab === 'controversial' ? 'active-posts-order-tab' : ''}
+              onClick={() => {this.handleTabChange('controversial')}}>
+              controversial
+            </li>
+          </ul>
+        </div>
+        <div className='main-container-posts-container'>
         {
           this.props.posts.posts !== null
             ?
@@ -38,6 +70,7 @@ class Main extends Component {
             :
             <div>Loading...</div>
         }
+        </div>
       </div>
     );
   }

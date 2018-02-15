@@ -7,6 +7,7 @@ import Logout from './Logout';
 import './TopNavBar.css';
 
 class TopNavBar extends Component {
+  
   render() {
     return (
       <div>

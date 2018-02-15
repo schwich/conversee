@@ -1,0 +1,4 @@
+- add css modules https://github.com/webpack-contrib/css-loader 
+- refactor redux modules / actions into different files that are then composed
+- implement server-side rendering for inital app download
+  -- maybe after that cookies will work

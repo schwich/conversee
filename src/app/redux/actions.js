@@ -1,6 +1,7 @@
 export const actionTypes = {
   posts: {
     POSTS_LOADED: 'POSTS_LOADED',
+    POST_VALIDATION_ERROR: 'POST_VALIDATION_ERROR'
   },
   user: {
     USER_AUTH_SUCCESS: 'USER_AUTH_SUCCESS',
@@ -14,19 +15,18 @@ export const actionTypes = {
 
 }
 
-export function sayHelloWorld(value) {
-  return {
-    type: 'HELLO_WORLD',
-    text: value
-  }
-}
-
 /* post actions START */
 
 export function postsLoaded(posts) {
   return {
     type: actionTypes.posts.POSTS_LOADED,
     posts
+  }
+}
+
+export function postValidationError(error) {
+  return {
+    error
   }
 }
 

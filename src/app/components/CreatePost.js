@@ -15,7 +15,8 @@ class CreatePost extends Component {
   state = {
     title: '',
     content: '',
-    link: ''
+    link: '',
+    isText: false
   }
 
   handleChange = (event) => {
@@ -24,9 +25,28 @@ class CreatePost extends Component {
     })
   }
 
+  handleTabSwitch = (tabName) => {
+    if (tabName === 'textTab') {
+      this.setState({
+        isText: true,
+        content: ''
+      })
+    }
+    else {
+      this.setState({
+        isText: false,
+        link: ''
+      })
+    }
+  }
+
   async handleSubmit(event) {
     event.preventDefault();
+
+
     // todo form validation
+
+
     const response = await submitPost({
       ...this.state,
       owner: this.props.owner
@@ -35,42 +55,88 @@ class CreatePost extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div>
-          <label htmlFor='title'>Title:</label>
-          <input
-            type="text"
-            name="title"
-            value={this.state.title}
-            onChange={this.handleChange} />
+      <div>
+        {
+          this.props.error !== null 
+          ?
+            <div className='flash-error'>
+              {this.props.error}
+            </div>
+          : 
+            <div className='flash-error'></div>
+        }
+        <div className='create-post-switcher'>
+          <ul className='horizontal-tab-bar'>
+            <li
+              className={this.state.isText === false ? 'active-tab' : ''}
+              onClick={() => this.handleTabSwitch('linkTab')}>
+              Link
+            </li>
+            <li
+              className={this.state.isText === true ? 'active-tab' : ''}
+              onClick={() => this.handleTabSwitch('textTab')}>
+              Text
+            </li>
+          </ul>
         </div>
-        <div>
-          <label htmlFor='link'>Link</label>
-          <input
-            type="text"
-            name="link"
-            value={this.state.link}
-            onChange={this.handleChange} />
+        <div className='form-container'>
+        {
+          this.state.isText === true 
+          ?
+            <form onSubmit={this.handleSubmit}>
+              <div className='form-item-container'>
+                <label htmlFor='title'>title</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={this.state.title}
+                  onChange={this.handleChange} />
+              </div>
+              <div className='form-item-container'>
+                <label htmlFor='content'>text</label>
+                <textarea
+                  type="text"
+                  name="content"
+                  value={this.state.content}
+                  onChange={this.handleChange} />
+              </div>
+              <div>
+                <input type="submit" value="Submit" />
+              </div>
+            </form>
+          :
+            <form onSubmit={this.handleSubmit}>
+              <div>
+              <div className='form-item-container'>
+                <label htmlFor='link'>url</label>
+                <input
+                  type="text"
+                  name="link"
+                  value={this.state.link}
+                  onChange={this.handleChange} />
+              </div>
+                <label htmlFor='title'>title</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={this.state.title}
+                  onChange={this.handleChange} />
+              </div>
+              <div className='form-item-container'>
+                <input type="submit" value="Submit" />
+              </div>
+            </form>
+        }
         </div>
-        <div>
-          <label htmlFor='content'>Content</label>
-          <input
-            type="textarea"
-            name="content"
-            value={this.state.content}
-            onChange={this.handleChange} />
-        </div>
-        <div>
-          <input type="submit" value="Submit" />
-        </div>
-      </form>
+      </div>
     )
   }
 }
 
 function mapStateToProps(state) {
   return {
-    owner: state.users.uid
+    owner: state.user.uid,
+    error: state.posts.error
   }
 }
 

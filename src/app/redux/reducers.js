@@ -12,10 +12,10 @@ export function posts(state = initialPostsState, action) {
         ...state,
         'posts': action.posts
       }
-    case 'HELLO_WORLD':
+    case actionTypes.posts.POST_VALIDATION_ERROR:
       return {
         ...state,
-        'hello': action.text
+        'error': action.error
       }
 
     default:

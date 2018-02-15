@@ -1,3 +1,16 @@
+:root {
+  --primary-brown: rgb(102, 73, 52);
+  --secondary-peach: rgb(255, 212, 181);
+  --secondary-light-brown: rgb(172, 139, 109);
+  --secondary-teal: rgb(42, 96, 102);
+  --secondary-cobalt: rgb(109, 172, 179);
+
+  --primary-blue: rgb(56, 120, 134);
+  --secondary-olive: rgb(124, 134, 115);
+  --secondary-green: rgb(74, 93, 77);
+  --secondary-tan: rgb(171, 144, 118);
+}
+
 body {
   margin: 0;
   padding: 0;
