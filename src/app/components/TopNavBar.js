@@ -22,37 +22,37 @@ class TopNavBar extends Component {
     return (
       <div>
         <ul className='top-bar-nav'>
-          <li
-            className={this.state.activeTab === 'home' ? 'top-bar-active-tab' : ''}
-            onClick={() => {this.handleTabChange('home')}}>
-            <Link to='/'>
-              Home
-            </Link>
-          </li>
-          <li
-            className={this.state.activeTab === 'createPost' ? 'top-bar-active-tab' : ''}
-            onClick={() => {this.handleTabChange('createPost')}}>
-            <Link to='/posts/create'>
+          <Link to='/'>
+            <li
+              className={this.state.activeTab === 'home' ? 'top-bar-active-tab' : ''}
+              onClick={() => {this.handleTabChange('home')}}>
+                Home
+            </li>
+          </Link>
+          <Link to='/posts/create'>
+            <li
+              className={this.state.activeTab === 'createPost' ? 'top-bar-active-tab' : ''}
+              onClick={() => {this.handleTabChange('createPost')}}>
               Create Post <i className="fas fa-plus"></i>
-            </Link>
-          </li>
+            </li>
+          </Link> 
           {
             this.props.userIsAuthed === false &&
             <div className='top-bar-nav-right-block'>
-              <li
-                className={this.state.activeTab === 'login' ? 'top-bar-active-tab' : ''}
-                onClick={() => {this.handleTabChange('login')}}>
-                <Link to='/login'>
-                  Login <i className="fas fa-sign-in-alt"></i>
-                </Link>
-              </li>
-              <li
-                className={this.state.activeTab === 'register' ? 'top-bar-active-tab' : ''}
-                onClick={() => {this.handleTabChange('register')}}>
-                <Link to='/register'>
-                  Register <i className="fas fa-user-plus"></i>
-                </Link>
-              </li>
+              <Link to='/login'>
+                <li
+                  className={this.state.activeTab === 'login' ? 'top-bar-active-tab' : ''}
+                  onClick={() => {this.handleTabChange('login')}}>
+                    Login <i className="fas fa-sign-in-alt"></i>
+                </li>
+              </Link>
+              <Link to='/register'>
+                <li
+                  className={this.state.activeTab === 'register' ? 'top-bar-active-tab' : ''}
+                  onClick={() => {this.handleTabChange('register')}}>
+                    Register <i className="fas fa-user-plus"></i>
+                </li>
+              </Link>
             </div>
           }
           {
