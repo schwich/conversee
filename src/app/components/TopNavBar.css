@@ -1,6 +1,8 @@
 .top-bar-nav {
   display: flex;
   background-color: var(--secondary-light-brown);
+  /* background-color: var(--primary-brown); */
+  margin: 0;
 }
 .top-bar-nav-right-block {
   display: flex;
@@ -14,8 +16,14 @@
 }
 .top-bar-nav li:hover {
   border-bottom: 5px solid var(--primary-brown);
+  /* border-bottom: 5px solid var(--secondary-cobalt); */
   cursor: pointer;
 }
+
+/* .top-bar-nav li a {
+  color: whitesmoke;
+  font-weight: lighter;
+} */
 
 .top-bar-nav .top-bar-active-tab {
   background-color: var(--secondary-cobalt);

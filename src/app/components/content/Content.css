@@ -17,6 +17,11 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+  user-select: none;
+}
+
+.content-vote-panel button:focus {
+  outline: none;
 }
 
 .content-vote-panel button svg {

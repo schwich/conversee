@@ -1,0 +1,22 @@
+.form {
+
+}
+
+.form button {
+  margin: 10px 10px 10px 10px;
+}
+
+.form-item-container {
+  max-width: 40%; /* todo media queries */
+  display: flex;
+  flex-direction: column;
+  margin: 20px 10px 20px 10px;
+  padding: 10px;
+  background: var(--secondary-cobalt);
+}
+
+.form-item-container label {
+  font-size: 26px;
+  font-weight: lighter;
+  margin-bottom: 5px;
+}

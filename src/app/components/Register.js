@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {registerUser} from '../api/auth-api';
 import {userIsRegistering, userRegistrationSuccess, userRegistrationFailure} from '../redux/actions';
 import { Redirect } from 'react-router-dom';
+import Form from './Form';
 
 class Register extends React.Component {
 
@@ -12,27 +13,14 @@ class Register extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  state = {
-    username: '',
-    password: '',
-    email: ''
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  async handleSubmit(event) {
-    event.preventDefault();
+  async handleSubmit(formValues) {
     this.props.dispatch(userIsRegistering());
 
     try {
       const response = await registerUser(
-        this.state.username,
-        this.state.password,
-        this.state.email
+        formValues.username,
+        formValues.password,
+        formValues.email
       );
 
       // save user details in localStorage
@@ -60,35 +48,29 @@ class Register extends React.Component {
     }
     else {
       return (
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor='username'>username:</label>
-            <input
-              type='text'
-              name='username'
-              value={this.state.username}
-              onChange={this.handleChange} />
-          </div>
-          <div>
-            <label htmlFor='password'>password:</label>
-            <input
-              type='password'
-              name='password'
-              value={this.state.password}
-              onChange={this.handleChange} />
-          </div>
-          <div>
-            <label htmlFor='email'>email (optional):</label>
-            <input
-              type='text'
-              name='email'
-              value={this.state.email}
-              onChange={this.handleChange} />
-          </div>
-          <div>
-            <input type="submit" value="Login" />
-          </div>
-        </form>
+        <Form
+          handleSubmit={this.handleSubmit}
+          inputFields={[
+            {
+              name: 'username',
+              type: 'text',
+              label: 'username',
+              required: true
+            },
+            {
+              name: 'password',
+              type: 'password',
+              label: 'password',
+              required: true
+            },
+            {
+              name: 'email',
+              type: 'text',
+              label: 'email',
+              required: false
+            }
+          ]}
+        />
       )
     }
   }

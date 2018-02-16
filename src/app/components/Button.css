@@ -1,14 +1,11 @@
 .btn {
   font-size: 1rem;
-  font-weight: lighter;
-  /* display: inline-block; */
   cursor: pointer;
   min-height: 1em;
   outline: none;
   border: none;
   vertical-align: middle;
   background: #f8f8f8 linear-gradient(transparent, rgba(0, 0, 0, 0.05));
-  /* color: rgba(0, 0, 0, 0.6); */
   margin: 0em 0.25em 0em 0em;
   padding: 1em 2em 1.15em;
   text-transform: none;
@@ -27,8 +24,8 @@
 }
 
 .btn:hover {
-  background-color: var(--secondary-tan);
+  background-color: var(--secondary-light-brown);
   background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.05));
   box-shadow: 0px 0px 0px 1px rgba(34, 36, 38, 0.15) inset, 0px -0.3em 0px 0px rgba(34, 36, 38, 0.15) inset;
-  color: rgba(0, 0, 0, 0.8);
+  color: whitesmoke;
 }

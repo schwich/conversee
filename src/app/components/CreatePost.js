@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { submitPost } from '../api/posts-api';
 import Button from './Button';
+import Form from './Form';
 import './CreatePost.css';
 
 class CreatePost extends Component {
@@ -13,9 +14,6 @@ class CreatePost extends Component {
   }
 
   state = {
-    title: '',
-    content: '',
-    link: '',
     isText: false
   }
 
@@ -29,26 +27,18 @@ class CreatePost extends Component {
     if (tabName === 'textTab') {
       this.setState({
         isText: true,
-        content: ''
       })
     }
     else {
       this.setState({
         isText: false,
-        link: ''
       })
     }
   }
 
-  async handleSubmit(event) {
-    event.preventDefault();
-
-
-    // todo form validation
-
-
+  async handleSubmit(formValues) {
     const response = await submitPost({
-      ...this.state,
+      ...formValues,
       owner: this.props.owner
     });
   }
@@ -83,49 +73,41 @@ class CreatePost extends Component {
         {
           this.state.isText === true 
           ?
-            <form onSubmit={this.handleSubmit}>
-              <div className='form-item-container'>
-                <label htmlFor='title'>title</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={this.state.title}
-                  onChange={this.handleChange} />
-              </div>
-              <div className='form-item-container'>
-                <label htmlFor='content'>text</label>
-                <textarea
-                  type="text"
-                  name="content"
-                  value={this.state.content}
-                  onChange={this.handleChange} />
-              </div>
-              <div>
-                <Button text='submit' />
-              </div>
-            </form>
+            <Form
+              handleSubmit={this.handleSubmit}
+              inputFields={
+                [
+                  {
+                    name: 'title',
+                    type: 'text',
+                    label: 'title'
+                  },
+                  {
+                    name: 'content',
+                    type: 'text',
+                    label: 'text'
+                  }
+                ]
+              } 
+            />
           :
-            <form onSubmit={this.handleSubmit}>
-              <div className='form-item-container'>
-                <label htmlFor='link'>url</label>
-                <input
-                  type="text"
-                  name="link"
-                  value={this.state.link}
-                  onChange={this.handleChange} />
-              </div>
-              <div className='form-item-container'>
-                <label htmlFor='title'>title</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={this.state.title}
-                  onChange={this.handleChange} />
-              </div>
-              <div>
-                <Button text='submit' />
-              </div>
-            </form>
+            <Form
+              handleSubmit={this.handleSubmit}
+              inputFields={
+                [
+                  {
+                    name: 'link',
+                    type: 'text',
+                    label: 'link'
+                  },
+                  {
+                    name: 'title',
+                    type: 'text',
+                    label: 'title'
+                  }
+                ]
+              }
+            />
         }
         </div>
       </div>

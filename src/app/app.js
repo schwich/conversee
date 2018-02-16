@@ -10,6 +10,7 @@ import Login from './components/Login';
 import Account from './components/account/Account';
 import Register from './components/Register';
 import Post from './components/Post';
+import Footer from './components/Footer';
 import {userAuthSuccess} from '../app/redux/actions';
 
 class App extends React.Component {

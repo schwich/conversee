@@ -5,6 +5,8 @@ import { loginUser } from '../api/auth-api';
 
 import { userIsAuthing, userAuthSuccess, userAuthFailure } from '../redux/actions';
 
+import Form from './Form';
+
 import './Login.css';
 
 class Login extends React.Component {
@@ -15,23 +17,12 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  state = {
-    username: '',
-    password: ''
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  async handleSubmit(event) {
-    event.preventDefault();
+  async handleSubmit(formValues) {
     this.props.dispatch(userIsAuthing());
 
     try {
-      const response = await loginUser(this.state.username, this.state.password);
+      const response = await loginUser(formValues.username, formValues.password);
+
       // store token in localstorage
       window.localStorage.setItem('token', response.token);
       window.localStorage.setItem('uid', response.uid);
@@ -56,30 +47,25 @@ class Login extends React.Component {
     }
     else {
       return (
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor='username'>username:</label>
-            <input
-              type='text'
-              name='username'
-              value={this.state.username}
-              onChange={this.handleChange} />
-          </div>
-          <div>
-            <label htmlFor='password'>password:</label>
-            <input
-              type='password'
-              name='password'
-              value={this.state.password}
-              onChange={this.handleChange} />
-          </div>
-          <div>
-            <input type="submit" value="Login" />
-          </div>
-        </form>
+        <Form
+          handleSubmit={this.handleSubmit}
+          inputFields={[
+            {
+              name: 'username',
+              type: 'text',
+              label: 'username',
+              required: true
+            },
+            {
+              name: 'password',
+              type: 'password',
+              label: 'password',
+              required: true
+            },
+          ]} 
+        />
       )
     }
-    
   }
 }
 

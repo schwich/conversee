@@ -8,6 +8,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 import App from './App';
 
+import 'normalize.css';
 import './browser.css';
 
 const store = createStore(
