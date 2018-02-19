@@ -33,3 +33,26 @@ export async function submitPost(post) {
     console.warn(error);
   }
 }
+
+export async function vote(postId, voteValue) {
+  try {
+    const response = await fetch(`${config.BACKEND_API}/posts/vote`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${window.localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({
+        postId,
+        voteValue,
+        userId: localStorage.getItem('uid')
+      })
+    });
+
+    return response.json();
+
+  } catch (error) {
+    console.warn(error);
+  }
+}

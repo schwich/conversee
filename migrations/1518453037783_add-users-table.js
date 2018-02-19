@@ -12,7 +12,7 @@ exports.up = (pgm) => {
     },
     created: {
       type: 'timestamp',
-      default: 'now()'
+      default: pgm.func('CURRENT_TIMESTAMP')
     }
   })
 };

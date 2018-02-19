@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-server": "nodemon ./bin/www",
+    "app": "webpack-dev-server",
+    "server": "nodemon ./bin/www",
     "build-app": "webpack",
-    "start": "webpack-dev-server",
     "migrations": "./node_modules/.bin/node-pg-migrate up",
     "create-migration": "./node_modules/.bin/node-pg-migrate create ",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,12 +15,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/react": "^16.0.38",
     "babel-polyfill": "^6.26.0",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "config": "^1.29.4",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
+    "dexie": "^2.0.1",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.1",

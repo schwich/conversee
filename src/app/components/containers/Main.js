@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Content from '../content/Content';
-import CreatePost from '../CreatePost';
-
 import { getAllPosts } from '../../api/posts-api';
 import { postsLoaded } from '../../redux/actions';
 
@@ -13,13 +11,13 @@ class Main extends Component {
   state = {
     posts: null,
     activeTab: 'best'
-  }
+  };
 
   handleTabChange = (tabName) => {
     this.setState({
       activeTab: tabName
     })
-  }
+  };
 
   async componentDidMount() {
     const posts = await getAllPosts();
@@ -60,6 +58,7 @@ class Main extends Component {
             this.props.posts.posts.map((post) => {
               return <Content
                 key={post.id}
+                id={post.id}
                 title={post.title}
                 domain={post.link}
                 numPoints={post.num_points}

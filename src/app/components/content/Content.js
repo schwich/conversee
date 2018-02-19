@@ -1,54 +1,46 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { randomThreeTags, randomUsername, randomsubReddit, randomNum } from '../../helpers/random-content';
+import { randomsubReddit, randomNum } from '../../helpers/random-content';
+import VotePanel from './VotePanel';
 
 import './Content.css';
 
 class Content extends Component {
 
-  handleVote = (type) => {
-    console.log(`handleVoteCalled with: ${type}`);
-  }
-
   render() {
-    const { title, domain, numPoints, timestamp, tags, owner } = this.props;
 
-    // there HAS to be a better way
-    if (this.props.isOdd === false) {
-      var styles = {
-        backgroundColor: 'lightgray'
-      }
-    }
-    else {
-      var styles = {};
-    }
+    const {
+      title,
+      domain,
+      numPoints,
+      timestamp,
+      tags,
+      owner,
+      id,
+      votedUp,
+      votedDown
+    } = this.props;
 
     return (
-      <div className='content-post' style={styles}>
-        <VotePanel handleVote={this.handleVote} />
+      <div className='content-post'>
+        <VotePanel
+          votedUp={votedUp}
+          votedDown={votedDown}
+          postId={id}/>
         <div className='content-wrapper'>
-          <Title title={title} domain={domain} />
-          <TagPanel tags={tags} />
+          <Title title={title} domain={domain}/>
+          <TagPanel tags={tags}/>
           <MetaPanel
             numPoints={numPoints}
             timestamp={timestamp}
             owner={owner}
-            subreddit={randomsubReddit()} />
-          <ControlPanel numComments={randomNum()} />
+            subreddit={randomsubReddit()}/>
+          <ControlPanel numComments={randomNum()}/>
         </div>
       </div>
     )
   }
-}
-
-function VotePanel(props) {
-  return (
-    <div className='content-vote-panel'>
-      <button onClick={() => props.handleVote('up')}><i className='fas fa-arrow-up' aria-hidden='true'></i></button>
-      <button onClick={() => props.handleVote('down')}><i className='fas fa-arrow-down' aria-hidden='true'></i></button>
-    </div>
-  )
 }
 
 // domain should strip unneeded parts of link (URL)
@@ -83,14 +75,14 @@ function TagPanel(props) {
           return (
             <div className='content-tag'>
               <a href='#'>
-                <i className='fa fa-tag' aria-hidden='true' style={{marginRight: '2px'}}></i>
+                <i className='fa fa-tag' aria-hidden='true' style={{ marginRight: '2px' }}></i>
                 {tag}
               </a>
             </div>
           )
         })
       }
-    </div >
+    </div>
   )
 }
 
@@ -105,7 +97,8 @@ function MetaPanel(props) {
 
   return (
     <div className='content-meta-panel'>
-      {numPoints} points | submitted {moment().from(timestamp, true)} ago by <span className='subtle-underline'>{owner}</span> to <span className='subtle-underline'>{subreddit}</span>
+      {numPoints} points | submitted {moment().from(timestamp, true)} ago by <span
+      className='subtle-underline'>{owner}</span> to <span className='subtle-underline'>{subreddit}</span>
     </div>
   )
 }

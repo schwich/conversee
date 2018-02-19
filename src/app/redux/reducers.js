@@ -1,9 +1,8 @@
 import { actionTypes } from './actions';
 
 const initialPostsState = {
-  hello: '',
   posts: null
-}
+};
 
 export function posts(state = initialPostsState, action) {
   switch (action.type) {
@@ -11,12 +10,12 @@ export function posts(state = initialPostsState, action) {
       return {
         ...state,
         'posts': action.posts
-      }
+      };
     case actionTypes.posts.POST_VALIDATION_ERROR:
       return {
         ...state,
         'error': action.error
-      }
+      };
 
     default:
       return {
@@ -30,7 +29,7 @@ const initialUsersState = {
   uid: '',
   authed: false,
   error: null
-}
+};
 
 export function user(state = initialUsersState, action) {
   switch (action.type) {
@@ -42,18 +41,18 @@ export function user(state = initialUsersState, action) {
         uid: action.uid,
         authed: true,
         token: action.token
-      }
+      };
 
     case actionTypes.user.USER_AUTH_FAILURE:
       return {
         ...state, // todo
         error: action.error
-      }
+      };
 
     case actionTypes.user.USER_IS_AUTHING:
       return {
         ...state // todo
-      }
+      };
 
     case actionTypes.user.USER_LOGGING_OUT:
       return {
@@ -62,12 +61,12 @@ export function user(state = initialUsersState, action) {
         uid: '',
         authed: false,
         token: ''
-      }
+      };
 
     case actionTypes.user.USER_IS_REGISTERING:
       return {
         ...state
-      }
+      };
 
     case actionTypes.user.USER_REGISTRATION_SUCCESS:
       return {
@@ -76,13 +75,13 @@ export function user(state = initialUsersState, action) {
         uid: action.user.uid,
         authed: true,
         token: action.token
-      }
+      };
 
     case actionTypes.user.USER_REGISTRATION_FAILURE:
       return {
         ...state,
         error: action.error
-      }
+      };
 
     default:
       return { ...state }
