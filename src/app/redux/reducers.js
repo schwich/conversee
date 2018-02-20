@@ -7,10 +7,26 @@ const initialPostsState = {
 export function posts(state = initialPostsState, action) {
   switch (action.type) {
     case actionTypes.posts.POSTS_LOADED:
+
+      let posts = {};
+      action.posts.map((post) => {
+        posts[post.id] = post;
+      })
+
       return {
         ...state,
-        'posts': action.posts
+        posts
       };
+
+    case actionTypes.posts.USER_VOTES_LOADED: 
+      if (state.posts === null) { console.log('state posts is null right now');return { ...state } }
+
+      let newState = { ... state }
+      action.userVotes.map((vote) => {
+        newState.posts[vote.post_id]['userVoted'] = vote.vote;
+      })
+      return newState;
+    
     case actionTypes.posts.POST_VALIDATION_ERROR:
       return {
         ...state,

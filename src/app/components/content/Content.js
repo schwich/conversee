@@ -18,15 +18,13 @@ class Content extends Component {
       tags,
       owner,
       id,
-      votedUp,
-      votedDown
+      userVoted
     } = this.props;
 
     return (
       <div className='content-post'>
         <VotePanel
-          votedUp={votedUp}
-          votedDown={votedDown}
+          userVoted={userVoted}
           postId={id}/>
         <div className='content-wrapper'>
           <Title title={title} domain={domain}/>

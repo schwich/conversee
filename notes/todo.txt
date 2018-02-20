@@ -4,18 +4,18 @@
   -- maybe after that cookies will work
 - start thinking about how I'm going to implement the different post sorting algorithms
 
-DONE 0. create a Button component
+[DONE] 0. create a Button component
 
-0b. fix top nav bar 
+[DONE] 0b. fix top nav bar 
   -> state defaults to home tab selected, should default to whatever the url is
   -> also, if you click the very bottom of a tab, you can select the tab without being taken to the page
 
-DONE 1. refactor forms
+[DONE] 1. refactor forms
   -> I use forms in Login, Register, CreatePost, etc. and I have to repeat a lot of styling / formatting so I should make a Form component that wraps everything
   -> Will be a good exercise in refactoring
 
 
-2. integrate Sass & CSS modules 
+[LATER] 2. integrate Sass & CSS modules 
   -> This will make my life easier down the line when I start doing media queries, etc.
 
 3. implement voting feature

@@ -5,33 +5,75 @@ import './VotePanel.css';
 
 export default class VotePanel extends React.Component {
 
-  state = {
-    votedUp: false,
-    votedDown: false
-  };
-
   constructor(props) {
     super(props);
 
-    this.state = {
-      votedUp: props.votedUp,
-      votedDown: props.votedDown
-    };
+    if (this.props.userVoted === 'up') {
+      this.state = {
+        votedUp: true,
+        votedDown: false
+      }
+    }
+    else if (this.props.userVoted === 'down') {
+      this.state = {
+        votedUp: false,
+        votedDown: true
+      }
+    }
+    else {
+      this.state = {
+        votedUp: false,
+        votedDown: false
+      }
+    }
 
     this.handleVote = this.handleVote.bind(this);
   }
 
-  async handleVote(type, postId) {
-    // record vote in local DB
-    db.userVotes.put({
-      postId,
-      type
-    });
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.userVoted === 'up') {
+      this.setState({
+        votedUp: true,
+        votedDown: false
+      })
+    }
+    else if (nextProps.userVoted === 'down') {
+      this.setState({
+        votedUp: false,
+        votedDown: true
+      })
+    }
+    else {
+      this.setState({
+        votedUp: false,
+        votedDown: false
+      })
+    }
+  }
 
-    // then tell server about the vote
+  async handleVote(type, postId) {
+
+    if (type === 'up' && this.state.votedUp !== true) {
+      this.setState({
+        votedUp: true,
+        votedDown: false
+      })
+    }
+    else if (type === 'down' && this.state.votedDown !== true) {
+      this.setState({
+        votedUp: false,
+        votedDown: true
+      })
+    }
+    else {
+      this.setState({
+        votedUp: false,
+        votedDown: false
+      })
+    }
+
     try {
       const response = await vote(postId, type);
-      console.log(response);
     }
     catch (error) {
       console.log(error);
@@ -42,12 +84,12 @@ export default class VotePanel extends React.Component {
     return (
       <div className='content-vote-panel'>
         <button
-          className={this.state.votedUp === true ? 'voted' : ''}
+          className={this.state.votedUp === true ? 'voted-up' : ''}
           onClick={() => this.handleVote('up', this.props.postId)}>
           <i className='fas fa-arrow-up' aria-hidden='true'></i>
         </button>
         <button
-          className={this.state.votedDown === true ? 'voted' : ''}
+          className={this.state.votedDown === true ? 'voted-down' : ''}
           onClick={() => this.handleVote('down', this.props.postId)}>
           <i className='fas fa-arrow-down' aria-hidden='true'></i></button>
       </div>

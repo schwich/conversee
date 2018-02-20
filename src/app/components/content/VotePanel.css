@@ -25,6 +25,10 @@
     color: var(--secondary-teal);
 }
 
-.content-vote-panel .voted {
-    color: var(--secondary-teal);
+.content-vote-panel .voted-up {
+    color: green;
+}
+
+.content-vote-panel .voted-down {
+    color: red;
 }

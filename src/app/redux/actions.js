@@ -1,6 +1,7 @@
 export const actionTypes = {
   posts: {
     POSTS_LOADED: 'POSTS_LOADED',
+    USER_VOTES_LOADED: 'USER_VOTES_LOADED',
     POST_VALIDATION_ERROR: 'POST_VALIDATION_ERROR'
   },
   user: {
@@ -21,6 +22,13 @@ export function postsLoaded(posts) {
   return {
     type: actionTypes.posts.POSTS_LOADED,
     posts
+  }
+}
+
+export function userVotesLoaded(userVotes) {
+  return {
+    type: actionTypes.posts.USER_VOTES_LOADED,
+    userVotes
   }
 }
 

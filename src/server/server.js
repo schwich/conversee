@@ -77,7 +77,7 @@ app.use(passport.initialize());
 // register routes files
 app.use('/', index);
 app.use('/api/posts/', posts);
-app.use('/api/users', users);
+app.use('/api/users/', users);
 app.use('/api/auth/', auth);
 
 // middleware for errors

@@ -10,6 +10,16 @@ export async function getAllPosts() {
   }
 }
 
+export async function getUserVotes(userId) {
+  try {
+    const results = await fetch(`${config.BACKEND_API}/users/${userId}/votes`);
+    return results.json();
+  }
+  catch (error) {
+    console.warn(error);
+  }
+}
+
 export async function submitPost(post) {
   try {
     const response = await fetch(`${config.BACKEND_API}/posts`, {
