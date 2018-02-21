@@ -1,53 +1,45 @@
 import React from 'react';
 import { vote } from "../../api/posts-api";
+import { connect } from 'react-redux';
 import db from '../../helpers/db';
 import './VotePanel.css';
 
-export default class VotePanel extends React.Component {
+class VotePanel extends React.Component {
+
+  state = {
+    votedUp: false,
+    votedDown: false
+  }
 
   constructor(props) {
     super(props);
-
-    if (this.props.userVoted === 'up') {
-      this.state = {
-        votedUp: true,
-        votedDown: false
-      }
-    }
-    else if (this.props.userVoted === 'down') {
-      this.state = {
-        votedUp: false,
-        votedDown: true
-      }
-    }
-    else {
-      this.state = {
-        votedUp: false,
-        votedDown: false
-      }
-    }
 
     this.handleVote = this.handleVote.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.userVoted === 'up') {
-      this.setState({
-        votedUp: true,
-        votedDown: false
-      })
-    }
-    else if (nextProps.userVoted === 'down') {
-      this.setState({
-        votedUp: false,
-        votedDown: true
-      })
-    }
-    else {
-      this.setState({
-        votedUp: false,
-        votedDown: false
-      })
+
+    if (nextProps.userVotes !== null) {
+      if (nextProps.userVotes[nextProps.postId] != null) {
+        if (nextProps.userVotes[nextProps.postId] === 'up') {
+          this.setState({
+            votedUp: true,
+            votedDown: false
+          })
+        }
+        else if (nextProps.userVotes[nextProps.postId] === 'down') {
+          this.setState({
+            votedUp: false,
+            votedDown: true
+          })
+        }
+        else {
+          this.setState({
+            votedUp: false,
+            votedDown: false
+          })
+        }
+      }
     }
   }
 
@@ -96,3 +88,11 @@ export default class VotePanel extends React.Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    userVotes: state.user.userVotes
+  }
+}
+
+export default connect(mapStateToProps)(VotePanel)

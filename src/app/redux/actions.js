@@ -1,7 +1,6 @@
 export const actionTypes = {
   posts: {
     POSTS_LOADED: 'POSTS_LOADED',
-    USER_VOTES_LOADED: 'USER_VOTES_LOADED',
     POST_VALIDATION_ERROR: 'POST_VALIDATION_ERROR'
   },
   user: {
@@ -11,7 +10,8 @@ export const actionTypes = {
     USER_LOGGING_OUT: 'USER_LOGGING_OUT',
     USER_IS_REGISTERING: 'USER_IS_REGISTERING',
     USER_REGISTRATION_SUCCESS: 'USER_REGISTRATION_SUCCESS',
-    USER_REGISTRATION_FAILURE: 'USER_REGISTRATION_FAILURE'
+    USER_REGISTRATION_FAILURE: 'USER_REGISTRATION_FAILURE',
+    USER_VOTES_LOADED: 'USER_VOTES_LOADED',
   }
 
 }
@@ -22,13 +22,6 @@ export function postsLoaded(posts) {
   return {
     type: actionTypes.posts.POSTS_LOADED,
     posts
-  }
-}
-
-export function userVotesLoaded(userVotes) {
-  return {
-    type: actionTypes.posts.USER_VOTES_LOADED,
-    userVotes
   }
 }
 
@@ -88,6 +81,13 @@ export function userRegistrationFailure(error) {
   return {
     type: actionTypes.user.USER_REGISTRATION_FAILURE,
     error
+  }
+}
+
+export function userVotesLoaded(userVotes) {
+  return {
+    type: actionTypes.user.USER_VOTES_LOADED,
+    userVotes
   }
 }
 

@@ -64,32 +64,32 @@ class Main extends Component {
           this.props.posts.posts !== null
             ?
 
-              Object.keys(this.props.posts.posts).map((postId) => {
-                const post = this.props.posts.posts[postId];
-                return <Content
-                  key={post.id}
-                  id={post.id}
-                  title={post.title}
-                  domain={post.link}
-                  numPoints={post.num_points}
-                  timestamp={post.created}
-                  tags={post.tags}
-                  owner={post.owner}
-                  userVoted={post.userVoted}
-                />
-              })
+              // Object.keys(this.props.posts.posts).map((postId) => {
+              //   const post = this.props.posts.posts[postId];
+              //   return <Content
+              //     key={post.id}
+              //     id={post.id}
+              //     title={post.title}
+              //     domain={post.link}
+              //     numPoints={post.num_points}
+              //     timestamp={post.created}
+              //     tags={post.tags}
+              //     owner={post.owner}
+              //     userVoted={post.userVoted}
+              //   />
+              // })
 
-            // this.props.posts.posts.map((post) => {
-            //   return <Content
-            //     key={post.id}
-            //     id={post.id}
-            //     title={post.title}
-            //     domain={post.link}
-            //     numPoints={post.num_points}
-            //     timestamp={post.created}
-            //     tags={post.tags}
-            //     owner={post.owner} />
-            // })
+            this.props.posts.posts.map((post) => {
+              return <Content
+                key={post.id}
+                id={post.id}
+                title={post.title}
+                domain={post.link}
+                numPoints={post.num_points}
+                timestamp={post.created}
+                tags={post.tags}
+                owner={post.owner} />
+            })
             :
             <div>Loading...</div>
         }

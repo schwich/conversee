@@ -23,9 +23,7 @@ class Content extends Component {
 
     return (
       <div className='content-post'>
-        <VotePanel
-          userVoted={userVoted}
-          postId={id}/>
+        <VotePanel postId={id}/>
         <div className='content-wrapper'>
           <Title title={title} domain={domain}/>
           <TagPanel tags={tags}/>

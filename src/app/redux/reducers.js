@@ -7,25 +7,10 @@ const initialPostsState = {
 export function posts(state = initialPostsState, action) {
   switch (action.type) {
     case actionTypes.posts.POSTS_LOADED:
-
-      let posts = {};
-      action.posts.map((post) => {
-        posts[post.id] = post;
-      })
-
       return {
         ...state,
-        posts
-      };
-
-    case actionTypes.posts.USER_VOTES_LOADED: 
-      if (state.posts === null) { console.log('state posts is null right now');return { ...state } }
-
-      let newState = { ... state }
-      action.userVotes.map((vote) => {
-        newState.posts[vote.post_id]['userVoted'] = vote.vote;
-      })
-      return newState;
+        posts: action.posts
+      }
     
     case actionTypes.posts.POST_VALIDATION_ERROR:
       return {
@@ -49,6 +34,16 @@ const initialUsersState = {
 
 export function user(state = initialUsersState, action) {
   switch (action.type) {
+
+    case actionTypes.user.USER_VOTES_LOADED:
+      let votes = {};
+      action.userVotes.map((vote) => {
+        votes[vote.post_id] = vote.vote;
+      })
+      return {
+        ...state,
+        userVotes: votes
+      }
 
     case actionTypes.user.USER_AUTH_SUCCESS:
       return {
