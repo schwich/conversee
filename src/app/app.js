@@ -7,8 +7,14 @@ import CreatePost from './components/CreatePost';
 import Login from './components/Login';
 import Account from './components/account/Account';
 import Register from './components/Register';
-import Post from './components/Post';
+import Post from './components/containers/Post';
+import Comments from './components/containers/Comments';
 import { userAuthSuccess } from '../app/redux/actions';
+import fontawesome from '@fortawesome/fontawesome';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import pack from '@fortawesome/fontawesome-free-solid';
+
+fontawesome.library.add(pack);
 
 class App extends React.Component {
 
@@ -32,8 +38,8 @@ class App extends React.Component {
             <Route path='/login' component={Login}/>
             <Route path='/account' component={Account}/>
             <Route path='/register' component={Register}/>
-
-            <Route path="/posts/:post_id" component={Post}/>
+            <Route path='/posts/:postId/comments' component={Comments} />
+            <Route path="/posts/:postId" component={Post}/>
           </Switch>
         </div>
       </Router>

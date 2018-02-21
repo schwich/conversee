@@ -4,6 +4,9 @@ export const actionTypes = {
     POST_VALIDATION_ERROR: 'POST_VALIDATION_ERROR'
   },
   user: {
+    USER_VOTED: 'USER_VOTED',
+    USER_HID_POST: 'USER_HID_POST',
+    USER_SAVED_POST: 'USER_SAVED_POST',
     USER_AUTH_SUCCESS: 'USER_AUTH_SUCCESS',
     USER_AUTH_FAILURE: 'USER_AUTH_FAILURE',
     USER_IS_AUTHING: 'USER_IS_AUTHING',
@@ -88,6 +91,28 @@ export function userVotesLoaded(userVotes) {
   return {
     type: actionTypes.user.USER_VOTES_LOADED,
     userVotes
+  }
+}
+
+export function userVoted(postId, voteValue) {
+  return {
+    type: actionTypes.user.USER_VOTED,
+    postId,
+    voteValue
+  }
+}
+
+export function userHidPost(postId) {
+  return {
+    type: actionTypes.user.USER_HID_POST,
+    postId
+  }
+}
+
+export function userSavedPost(postId) {
+  return {
+    type: actionTypes.user.USER_SAVED_POST,
+    postId
   }
 }
 

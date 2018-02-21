@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import Logout from './Logout';
 
 import './TopNavBar.css';
@@ -33,7 +33,7 @@ class TopNavBar extends Component {
             <li
               className={this.state.activeTab === 'createPost' ? 'top-bar-active-tab' : ''}
               onClick={() => {this.handleTabChange('createPost')}}>
-              Create Post <i className="fas fa-plus"></i>
+              Create Post <FontAwesomeIcon icon='plus' />
             </li>
           </Link> 
           {
@@ -43,14 +43,14 @@ class TopNavBar extends Component {
                 <li
                   className={this.state.activeTab === 'login' ? 'top-bar-active-tab' : ''}
                   onClick={() => {this.handleTabChange('login')}}>
-                    Login <i className="fas fa-sign-in-alt"></i>
+                    Login <FontAwesomeIcon icon='sign-in-alt' />
                 </li>
               </Link>
               <Link to='/register'>
                 <li
                   className={this.state.activeTab === 'register' ? 'top-bar-active-tab' : ''}
                   onClick={() => {this.handleTabChange('register')}}>
-                    Register <i className="fas fa-user-plus"></i>
+                    Register <FontAwesomeIcon icon='user-plus' />
                 </li>
               </Link>
             </div>
@@ -63,7 +63,7 @@ class TopNavBar extends Component {
                 className={this.state.activeTab === 'account' ? 'top-bar-active-tab' : ''}
                 onClick={() => {this.handleTabChange('account')}}>
                 <Link to='/account'>
-                  <i className="fas fa-user"></i> {this.props.username}
+                  <FontAwesomeIcon icon='user' /> {this.props.username}
                 </Link>
               </li>
               <li>

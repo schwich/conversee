@@ -29,10 +29,15 @@ const initialUsersState = {
   username: '',
   uid: '',
   authed: false,
-  error: null
+  error: null,
+  userVotes: {},
+  userSaved: {},
+  userHidden: {}
 };
 
 export function user(state = initialUsersState, action) {
+  let newState = {};
+
   switch (action.type) {
 
     case actionTypes.user.USER_VOTES_LOADED:
@@ -44,6 +49,22 @@ export function user(state = initialUsersState, action) {
         ...state,
         userVotes: votes
       }
+
+    case actionTypes.user.USER_VOTED:
+      newState = { ...state };
+      newState.userVotes[action.postId] = action.voteValue
+      return newState;
+
+    case actionTypes.user.USER_HID_POST:
+      newState = { ...state };
+      newState.userHidden[action.postId] = action.postId;
+      return newState;
+
+    case actionTypes.user.USER_SAVED_POST:
+      newState = { ...state };
+      console.log(newState);
+      newState.userSaved[action.postId] = action.postId;
+      return newState;
 
     case actionTypes.user.USER_AUTH_SUCCESS:
       return {

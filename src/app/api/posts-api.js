@@ -1,8 +1,8 @@
 const config = require('../../../config/config');
 
-export async function getAllPosts() {
+export async function getAllPosts(activeTab) {
   try {
-    const results = await fetch(`${config.BACKEND_API}/posts`);
+    const results = await fetch(`${config.BACKEND_API}/posts/${activeTab}`);
     return results.json();
   }
   catch (error) {
@@ -33,13 +33,15 @@ export async function submitPost(post) {
         title: post.title,
         link: post.link,
         content: post.content,
-        owner: post.owner
+        owner: post.owner,
+        type: post.type
       })
     });
 
     return response.json();
 
-  } catch (error) {
+  } 
+  catch (error) {
     console.warn(error);
   }
 }
@@ -62,7 +64,55 @@ export async function vote(postId, voteValue) {
 
     return response.json();
 
-  } catch (error) {
+  } 
+  catch (error) {
     console.warn(error);
   }
 }
+
+export async function hidePost(postId) {
+  try {
+    const response = await fetch(`${config.BACKEND_API}/posts/hide`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${window.localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({
+        postId,
+        userId: localStorage.getItem('uid')
+      })
+    });
+
+    return response.json();
+
+  } 
+  catch (error) {
+    console.warn(error);
+  }
+}
+
+export async function savePost(postId) {
+  try {
+    const response = await fetch(`${config.BACKEND_API}/posts/save`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${window.localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({
+        postId,
+        userId: localStorage.getItem('uid')
+      })
+    });
+
+    return response.json();
+    
+  } 
+  catch (error) {
+    console.warn(error);
+  }
+}
+

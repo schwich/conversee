@@ -1,7 +1,9 @@
 import React from 'react';
-import { vote } from "../../api/posts-api";
+import { vote } from '../../api/posts-api';
 import { connect } from 'react-redux';
 import db from '../../helpers/db';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+
 import './VotePanel.css';
 
 class VotePanel extends React.Component {
@@ -78,12 +80,13 @@ class VotePanel extends React.Component {
         <button
           className={this.state.votedUp === true ? 'voted-up' : ''}
           onClick={() => this.handleVote('up', this.props.postId)}>
-          <i className='fas fa-arrow-up' aria-hidden='true'></i>
+          <FontAwesomeIcon icon='arrow-up' />
         </button>
         <button
           className={this.state.votedDown === true ? 'voted-down' : ''}
           onClick={() => this.handleVote('down', this.props.postId)}>
-          <i className='fas fa-arrow-down' aria-hidden='true'></i></button>
+          <FontAwesomeIcon icon='arrow-down' />  
+        </button>
       </div>
     )
   }

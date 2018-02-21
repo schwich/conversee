@@ -6,7 +6,6 @@ import './Button.css';
 export default class Button extends React.Component {
 
   static propTypes = {
-    text: PropTypes.string.isRequired,
     onClickHandler: PropTypes.func
   }
 
@@ -14,7 +13,7 @@ export default class Button extends React.Component {
     return (
       <button
        className='btn'
-       onClick={this.props.onClickHandler}>{this.props.text}</button>
+       onClick={this.props.onClickHandler}>{this.props.children}</button>
     )
   }
 }

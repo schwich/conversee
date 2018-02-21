@@ -39,7 +39,8 @@ class CreatePost extends Component {
   async handleSubmit(formValues) {
     const response = await submitPost({
       ...formValues,
-      owner: this.props.owner
+      owner: this.props.owner,
+      type: this.state.isText ? 'text' : 'link'
     });
   }
 

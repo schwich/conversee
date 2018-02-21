@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { userLoggedOut } from '../redux/actions';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 class Logout extends React.Component {
 
@@ -12,7 +13,7 @@ class Logout extends React.Component {
   render() {
     return (
       <a onClick={this.onClick}>
-        Logout <i className="fas fa-sign-out-alt"></i>
+        Logout <FontAwesomeIcon icon='sign-out-alt' />
       </a>
     )
   }

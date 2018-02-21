@@ -3,12 +3,38 @@ const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const db = require('../db');
+const postSorting = require('../algo/post-sorting');
+
+router.get('/:sortType', function (req, res) {
+
+  console.log('sortType: ', req.params.sortType);
+  postSorting.sortPostsByTop(); //todo
+
+  db.any(`SELECT 
+            posts.id, posts.title, posts.link, posts.content, posts.created, posts.type, 
+              (SELECT COALESCE(SUM(uv.vote), 0) FROM "user-votes" as uv WHERE uv.post_id=posts.id) as num_points, 
+              (SELECT u.username FROM users as u WHERE u.id = posts.owner) as owner, 
+              ARRAY(
+                SELECT tags.name FROM tags INNER JOIN "post-tags" ON "post-tags".tag_id = tags.id 
+                WHERE "post-tags".post_id = posts.id
+              ) as tags 
+          FROM 
+            posts 
+          ORDER BY 
+            num_points DESC`)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
+});
 
 /* GET posts listing. */
 router.get('/', function (req, res) {
 
   db.any(`SELECT 
-            posts.id, posts.title, posts.link, posts.content, posts.created, 
+            posts.id, posts.title, posts.link, posts.content, posts.created, posts.type, 
               (SELECT COALESCE(SUM(uv.vote), 0) FROM "user-votes" as uv WHERE uv.post_id=posts.id) as num_points, 
               (SELECT u.username FROM users as u WHERE u.id = posts.owner) as owner, 
               ARRAY(
@@ -49,12 +75,21 @@ router.post('/vote', passport.authenticate('jwt', { session: false }), function 
     .catch((error) => console.log(error));
 });
 
+router.post('/save', passport.authenticate('jwt', { session: false }), (req, res) => {
+  // todo
+})
+
+router.post('/hide', passport.authenticate('jwt', { session: false }), (req, res) => {
+  // todo
+})
+
 router.post('/', passport.authenticate('jwt', { session: false }), function (req, res) {
-  db.one('INSERT INTO posts(title, link, content, num_points, owner) VALUES ($1, $2, $3, 0, $4) RETURNING *', [
+  db.one('INSERT INTO posts(title, link, content, num_points, owner, type) VALUES ($1, $2, $3, 0, $4, $5) RETURNING *', [
     req.body.title,
     req.body.link,
     req.body.content,
-    req.body.owner
+    req.body.owner,
+    req.body.type
   ])
     .then(data => {
       res.send(JSON.stringify(data));

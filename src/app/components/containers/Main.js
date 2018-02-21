@@ -10,18 +10,26 @@ class Main extends Component {
 
   state = {
     posts: null,
-    activeTab: 'best'
+    activeTab: 'top'
   };
 
-  handleTabChange = (tabName) => {
+  constructor(props) {
+    super(props);
+
+    this.handleTabChange = this.handleTabChange.bind(this);
+  }
+
+  async handleTabChange(tabName) {
     this.setState({
       activeTab: tabName
     })
+    const posts = await getAllPosts(tabName);
+    this.props.dispatch(postsLoaded(posts))
   };
 
   async componentDidMount() {
     // get posts
-    const posts = await getAllPosts();
+    const posts = await getAllPosts(this.state.activeTab);
     this.props.dispatch(postsLoaded(posts));
 
     // get the logged in user's votes on the posts (if any)
@@ -37,6 +45,11 @@ class Main extends Component {
       <div className='main-container'>
         <div className='main-container-posts-order-tab-bar'>
           <ul>
+            <li
+              className={this.state.activeTab === 'top' ? 'active-posts-order-tab' : ''}
+              onClick={() => {this.handleTabChange('top')}}>
+              top
+            </li>
             <li
               className={this.state.activeTab === 'best' ? 'active-posts-order-tab' : ''}
               onClick={() => {this.handleTabChange('best')}}>
@@ -63,32 +76,18 @@ class Main extends Component {
         {
           this.props.posts.posts !== null
             ?
-
-              // Object.keys(this.props.posts.posts).map((postId) => {
-              //   const post = this.props.posts.posts[postId];
-              //   return <Content
-              //     key={post.id}
-              //     id={post.id}
-              //     title={post.title}
-              //     domain={post.link}
-              //     numPoints={post.num_points}
-              //     timestamp={post.created}
-              //     tags={post.tags}
-              //     owner={post.owner}
-              //     userVoted={post.userVoted}
-              //   />
-              // })
-
             this.props.posts.posts.map((post) => {
               return <Content
                 key={post.id}
                 id={post.id}
+                type={post.type}
                 title={post.title}
-                domain={post.link}
+                link={post.link}
                 numPoints={post.num_points}
                 timestamp={post.created}
                 tags={post.tags}
-                owner={post.owner} />
+                owner={post.owner}
+                content={post.content}  />
             })
             :
             <div>Loading...</div>
