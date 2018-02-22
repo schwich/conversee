@@ -13,13 +13,6 @@ const cors = require('cors');
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const JwtStrategy = require('passport-jwt').Strategy;
 
-// database tools
-const db = require('./db');
-
-// for webpack-dev-middleware
-// const webpackConfig = require('../../webpack.config');
-// const compiler = webpack(webpackConfig);
-
 // routes
 const index = require('./routes/index');
 const posts = require('./routes/posts');
@@ -28,6 +21,11 @@ const auth = require('./routes/auth');
 
 // init express
 const app = express();
+
+// database tools
+const db = require('./db');
+const mongo = require('./mongo');
+mongo.connect();
 
 // middleware
 app.use(logger('combined'));
