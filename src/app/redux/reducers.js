@@ -75,6 +75,11 @@ export function user(state = initialUsersState, action) {
       newState.userVotes[action.postId] = action.voteValue
       return newState;
 
+    case actionTypes.user.USER_UN_VOTED:
+      newState = { ...state };
+      delete newState.userVotes[action.postId]
+      return newState;
+
     case actionTypes.user.USER_HID_POST:
       newState = { ...state };
       newState.userHiddenPosts[action.postId] = action.postId;
@@ -82,8 +87,12 @@ export function user(state = initialUsersState, action) {
 
     case actionTypes.user.USER_SAVED_POST:
       newState = { ...state };
-      console.log(newState);
       newState.userSavedPosts[action.postId] = action.postId;
+      return newState;
+
+    case actionTypes.user.USER_UNSAVED_POST:
+      newState = { ...state };
+      delete newState.userSavedPosts[action.postId]
       return newState;
 
     case actionTypes.user.USER_AUTH_SUCCESS:

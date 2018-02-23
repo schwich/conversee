@@ -60,6 +60,30 @@ export async function vote(postId, voteValue) {
   }
 }
 
+export async function unvote(postId, voteValue) {
+  try {
+    const response = await fetch(`${config.BACKEND_API}/posts/unvote`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${window.localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({
+        postId,
+        voteValue,
+        userId: localStorage.getItem('uid')
+      })
+    });
+
+    return response.json();
+
+  }
+  catch (error) {
+    console.warn(error);
+  }
+}
+
 export async function hidePost(postId) {
   try {
     const response = await fetch(`${config.BACKEND_API}/posts/hide`, {
@@ -86,6 +110,29 @@ export async function hidePost(postId) {
 export async function savePost(postId) {
   try {
     const response = await fetch(`${config.BACKEND_API}/posts/save`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${window.localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({
+        postId,
+        userId: localStorage.getItem('uid')
+      })
+    });
+
+    return response.json();
+
+  }
+  catch (error) {
+    console.warn(error);
+  }
+}
+
+export async function unSavePost(postId) {
+  try {
+    const response = await fetch(`${config.BACKEND_API}/posts/unsave`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
