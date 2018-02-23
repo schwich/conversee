@@ -1,0 +1,20 @@
+.subtab-container {
+
+}
+
+.subtab-bar {
+  display: flex;
+  border-bottom: 5px solid var(--secondary-teal);
+}
+
+.subtab-container li {
+  font-size: 20px;
+  font-weight: lighter;
+  cursor: pointer;
+  padding: 5px 10px 5px 10px;
+}
+
+.subtab-active-tab {
+  background-color: var(--secondary-teal);
+  color: white;
+}

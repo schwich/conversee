@@ -5,7 +5,6 @@ import moment from 'moment';
 import { randomsubReddit, randomNum } from '../../helpers/random-content';
 import VotePanel from './VotePanel';
 import ControlPanel from './ControlPanel';
-import Button from '../Button';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { userSavedPost, userHidPost } from '../../redux/actions';
 import { hidePost } from '../../api/posts-api';

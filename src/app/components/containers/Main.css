@@ -6,14 +6,14 @@
 .main-container-posts-order-tab-bar ul {
   display: flex;
   flex-direction: row;
-  border-bottom: 10px solid var(--secondary-teal);
+  border-bottom: 5px solid var(--secondary-teal);
 }
 
 .main-container-posts-order-tab-bar ul li {
   user-select: none;
-  margin-left: 15px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: lighter;
   padding: 5px 10px 5px 10px;
 }
 

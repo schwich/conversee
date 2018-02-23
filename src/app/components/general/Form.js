@@ -12,7 +12,7 @@ export default class Form extends React.Component {
     super(props);
 
     this.state = {};
-    
+
     // initialize all input values to the empty string
     props.inputFields.map(inputElement => {
       this.state[inputElement.name] = '';
@@ -21,7 +21,12 @@ export default class Form extends React.Component {
 
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
-    inputFields: PropTypes.arrayOf(PropTypes.object).isRequired // todo perhaps define the shape of each input object
+    inputFields: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string,
+      label: PropTypes.string.isRequired,
+      required: PropTypes.bool
+    })).isRequired
   }
 
   handleChange = (event) => {
@@ -40,25 +45,25 @@ export default class Form extends React.Component {
   }
 
   render() {
-    
+
     return (
-      <form 
+      <form
         className='form'
         onSubmit={this.handleSubmit}>
         {
           this.props.inputFields.map(inputElement => {
             return (
-              <div 
+              <div
                 className='form-item-container'
                 key={inputElement.name}>
                 <label htmlFor={inputElement.name}>{inputElement.label}</label>
-                <input 
+                <input
                   type={inputElement.type}
                   name={inputElement.name}
                   value={this.state[inputElement.name]}
                   onChange={this.handleChange}
                   required={inputElement.required}
-                  />
+                />
               </div>
             )
           })

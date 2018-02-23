@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { submitPost } from '../api/posts-api';
-import Button from './Button';
-import Form from './Form';
+import Button from './general/Button';
+import Form from './general/Form';
 import './CreatePost.css';
 
 class CreatePost extends Component {
@@ -48,12 +48,12 @@ class CreatePost extends Component {
     return (
       <div>
         {
-          this.props.error !== null 
-          ?
+          this.props.error !== null
+            ?
             <div className='flash-error'>
               {this.props.error}
             </div>
-          : 
+            :
             <div className='flash-error'></div>
         }
         <div className='create-post-switcher'>
@@ -71,45 +71,45 @@ class CreatePost extends Component {
           </ul>
         </div>
         <div className='form-container'>
-        {
-          this.state.isText === true 
-          ?
-            <Form
-              handleSubmit={this.handleSubmit}
-              inputFields={
-                [
-                  {
-                    name: 'title',
-                    type: 'text',
-                    label: 'title'
-                  },
-                  {
-                    name: 'content',
-                    type: 'text',
-                    label: 'text'
-                  }
-                ]
-              } 
-            />
-          :
-            <Form
-              handleSubmit={this.handleSubmit}
-              inputFields={
-                [
-                  {
-                    name: 'link',
-                    type: 'text',
-                    label: 'link'
-                  },
-                  {
-                    name: 'title',
-                    type: 'text',
-                    label: 'title'
-                  }
-                ]
-              }
-            />
-        }
+          {
+            this.state.isText === true
+              ?
+              <Form
+                handleSubmit={this.handleSubmit}
+                inputFields={
+                  [
+                    {
+                      name: 'title',
+                      type: 'text',
+                      label: 'title'
+                    },
+                    {
+                      name: 'content',
+                      type: 'text',
+                      label: 'text'
+                    }
+                  ]
+                }
+              />
+              :
+              <Form
+                handleSubmit={this.handleSubmit}
+                inputFields={
+                  [
+                    {
+                      name: 'link',
+                      type: 'text',
+                      label: 'link'
+                    },
+                    {
+                      name: 'title',
+                      type: 'text',
+                      label: 'title'
+                    }
+                  ]
+                }
+              />
+          }
         </div>
       </div>
     )
