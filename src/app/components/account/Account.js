@@ -2,10 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 class Account extends React.Component {
+
+  componentDidMount() {
+
+  }
+
   render() {
     return (
       <div className='user-account-container'>
-        <h1>{this.props.username}</h1>
+        <h2>{this.props.username}</h2>
         <p>This will eventually have all of your account details.</p>
       </div>
     )
@@ -14,8 +19,9 @@ class Account extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    username: state.users.username
+    username: state.user.username,
+    uid: state.user.uid
   }
 }
 
-export default connect()(Account);
+export default connect(mapStateToProps)(Account);
