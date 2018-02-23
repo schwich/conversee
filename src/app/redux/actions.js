@@ -15,6 +15,8 @@ export const actionTypes = {
     USER_REGISTRATION_SUCCESS: 'USER_REGISTRATION_SUCCESS',
     USER_REGISTRATION_FAILURE: 'USER_REGISTRATION_FAILURE',
     USER_VOTES_LOADED: 'USER_VOTES_LOADED',
+    USER_HIDDEN_POSTS_LOADED: 'USER_HIDDEN_POSTS_LOADED',
+    USER_SAVED_POSTS_LOADED: 'USER_SAVED_POSTS_LOADED'
   }
 
 }
@@ -91,6 +93,20 @@ export function userVotesLoaded(userVotes) {
   return {
     type: actionTypes.user.USER_VOTES_LOADED,
     userVotes
+  }
+}
+
+export function userHiddenPostsLoaded(userHiddenPosts) {
+  return {
+    type: actionTypes.user.USER_HIDDEN_POSTS_LOADED,
+    userHiddenPosts
+  }
+}
+
+export function userSavedPostsLoaded(userSavedPosts) {
+  return {
+    type: actionTypes.user.USER_SAVED_POSTS_LOADED,
+    userSavedPosts
   }
 }
 

@@ -68,3 +68,7 @@ config/*
 # webstorm files
 .idea
 .idea/*
+
+# vscode files
+.vscode
+.vscode/*

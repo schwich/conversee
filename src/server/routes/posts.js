@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
 const db = require('../db');
+const mongo = require('../mongo');
 const postSorting = require('../algo/post-sorting');
 
 router.get('/:sortType', function (req, res) {
@@ -57,34 +57,51 @@ router.post('/vote', passport.authenticate('jwt', { session: false }), function 
   if (req.body.voteValue !== 'up' && req.body.voteValue !== 'down') {
     console.log(`voteValue ${req.body.voteValue} is not valid`);
   }
-  let vote = '';
-  if (req.body.voteValue === 'up') {
-    vote = '1';
+
+  let voteValue;
+  if (voteValue === 'up') {
+    voteValue = 1;
   }
   else {
-    vote = '-1';
+    voteValue = -1;
   }
+
   db.none(`INSERT INTO "user-votes" (post_id, user_id, vote) VALUES ($1, $2, $3) ON CONFLICT (post_id, user_id) DO UPDATE SET vote = $3`, [
     req.body.postId,
     req.body.userId,
-    vote
+    voteValue
   ])
     .then(() => {
-      res.status(201).json({ status: "success" });
+      res.status(201).json({ 'result': 'success' })
     })
-    .catch((error) => console.log(error));
+    .catch((err) => { console.log(err); })
+
 });
 
 router.post('/save', passport.authenticate('jwt', { session: false }), (req, res) => {
-  // todo
+  db.none(`INSERT INTO "user-saved-posts" (user_id, post_id) VALUES ($1, $2) ON CONFLICT (user_id, post_id) DO NOTHING`, [
+    req.body.userId,
+    req.body.postId
+  ])
+    .then(() => {
+      res.status(201).json({ 'result': 'success' })
+    })
+    .catch((err) => { console.log(err); })
 })
 
 router.post('/hide', passport.authenticate('jwt', { session: false }), (req, res) => {
-  // todo
+  db.none(`INSERT INTO "user-hidden-posts" (user_id, post_id) VALUES ($1, $2) ON CONFLICT (user_id, post_id) DO NOTHING`, [
+    req.body.userId,
+    req.body.postId
+  ])
+    .then(() => {
+      res.status(201).json({ 'result': 'success' })
+    })
+    .catch((err) => { console.log(err); })
 })
 
 router.post('/', passport.authenticate('jwt', { session: false }), function (req, res) {
-  db.one('INSERT INTO posts(title, link, content, num_points, owner, type) VALUES ($1, $2, $3, 0, $4, $5) RETURNING *', [
+  db.one('INSERT INTO posts (title, link, content, num_points, owner, type) VALUES ($1, $2, $3, 0, $4, $5) RETURNING *', [
     req.body.title,
     req.body.link,
     req.body.content,
@@ -92,7 +109,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), function (req
     req.body.type
   ])
     .then(data => {
-      res.send(JSON.stringify(data));
+      resjson(data);
     })
     .catch(error => {
       console.log(error)

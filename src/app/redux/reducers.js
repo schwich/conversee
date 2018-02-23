@@ -11,7 +11,7 @@ export function posts(state = initialPostsState, action) {
         ...state,
         posts: action.posts
       }
-    
+
     case actionTypes.posts.POST_VALIDATION_ERROR:
       return {
         ...state,
@@ -31,8 +31,8 @@ const initialUsersState = {
   authed: false,
   error: null,
   userVotes: {},
-  userSaved: {},
-  userHidden: {}
+  userSavedPosts: {},
+  userHiddenPosts: {}
 };
 
 export function user(state = initialUsersState, action) {
@@ -50,6 +50,26 @@ export function user(state = initialUsersState, action) {
         userVotes: votes
       }
 
+    case actionTypes.user.USER_HIDDEN_POSTS_LOADED:
+      let hiddenPosts = {};
+      action.userHiddenPosts.map((post) => {
+        hiddenPosts[post.post_id] = post.post_id;
+      })
+      return {
+        ...state,
+        userHiddenPosts: hiddenPosts
+      }
+
+    case actionTypes.user.USER_SAVED_POSTS_LOADED:
+      let savedPosts = {};
+      action.userSavedPosts.map((post) => {
+        savedPosts[post.post_id] = post.post_id;
+      })
+      return {
+        ...state,
+        userSavedPosts: savedPosts
+      }
+
     case actionTypes.user.USER_VOTED:
       newState = { ...state };
       newState.userVotes[action.postId] = action.voteValue
@@ -57,13 +77,13 @@ export function user(state = initialUsersState, action) {
 
     case actionTypes.user.USER_HID_POST:
       newState = { ...state };
-      newState.userHidden[action.postId] = action.postId;
+      newState.userHiddenPosts[action.postId] = action.postId;
       return newState;
 
     case actionTypes.user.USER_SAVED_POST:
       newState = { ...state };
       console.log(newState);
-      newState.userSaved[action.postId] = action.postId;
+      newState.userSavedPosts[action.postId] = action.postId;
       return newState;
 
     case actionTypes.user.USER_AUTH_SUCCESS:

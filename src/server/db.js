@@ -7,4 +7,6 @@ const pgp = require('pg-promise')({
 const conn = `postgres://${config.POSTGRES_USERNAME}:${config.POSTGRES_PASSWORD}@${config.POSTGRES_ADDRESS}:${config.POSTGRES_PORT}/${config.POSTGRES_DEFAULT_DB_NAME}`;
 const db = pgp(conn);
 
+console.log('Successfully connected to Postgres server');
+
 module.exports = db;

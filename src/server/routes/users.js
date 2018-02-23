@@ -20,12 +20,38 @@ router.get('/:userId/votes', (req, res) => {
       console.warn(data);
     })
 })
+router.get('/:userId/hiddenPosts', (req, res) => {
+  db.any(`
+        SELECT 
+          post_id
+        FROM 
+          "user-hidden-posts" 
+        WHERE 
+          user_id = $1
+  `, [req.params.userId])
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((error) => {
+      console.warn(data);
+    })
+})
 
 router.get('/:userId/savedPosts', (req, res) => {
-  mongo.get().collection('userSavedPosts').find({userId: req.params.userId}).toArray((err, result) => {
-    if (err) throw err;
-    res.json(result);
-  });
+  db.any(`
+        SELECT 
+          post_id
+        FROM 
+          "user-saved-posts" 
+        WHERE 
+          user_id = $1
+  `, [req.params.userId])
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((error) => {
+      console.warn(data);
+    })
 })
 
 module.exports = router;

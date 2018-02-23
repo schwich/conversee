@@ -10,16 +10,6 @@ export async function getAllPosts(activeTab) {
   }
 }
 
-export async function getUserVotes(userId) {
-  try {
-    const results = await fetch(`${config.BACKEND_API}/users/${userId}/votes`);
-    return results.json();
-  }
-  catch (error) {
-    console.warn(error);
-  }
-}
-
 export async function submitPost(post) {
   try {
     const response = await fetch(`${config.BACKEND_API}/posts`, {
@@ -40,7 +30,7 @@ export async function submitPost(post) {
 
     return response.json();
 
-  } 
+  }
   catch (error) {
     console.warn(error);
   }
@@ -64,7 +54,7 @@ export async function vote(postId, voteValue) {
 
     return response.json();
 
-  } 
+  }
   catch (error) {
     console.warn(error);
   }
@@ -87,7 +77,7 @@ export async function hidePost(postId) {
 
     return response.json();
 
-  } 
+  }
   catch (error) {
     console.warn(error);
   }
@@ -109,8 +99,8 @@ export async function savePost(postId) {
     });
 
     return response.json();
-    
-  } 
+
+  }
   catch (error) {
     console.warn(error);
   }

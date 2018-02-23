@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Content from '../content/Content';
-import { getAllPosts, getUserVotes } from '../../api/posts-api';
-import { postsLoaded, userVotesLoaded } from '../../redux/actions';
+import { getAllPosts } from '../../api/posts-api';
+import { getUserVotes, getUserHiddenPosts, getUserSavedPosts } from '../../api/users-api';
+import { postsLoaded, userVotesLoaded, userHiddenPostsLoaded, userSavedPostsLoaded } from '../../redux/actions';
 
 import './Main.css';
 
@@ -34,8 +35,16 @@ class Main extends Component {
 
     // get the logged in user's votes on the posts (if any)
     if (this.props.userIsAuthed) {
-      const userVotes = await(getUserVotes(this.props.userId)); 
+      // todo do these run in parallel and if not how do I make them do so?
+      // not use async / await ?
+      const userVotes = await (getUserVotes(this.props.userId));
       this.props.dispatch(userVotesLoaded(userVotes));
+
+      const userHiddenPosts = await (getUserHiddenPosts(this.props.userId));
+      this.props.dispatch(userHiddenPostsLoaded(userHiddenPosts));
+
+      const userSavedPosts = await (getUserSavedPosts(this.props.userId));
+      this.props.dispatch(userSavedPostsLoaded(userSavedPosts));
     }
   }
 
@@ -47,51 +56,51 @@ class Main extends Component {
           <ul>
             <li
               className={this.state.activeTab === 'top' ? 'active-posts-order-tab' : ''}
-              onClick={() => {this.handleTabChange('top')}}>
+              onClick={() => { this.handleTabChange('top') }}>
               top
             </li>
             <li
               className={this.state.activeTab === 'best' ? 'active-posts-order-tab' : ''}
-              onClick={() => {this.handleTabChange('best')}}>
+              onClick={() => { this.handleTabChange('best') }}>
               best
             </li>
             <li
               className={this.state.activeTab === 'trending' ? 'active-posts-order-tab' : ''}
-              onClick={() => {this.handleTabChange('trending')}}>
+              onClick={() => { this.handleTabChange('trending') }}>
               trending
             </li>
             <li
               className={this.state.activeTab === 'new' ? 'active-posts-order-tab' : ''}
-              onClick={() => {this.handleTabChange('new')}}>
+              onClick={() => { this.handleTabChange('new') }}>
               new
             </li>
             <li
               className={this.state.activeTab === 'controversial' ? 'active-posts-order-tab' : ''}
-              onClick={() => {this.handleTabChange('controversial')}}>
+              onClick={() => { this.handleTabChange('controversial') }}>
               controversial
             </li>
           </ul>
         </div>
         <div className='main-container-posts-container'>
-        {
-          this.props.posts.posts !== null
-            ?
-            this.props.posts.posts.map((post) => {
-              return <Content
-                key={post.id}
-                id={post.id}
-                type={post.type}
-                title={post.title}
-                link={post.link}
-                numPoints={post.num_points}
-                timestamp={post.created}
-                tags={post.tags}
-                owner={post.owner}
-                content={post.content}  />
-            })
-            :
-            <div>Loading...</div>
-        }
+          {
+            this.props.posts.posts !== null
+              ?
+              this.props.posts.posts.map((post) => {
+                return <Content
+                  key={post.id}
+                  id={post.id}
+                  type={post.type}
+                  title={post.title}
+                  link={post.link}
+                  numPoints={post.num_points}
+                  timestamp={post.created}
+                  tags={post.tags}
+                  owner={post.owner}
+                  content={post.content} />
+              })
+              :
+              <div>Loading...</div>
+          }
         </div>
       </div>
     );
