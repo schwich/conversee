@@ -78,6 +78,17 @@ router.post('/vote', passport.authenticate('jwt', { session: false }), function 
 
 });
 
+router.post('/unvote', passport.authenticate('jwt', { session: false }), function (req, res) {
+  db.none(`DELETE FROM "user-votes" WHERE user_id = $1 AND post_id = $2`, [
+    req.body.userId,
+    req.body.postId
+  ])
+    .then(() => {
+      res.json({ 'result': 'success' })
+    })
+    .catch((err) => { console.log(err); })
+});
+
 router.post('/save', passport.authenticate('jwt', { session: false }), (req, res) => {
   db.none(`INSERT INTO "user-saved-posts" (user_id, post_id) VALUES ($1, $2) ON CONFLICT (user_id, post_id) DO NOTHING`, [
     req.body.userId,
@@ -88,6 +99,17 @@ router.post('/save', passport.authenticate('jwt', { session: false }), (req, res
     })
     .catch((err) => { console.log(err); })
 })
+
+router.post('/unsave', passport.authenticate('jwt', { session: false }), function (req, res) {
+  db.none(`DELETE FROM "user-saved-posts" WHERE user_id = $1 AND post_id = $2`, [
+    req.body.userId,
+    req.body.postId
+  ])
+    .then(() => {
+      res.status(200).json({ 'result': 'success' })
+    })
+    .catch((err) => { console.log(err); })
+});
 
 router.post('/hide', passport.authenticate('jwt', { session: false }), (req, res) => {
   db.none(`INSERT INTO "user-hidden-posts" (user_id, post_id) VALUES ($1, $2) ON CONFLICT (user_id, post_id) DO NOTHING`, [

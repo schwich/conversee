@@ -8,7 +8,7 @@ import ControlPanel from './ControlPanel';
 import Button from '../Button';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { userSavedPost, userHidPost } from '../../redux/actions';
-import { hidePost, savePost } from '../../api/posts-api';
+import { hidePost } from '../../api/posts-api';
 
 import './Content.css';
 
