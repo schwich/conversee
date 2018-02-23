@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { savePost, unSavePost } from '../../api/posts-api';
+import { userSavedPost, userUnSavedPost } from '../../redux/actions';
 
 class ControlPanel extends React.Component {
 
@@ -25,13 +27,25 @@ class ControlPanel extends React.Component {
   }
 
   async onSavePost() {
-    this.setState({
-      saved: !this.state.saved
-    })
+    if (this.state.saved) {
+      // already saved, so unsave
+      this.setState({
+        saved: false
+      })
 
-    this.props.dispatch(userSavedPost(this.props.postId));
+      this.props.dispatch(userUnSavedPost(this.props.postId))
+      await (unSavePost(this.props.postId))
+    }
+    else {
+      this.setState({
+        saved: true
+      })
 
-    await (savePost(this.props.postId))
+      this.props.dispatch(userSavedPost(this.props.postId));
+      await (savePost(this.props.postId))
+    }
+
+
   }
 
   render() {

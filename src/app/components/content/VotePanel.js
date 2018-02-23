@@ -1,10 +1,11 @@
 import React from 'react';
-import { vote } from '../../api/posts-api';
+import { vote, unvote } from '../../api/posts-api';
 import { connect } from 'react-redux';
 import db from '../../helpers/db';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import './VotePanel.css';
+import { userVoted, userUnVoted } from '../../redux/actions';
 
 class VotePanel extends React.Component {
 
@@ -47,6 +48,7 @@ class VotePanel extends React.Component {
 
   async handleVote(type, postId) {
 
+    let isUnvote = false;
     if (type === 'up' && this.state.votedUp !== true) {
       this.setState({
         votedUp: true,
@@ -60,18 +62,32 @@ class VotePanel extends React.Component {
       })
     }
     else {
+      isUnvote = true;
       this.setState({
         votedUp: false,
         votedDown: false
       })
     }
 
-    try {
-      const response = await vote(postId, type);
+    if (!isUnvote) {
+      try {
+        const response = await vote(postId, type);
+        this.props.dispatch(userVoted(postId, type))
+      }
+      catch (error) {
+        console.log(error);
+      }
     }
-    catch (error) {
-      console.log(error);
+    else {
+      try {
+        const response = await unvote(postId, type);
+        this.props.dispatch(userUnVoted(postId))
+      }
+      catch (error) {
+        console.log(error);
+      }
     }
+
   }
 
   render() {
@@ -85,7 +101,7 @@ class VotePanel extends React.Component {
         <button
           className={this.state.votedDown === true ? 'voted-down' : ''}
           onClick={() => this.handleVote('down', this.props.postId)}>
-          <FontAwesomeIcon icon='arrow-down' />  
+          <FontAwesomeIcon icon='arrow-down' />
         </button>
       </div>
     )

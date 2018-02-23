@@ -5,8 +5,10 @@ export const actionTypes = {
   },
   user: {
     USER_VOTED: 'USER_VOTED',
+    USER_UN_VOTED: 'USER_UN_VOTED',
     USER_HID_POST: 'USER_HID_POST',
     USER_SAVED_POST: 'USER_SAVED_POST',
+    USER_UNSAVED_POST: 'USER_UNSAVED_POST',
     USER_AUTH_SUCCESS: 'USER_AUTH_SUCCESS',
     USER_AUTH_FAILURE: 'USER_AUTH_FAILURE',
     USER_IS_AUTHING: 'USER_IS_AUTHING',
@@ -118,6 +120,13 @@ export function userVoted(postId, voteValue) {
   }
 }
 
+export function userUnVoted(postId) {
+  return {
+    type: actionTypes.user.USER_UN_VOTED,
+    postId
+  }
+}
+
 export function userHidPost(postId) {
   return {
     type: actionTypes.user.USER_HID_POST,
@@ -128,6 +137,13 @@ export function userHidPost(postId) {
 export function userSavedPost(postId) {
   return {
     type: actionTypes.user.USER_SAVED_POST,
+    postId
+  }
+}
+
+export function userUnSavedPost(postId) {
+  return {
+    type: actionTypes.user.USER_UNSAVED_POST,
     postId
   }
 }
