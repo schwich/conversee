@@ -12,8 +12,8 @@ import Comments from './components/containers/Comments';
 import { userAuthSuccess } from '../app/redux/actions';
 import fontawesome from '@fortawesome/fontawesome';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import pack from '@fortawesome/fontawesome-free-solid';
 
+import pack from '@fortawesome/fontawesome-free-solid';
 fontawesome.library.add(pack);
 
 class App extends React.Component {
@@ -36,6 +36,7 @@ class App extends React.Component {
             <Route exact path='/' component={Main} />
             <Route path='/posts/create' component={CreatePost} />
             <Route path='/login' component={Login} />
+            <Route path='/account/:userId' component={Account} />
             <Route path='/account' component={Account} />
             <Route path='/register' component={Register} />
             <Route path='/posts/:postId/comments' component={Comments} />

@@ -65,7 +65,7 @@ class TopNavBar extends Component {
             this.props.userIsAuthed === true
             &&
             <div className='top-bar-nav-right-block'>
-              <Link to='/account'>
+              <Link to={`/account/${this.props.uid}`}>
                 <li
                   className={this.state.activeTab === 'account' ? 'top-bar-active-tab' : ''}
                   onClick={() => { this.handleTabChange('account') }}>
@@ -86,7 +86,8 @@ class TopNavBar extends Component {
 function mapStateToProps(state) {
   return {
     userIsAuthed: state.user.authed,
-    username: state.user.username
+    username: state.user.username,
+    uid: state.user.uid
   }
 }
 

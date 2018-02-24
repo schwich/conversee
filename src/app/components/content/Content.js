@@ -151,16 +151,19 @@ function TagPanel(props) {
   return (
     <div className='content-tag-panel'>
       {
-        props.tags.map((tag) => {
-          return (
-            <div className='content-tag'>
-              <a href='#'>
-                <i className='fa fa-tag' aria-hidden='true' style={{ marginRight: '2px' }}></i>
-                {tag}
-              </a>
-            </div>
-          )
-        })
+        props.tag != null
+          ?
+          props.tags.map((tag) => {
+            return (
+              <div className='content-tag'>
+                <a href='#'>
+                  <i className='fa fa-tag' aria-hidden='true' style={{ marginRight: '2px' }}></i>
+                  {tag}
+                </a>
+              </div>
+            )
+          })
+          : null
       }
     </div>
   )

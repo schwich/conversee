@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router-dom'
+
 import './SubTab.css';
 
 export default class SubTab extends React.Component {
@@ -9,7 +11,8 @@ export default class SubTab extends React.Component {
     defaultTab: PropTypes.string.isRequired,
     onTabChange: PropTypes.func.isRequired,
     tabs: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
+      link: PropTypes.string.isRequired
     })).isRequired,
     activeClassName: PropTypes.string, // (OPT) what css classname to add to the active tab
   }
@@ -29,7 +32,6 @@ export default class SubTab extends React.Component {
   }
 
   async handleTabChange(tabName) {
-    console.log(tabName);
     this.setState({
       activeTab: tabName
     })
@@ -46,12 +48,15 @@ export default class SubTab extends React.Component {
           {
             this.props.tabs.map(tab => {
               return (
-                <li
+                <Link
                   key={tab.name}
-                  className={this.state.activeTab === tab.name ? this.props.activeClassName : null}
-                  onClick={() => { this.handleTabChange(tab.name) }}>
-                  {tab.name}
-                </li>
+                  to={tab.link}>
+                  <li
+                    className={this.state.activeTab === tab.name ? this.props.activeClassName : null}
+                    onClick={() => { this.handleTabChange(tab.name) }}>
+                    {tab.name}
+                  </li>
+                </Link>
               )
             })
           }
