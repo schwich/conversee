@@ -88,7 +88,7 @@ class Account extends React.Component {
       { name: accountTabNames.USER_COMMENTS, link: `${match.url}/comments` }
     ]
 
-    if (this.props.uid === this.props.match.params.userId) {
+    if (this.props.uid == this.props.match.params.userId) {
       tabs = [
         ...tabs,
         { name: accountTabNames.SAVED_POSTS, link: `${match.url}/posts/saved` },
@@ -114,7 +114,7 @@ class Account extends React.Component {
         <Route exact path={`${match.url}/comments`} render={() => <UserComments content={this.state.content} />} />
 
         {
-          this.props.isAuthed && (this.props.uid === this.props.match.params.userId) //todo this isn't secure 
+          this.props.isAuthed && (this.props.uid == this.props.match.params.userId) //todo this isn't secure 
             ?
             <div>
               <Route path={`${match.url}/posts/saved`} render={() => <ShowPosts content={this.state.content} />} />
