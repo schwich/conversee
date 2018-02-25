@@ -1,9 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {registerUser} from '../api/auth-api';
-import {userIsRegistering, userRegistrationSuccess, userRegistrationFailure} from '../redux/actions';
+import { connect } from 'react-redux';
+import { registerUser } from '../api/auth-api';
+import { userIsRegistering, userRegistrationSuccess, userRegistrationFailure } from '../redux/actions';
 import { Redirect } from 'react-router-dom';
-import Form from './Form';
+import Form from './general/Form';
 
 class Register extends React.Component {
 
@@ -42,7 +42,7 @@ class Register extends React.Component {
       return (
         <Redirect to={{
           pathname: '/',
-          state: { from: this.props.location } 
+          state: { from: this.props.location }
         }} />
       )
     }

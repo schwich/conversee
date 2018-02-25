@@ -8,8 +8,14 @@ import './TopNavBar.css';
 
 class TopNavBar extends Component {
 
-  state = {
-    activeTab: 'home'
+  constructor(props) {
+    super(props);
+
+    let tab = this.props.location.pathname.slice(1); // remove / from the beginning
+
+    this.state = {
+      activeTab: tab
+    }
   }
 
   handleTabChange = (tabName) => {
@@ -17,7 +23,7 @@ class TopNavBar extends Component {
       activeTab: tabName
     })
   }
-  
+
   render() {
     return (
       <div>
@@ -25,32 +31,32 @@ class TopNavBar extends Component {
           <Link to='/'>
             <li
               className={this.state.activeTab === 'home' ? 'top-bar-active-tab' : ''}
-              onClick={() => {this.handleTabChange('home')}}>
-                Home
+              onClick={() => { this.handleTabChange('home') }}>
+              Home
             </li>
           </Link>
           <Link to='/posts/create'>
             <li
-              className={this.state.activeTab === 'createPost' ? 'top-bar-active-tab' : ''}
-              onClick={() => {this.handleTabChange('createPost')}}>
+              className={this.state.activeTab === 'posts/create' ? 'top-bar-active-tab' : ''}
+              onClick={() => { this.handleTabChange('posts/create') }}>
               Create Post <FontAwesomeIcon icon='plus' />
             </li>
-          </Link> 
+          </Link>
           {
             this.props.userIsAuthed === false &&
             <div className='top-bar-nav-right-block'>
               <Link to='/login'>
                 <li
                   className={this.state.activeTab === 'login' ? 'top-bar-active-tab' : ''}
-                  onClick={() => {this.handleTabChange('login')}}>
-                    Login <FontAwesomeIcon icon='sign-in-alt' />
+                  onClick={() => { this.handleTabChange('login') }}>
+                  Login <FontAwesomeIcon icon='sign-in-alt' />
                 </li>
               </Link>
               <Link to='/register'>
                 <li
                   className={this.state.activeTab === 'register' ? 'top-bar-active-tab' : ''}
-                  onClick={() => {this.handleTabChange('register')}}>
-                    Register <FontAwesomeIcon icon='user-plus' />
+                  onClick={() => { this.handleTabChange('register') }}>
+                  Register <FontAwesomeIcon icon='user-plus' />
                 </li>
               </Link>
             </div>
@@ -59,13 +65,13 @@ class TopNavBar extends Component {
             this.props.userIsAuthed === true
             &&
             <div className='top-bar-nav-right-block'>
-              <li
-                className={this.state.activeTab === 'account' ? 'top-bar-active-tab' : ''}
-                onClick={() => {this.handleTabChange('account')}}>
-                <Link to='/account'>
+              <Link to={`/account/${this.props.uid}`}>
+                <li
+                  className={this.state.activeTab === 'account' ? 'top-bar-active-tab' : ''}
+                  onClick={() => { this.handleTabChange('account') }}>
                   <FontAwesomeIcon icon='user' /> {this.props.username}
-                </Link>
-              </li>
+                </li>
+              </Link>
               <li>
                 <Logout />
               </li>
@@ -80,9 +86,9 @@ class TopNavBar extends Component {
 function mapStateToProps(state) {
   return {
     userIsAuthed: state.user.authed,
-    username: state.user.username
+    username: state.user.username,
+    uid: state.user.uid
   }
 }
 
-// export default connect(mapStateToProps)(TopNavBar);
 export default withRouter(connect(mapStateToProps)(TopNavBar));

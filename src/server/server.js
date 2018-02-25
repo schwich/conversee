@@ -18,6 +18,7 @@ const index = require('./routes/index');
 const posts = require('./routes/posts');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
+const account = require('./routes/account');
 
 // init express
 const app = express();
@@ -77,6 +78,7 @@ app.use('/', index);
 app.use('/api/posts/', posts);
 app.use('/api/users/', users);
 app.use('/api/auth/', auth);
+app.use('/api/account/', account);
 
 // middleware for errors
 // catch 404 and forward to error handler

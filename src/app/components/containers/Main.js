@@ -57,27 +57,27 @@ class Main extends Component {
             <li
               className={this.state.activeTab === 'top' ? 'active-posts-order-tab' : ''}
               onClick={() => { this.handleTabChange('top') }}>
-              top
+              Top
             </li>
             <li
               className={this.state.activeTab === 'best' ? 'active-posts-order-tab' : ''}
               onClick={() => { this.handleTabChange('best') }}>
-              best
+              Best
             </li>
             <li
               className={this.state.activeTab === 'trending' ? 'active-posts-order-tab' : ''}
               onClick={() => { this.handleTabChange('trending') }}>
-              trending
+              Trending
             </li>
             <li
               className={this.state.activeTab === 'new' ? 'active-posts-order-tab' : ''}
               onClick={() => { this.handleTabChange('new') }}>
-              new
+              New
             </li>
             <li
               className={this.state.activeTab === 'controversial' ? 'active-posts-order-tab' : ''}
               onClick={() => { this.handleTabChange('controversial') }}>
-              controversial
+              Controversial
             </li>
           </ul>
         </div>

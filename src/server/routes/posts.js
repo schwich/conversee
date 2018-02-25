@@ -21,7 +21,9 @@ router.get('/:sortType', function (req, res) {
           FROM 
             posts 
           ORDER BY 
-            num_points DESC`)
+            num_points DESC
+          LIMIT
+            50`)
     .then((data) => {
       res.json(data);
     })
