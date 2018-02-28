@@ -140,4 +140,14 @@ router.post('/', passport.authenticate('jwt', { session: false }), function (req
     })
 });
 
+router.get('/:postId/comments', async (req, res) => {
+  try {
+    const comments = await mongo.get().collection('comments').findOne({postId: req.params.postId});//.toArray();
+    res.json(comments);
+  }
+  catch (err) {
+    console.log(err);
+  } 
+})
+
 module.exports = router;

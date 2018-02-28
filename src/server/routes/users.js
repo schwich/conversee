@@ -59,7 +59,7 @@ router.get('/:userId/hiddenPosts', passport.authenticate('jwt', { session: false
       res.json(data);
     })
     .catch((error) => {
-      console.warn(data);
+      console.warn(error);
     })
 })
 
