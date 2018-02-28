@@ -1,5 +1,6 @@
 const config = require('../../config/config');
 const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID
 
 let db;
 module.exports = {
@@ -14,5 +15,13 @@ module.exports = {
 
   get: function () {
     return db;
+  },
+
+  createObjectID: function () {
+    return new ObjectID()
+  },
+
+  objectId: function (id) {
+    return new ObjectID(id);
   }
 }

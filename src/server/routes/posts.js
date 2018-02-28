@@ -7,8 +7,7 @@ const postSorting = require('../algo/post-sorting');
 
 router.get('/:sortType', function (req, res) {
 
-  console.log('sortType: ', req.params.sortType);
-  postSorting.sortPostsByTop(); //todo
+  // todo real post sorting
 
   db.any(`SELECT 
             posts.id, posts.title, posts.link, posts.content, posts.created, posts.type, 
@@ -133,7 +132,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), function (req
     req.body.type
   ])
     .then(data => {
-      resjson(data);
+      res.json(data);
     })
     .catch(error => {
       console.log(error)
@@ -148,6 +147,58 @@ router.get('/:postId/comments', async (req, res) => {
   catch (err) {
     console.log(err);
   } 
+})
+
+/**
+ * Comments API
+ */
+
+router.post('/:postId/comments', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    await mongo.get().collection('comments').updateOne(
+      {postId: req.params.postId},
+      {
+        $push: {
+          comments: {
+            _commentId: mongo.createObjectID(),
+            userId: req.user.id,
+            content: req.body.content,
+            replies: []
+          }
+        }
+      }
+    )
+
+    res.json({"result": "success"})
+  }
+  catch (err) {
+    console.log(err);
+  }
+});
+
+router.post('/:postId/comments/:commentId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    let result = await mongo.get().collection('comments').updateOne(
+      { postId: req.params.postId },
+      {
+        $push: {
+          "comments.$[commentElement].replies" : {
+            _commentId: mongo.createObjectID(),
+            userId: req.user.id,
+            content: req.body.content,
+            replies: []
+          }
+        }
+      }, {
+        arrayFilters: [ { "commentElement._commentId": mongo.objectId(req.params.commentId)} ]
+      }
+    )
+
+    res.json({"result": "success"})
+  }
+  catch (err) {
+    console.log(err);
+  }
 })
 
 module.exports = router;

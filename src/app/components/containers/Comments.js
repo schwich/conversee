@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Comment from '../comment/Comment';
+
 import {getComments} from '../../api/comments-api';
 
 class Comments extends React.Component {
@@ -23,7 +25,6 @@ class Comments extends React.Component {
   }
 
   render() {
-    console.log(this.state.comments);
     return (
       <div>
         {
@@ -31,18 +32,16 @@ class Comments extends React.Component {
           ?
           <div>
             {
-              this.state.comments.comments.map(comment => {
-                console.log('fucking comment: ', comment);
-                return (
+              this.state.comments.comments.map(comment => (
                   <Comment 
+                  id={comment._commentId}
                   nestLevel={1}
                   key={comment._commentId}
                   content={comment.content}
                   userId={comment.userId}
                   replies={comment.replies}/>
-                )
 
-              })
+              ))
             }
           </div>
           : 
@@ -51,36 +50,6 @@ class Comments extends React.Component {
       </div>
     )
   }
-}
-
-function Comment(props) {
-  console.log('yolo');
-  console.log(props);
-  return (
-    <div style={{marginLeft: props.nestLevel * 20}}>
-      <div>
-        {props.content}
-      </div>
-      <div>
-        {props.userId}
-      </div>
-      {
-        props.replies != null 
-          ?
-          props.replies.map((reply) => {
-            return (
-              <Comment
-                nestLevel={props.nestLevel + 1}
-                content={reply.content}
-                userId={reply.userId}
-                replies={reply.replies} />
-            )
-          })
-          :
-          null
-      }
-    </div>
-  )
 }
 
 export default connect()(Comments);
