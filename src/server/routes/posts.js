@@ -139,9 +139,13 @@ router.post('/', passport.authenticate('jwt', { session: false }), function (req
     })
 });
 
+/**
+ * Comments API
+ */
+
 router.get('/:postId/comments', async (req, res) => {
   try {
-    const comments = await mongo.get().collection('comments').findOne({postId: req.params.postId});//.toArray();
+    const comments = await mongo.get().collection('comments').findOne({postId: req.params.postId});
     res.json(comments);
   }
   catch (err) {
@@ -149,20 +153,19 @@ router.get('/:postId/comments', async (req, res) => {
   } 
 })
 
-/**
- * Comments API
- */
-
 router.post('/:postId/comments', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     await mongo.get().collection('comments').updateOne(
-      {postId: req.params.postId},
+      { postId: req.params.postId },
       {
         $push: {
           comments: {
             _commentId: mongo.createObjectID(),
             userId: req.user.id,
+            points: 0,
+            username: req.user.username,
             content: req.body.content,
+            created: new Date(),
             replies: []
           }
         }
@@ -185,7 +188,10 @@ router.post('/:postId/comments/:commentId', passport.authenticate('jwt', { sessi
           "comments.$[commentElement].replies" : {
             _commentId: mongo.createObjectID(),
             userId: req.user.id,
+            username: req.user.username,
             content: req.body.content,
+            points: 0,
+            created: new Date(),
             replies: []
           }
         }

@@ -13,7 +13,10 @@ router.post('/login', async function (req, res) {
       bcrypt.compare(req.body.password, user.password_hash, function (err, passwordMatches) {
         if (passwordMatches) {
           console.log('password matches');
-          const payload = { id: user.id };
+          const payload = { 
+            id: user.id,
+            username: user.username 
+          };
           console.log(user.id)
           const token = jwt.sign(payload, config.JSON_WEB_TOKEN_SECRET);
           res.json({

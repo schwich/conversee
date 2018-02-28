@@ -14,7 +14,6 @@ class Comments extends React.Component {
   constructor(props) {
     super(props);
 
-  
   }
 
   async componentDidMount() {
@@ -27,26 +26,30 @@ class Comments extends React.Component {
   render() {
     return (
       <div>
-        {
-          this.state.comments !== null 
-          ?
-          <div>
-            {
-              this.state.comments.comments.map(comment => (
-                  <Comment 
-                  id={comment._commentId}
-                  nestLevel={1}
-                  key={comment._commentId}
-                  content={comment.content}
-                  userId={comment.userId}
-                  replies={comment.replies}/>
+        <div>
+          {
+            this.state.comments !== null 
+            ?
+            <div>
+              {
+                this.state.comments.comments.map(comment => (
+                    <Comment 
+                      id={comment._commentId}
+                      nestLevel={1}
+                      key={comment._commentId}
+                      content={comment.content}
+                      userId={comment.userId}
+                      username={comment.username}
+                      created={comment.created}
+                      replies={comment.replies}/>
 
-              ))
-            }
-          </div>
-          : 
-          <div>Loading...</div>
-        }
+                ))
+              }
+            </div>
+            : 
+            <div>Loading...</div>
+          }
+        </div>
       </div>
     )
   }

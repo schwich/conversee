@@ -1,0 +1,11 @@
+.comment-container {
+  padding: 5px;
+}
+
+.comment-container-even {
+  border-left: 3px solid var(--secondary-cobalt);
+}
+
+.comment-container-odd {
+  border-left: 3px solid var(--primary-brown);
+}
