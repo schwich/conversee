@@ -1,10 +1,19 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 
 export default class CommentReply extends React.Component {
 
   state = {
     replyText: '',
     isReplyExpanded: false
+  }
+
+  static propTypes = {
+    showCancel: PropTypes.bool
+  }
+
+  static defaultProps = {
+    showCancel: true
   }
 
   handleChange = (event) => {
@@ -34,7 +43,13 @@ export default class CommentReply extends React.Component {
           />
         </div>
         <button type='submit'>submit</button>
-        <button onClick={this.props.onCancel}>cancel</button>
+        {
+          this.props.showCancel === true
+            ?
+            <button onClick={this.props.onCancel}>cancel</button>
+            :
+            null
+        }
       </form>
     )
   }

@@ -8,6 +8,19 @@ const postSorting = require('../algo/post-sorting');
 router.get('/:sortType', function (req, res) {
 
   // todo real post sorting
+  console.log()
+  let sortString = '';
+  switch (req.params.sortType) {
+    case 'new':
+      sortString = 'posts.created DESC'
+      break;
+
+    default:
+      sortString = 'num_points DESC';
+      break;
+  }
+
+  console.log(sortString);
 
   db.any(`SELECT 
             posts.id, posts.title, posts.link, posts.content, posts.created, posts.type, 
@@ -20,9 +33,9 @@ router.get('/:sortType', function (req, res) {
           FROM 
             posts 
           ORDER BY 
-            num_points DESC
+            $1:value
           LIMIT
-            50`)
+            50`, [sortString])
     .then((data) => {
       res.json(data);
     })
@@ -123,20 +136,28 @@ router.post('/hide', passport.authenticate('jwt', { session: false }), (req, res
     .catch((err) => { console.log(err); })
 })
 
-router.post('/', passport.authenticate('jwt', { session: false }), function (req, res) {
-  db.one('INSERT INTO posts (title, link, content, num_points, owner, type) VALUES ($1, $2, $3, 0, $4, $5) RETURNING *', [
-    req.body.title,
-    req.body.link,
-    req.body.content,
-    req.body.owner,
-    req.body.type
-  ])
-    .then(data => {
-      res.json(data);
-    })
-    .catch(error => {
-      console.log(error)
-    })
+// create post
+router.post('/', passport.authenticate('jwt', { session: false }), async function (req, res) {
+
+  try {
+    const newPost = await db.one(`INSERT INTO posts (title, link, content, num_points, owner, type) VALUES ($1, $2, $3, 0, $4, $5) RETURNING *`, [
+      req.body.title,
+      req.body.link,
+      req.body.content,
+      req.body.owner,
+      req.body.type
+    ]);
+
+    await mongo.get().collection('comments').insert({
+      postId: `${newPost.id}`,
+      comments: []
+    });
+
+    res.json(newPost)
+
+  } catch (err) {
+    console.log(err)
+  }
 });
 
 /**
@@ -145,12 +166,12 @@ router.post('/', passport.authenticate('jwt', { session: false }), function (req
 
 router.get('/:postId/comments', async (req, res) => {
   try {
-    const comments = await mongo.get().collection('comments').findOne({postId: req.params.postId});
+    const comments = await mongo.get().collection('comments').findOne({ postId: req.params.postId });
     res.json(comments);
   }
   catch (err) {
     console.log(err);
-  } 
+  }
 })
 
 router.post('/:postId/comments', passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -172,7 +193,9 @@ router.post('/:postId/comments', passport.authenticate('jwt', { session: false }
       }
     )
 
-    res.json({"result": "success"})
+    console.log(result);
+
+    res.json({ "result": "success" })
   }
   catch (err) {
     console.log(err);
@@ -181,11 +204,11 @@ router.post('/:postId/comments', passport.authenticate('jwt', { session: false }
 
 router.post('/:postId/comments/:commentId', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
-    let result = await mongo.get().collection('comments').updateOne(
+    await mongo.get().collection('comments').updateOne(
       { postId: req.params.postId },
       {
         $push: {
-          "comments.$[commentElement].replies" : {
+          "comments.$[commentElement].replies": {
             _commentId: mongo.createObjectID(),
             userId: req.user.id,
             username: req.user.username,
@@ -196,11 +219,11 @@ router.post('/:postId/comments/:commentId', passport.authenticate('jwt', { sessi
           }
         }
       }, {
-        arrayFilters: [ { "commentElement._commentId": mongo.objectId(req.params.commentId)} ]
+        arrayFilters: [{ "commentElement._commentId": mongo.objectId(req.params.commentId) }]
       }
     )
 
-    res.json({"result": "success"})
+    res.json({ "result": "success" })
   }
   catch (err) {
     console.log(err);
