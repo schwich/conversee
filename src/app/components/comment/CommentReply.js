@@ -3,17 +3,25 @@ import { PropTypes } from 'prop-types';
 
 export default class CommentReply extends React.Component {
 
-  state = {
-    replyText: '',
-    isReplyExpanded: false
-  }
-
   static propTypes = {
-    showCancel: PropTypes.bool
+    showByDefault: PropTypes.bool,
+    showCancel: PropTypes.bool,
+    onCancel: PropTypes.func,
+    onSubmit: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    showCancel: true
+    showCancel: true,
+    showByDefault: false
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      replyText: '',
+      isReplyExpanded: props.showByDefault ? true : false
+    }
   }
 
   handleChange = (event) => {
@@ -24,13 +32,19 @@ export default class CommentReply extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.state);
-    this.setState({
-      isReplyExpanded: false
-    })
+    this.props.onSubmit(this.state.replyText);
+    if (!this.state.showByDefault) {
+      this.setState({
+        isReplyExpanded: false
+      })
+    }
   }
 
   render() {
+    if (this.state.isReplyExpanded === false ) {
+      return null;
+    }
+
     return (
       <form onSubmit={this.handleSubmit}>
         <div>

@@ -30,9 +30,9 @@ class Comments extends React.Component {
     })
   }
 
-  async onSubmitTopLevelReply(replyData) {
-    console.log(replyData);
-    const results = await submitComment(this.props.match.params.postId, replyData.replyText)
+  async onSubmitTopLevelReply(replyText) {
+    console.log(replyText);
+    const results = await submitComment(this.props.match.params.postId, replyText)
   }
 
   render() {
@@ -41,6 +41,7 @@ class Comments extends React.Component {
       <div>
         <div className='comments-container-top-level-reply'>
           <CommentReply
+            showByDefault={true}
             onSubmit={this.onSubmitTopLevelReply}
             showCancel={false} />
         </div>
@@ -61,6 +62,7 @@ class Comments extends React.Component {
                   this.state.comments.comments.map(comment => (
                     <Comment
                       id={comment._commentId}
+                      postId={this.props.match.params.postId}
                       nestLevel={1}
                       key={comment._commentId}
                       content={comment.content}

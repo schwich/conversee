@@ -6,6 +6,8 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import CommentReply from './CommentReply';
 import CommentVotePanel from './CommentVotePanel';
 
+import { submitReply } from '../../api/comments-api';
+
 import './Comment.css';
 
 export default class Comment extends React.Component {
@@ -16,9 +18,10 @@ export default class Comment extends React.Component {
     this.onSubmitReply = this.onSubmitReply.bind(this);
   }
 
-  async onSubmitReply(reply) {
+  async onSubmitReply(replyText) {
     event.preventDefault();
-    console.log(reply);
+    console.log(replyText, this.props.id);
+    await submitReply(this.props.postId, this.props.id, replyText)
   }
 
   render() {
@@ -36,7 +39,11 @@ export default class Comment extends React.Component {
             <CommentControlPanel />
           </div>
         </div>
-        <CommentReply />
+        <CommentReply 
+          showByDefault={true}
+          showCancel={false}
+          commentId={this.props.id}
+          onSubmit={this.onSubmitReply} />
         <div>
           {
             this.props.replies != null 

@@ -189,11 +189,10 @@ router.post('/:postId/comments', passport.authenticate('jwt', { session: false }
             created: new Date(),
             replies: []
           }
-        }
-      }
+        },
+      },
+      { upsert: true }
     )
-
-    console.log(result);
 
     res.json({ "result": "success" })
   }
