@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../../../config/config');
 
-router.post('/login', async function (req, res) {
+router.post('/login', async (req, res) => {
   if (req.body.username && req.body.password) {
     try {
       const user = await db.one('SELECT id, username, password_hash FROM users WHERE username = $1', [req.body.username])
@@ -37,7 +37,7 @@ router.post('/login', async function (req, res) {
   }
 })
 
-router.post('/register', async function (req, res) {
+router.post('/register', async (req, res) => {
   if (req.body.username && req.body.password) {
     bcrypt.hash(req.body.password, 10, async function (err, hash) {
       try {
