@@ -21,13 +21,33 @@ class CommentVotePanel extends React.Component {
 
   async handleVote(voteType) {
     console.log('comment handleVote called with ', voteType);
+    let isUnvote = false;
+    if (type === 'up' && this.state.votedUp !== true) {
+      this.setState({
+        votedUp: true,
+        votedDown: false
+      })
+    }
+    else if (type === 'down' && this.state.votedDown !== true) {
+      this.setState({
+        votedUp: false,
+        votedDown: true
+      })
+    }
+    else {
+      isUnvote = true;
+      this.setState({
+        votedUp: false,
+        votedDown: false
+      })
+    }
   }
 
   render() {
     return (
       <div className='comment-vote-panel'>
       <button
-        className=''
+        className={this.state.votedUp === true ? 'voted-up' : ''}
         onClick={() => this.handleVote('up')}>
         <FontAwesomeIcon icon='arrow-up' />
       </button>

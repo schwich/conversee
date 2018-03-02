@@ -1,10 +1,12 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import Button from '../general/Button';
+
+import './CommentReply.css';
 
 export default class CommentReply extends React.Component {
 
   static propTypes = {
-    showByDefault: PropTypes.bool,
     showCancel: PropTypes.bool,
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func.isRequired
@@ -12,17 +14,15 @@ export default class CommentReply extends React.Component {
 
   static defaultProps = {
     showCancel: true,
-    showByDefault: false
+    height: 4,
+    width: 80
   }
 
   constructor(props) {
     super(props);
 
-    console.log('CommentReply: ', props.idx);
-
     this.state = {
-      replyText: '',
-      isReplyExpanded: props.showByDefault ? true : false
+      replyText: ''
     }
   }
 
@@ -43,14 +43,16 @@ export default class CommentReply extends React.Component {
   }
 
   render() {
-    if (this.state.isReplyExpanded === false ) {
+    if (this.props.isShowing === false ) {
       return null;
     }
 
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
-          <input
+          <textarea
+            rows={this.props.height}
+            cols={this.props.width}
             type='text'
             name='replyText'
             value={this.state.replyText}
@@ -58,14 +60,17 @@ export default class CommentReply extends React.Component {
             required
           />
         </div>
-        <button type='submit'>submit</button>
-        {
-          this.props.showCancel === true
-            ?
-            <button onClick={this.props.onCancel}>cancel</button>
-            :
-            null
-        }
+        <div className='comment-reply-button-panel'>
+          <Button type='submit'>submit</Button>
+          {
+            this.props.showCancel === true
+              ?
+              <Button buttonType='button' onClickHandler={this.props.onCancel}>cancel</Button>
+              :
+              null
+          }
+        </div>
+
       </form>
     )
   }

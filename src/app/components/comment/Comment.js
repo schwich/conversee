@@ -5,12 +5,15 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 import CommentReply from './CommentReply';
 import CommentVotePanel from './CommentVotePanel';
-
 import { submitReply } from '../../api/comments-api';
 
 import './Comment.css';
 
 export default class Comment extends React.Component {
+
+  state = {
+    isReplyExpanded: false
+  }
 
   constructor(props) {
     super(props);
@@ -20,30 +23,41 @@ export default class Comment extends React.Component {
 
   async onSubmitReply(replyText, commentIdx) {
     event.preventDefault();
-    console.log(replyText, this.props.id);
-    console.log(replyText, ' ',  commentIdx);
+
     await submitReply(this.props.postId, this.props.id, replyText, commentIdx)
+
+    this.props.onReply()
+  }
+
+  showReply = () => {
+    this.setState({
+      isReplyExpanded: !this.state.isReplyExpanded
+    })
+  }
+
+  cancelReply = () => {
+    this.setState({
+      isReplyExpanded: false
+    })
   }
 
   render() {
     return (
-      <div
-        className={`comment-container ${this.props.nestLevel % 2 === 0 ? 'comment-container-even' : 'comment-container-odd'}`}
-        style={{marginLeft: this.props.nestLevel * 20}}>
-        <div>
+      <div className={`comment-container ${this.props.nestLevel % 2 === 0 ? 'comment-container-even' : 'comment-container-odd'}`}>
+        <div className='comment-parent'>
           <CommentVotePanel />
           <div>
             <CommentMetaPanel
               username={this.props.username}
               created={this.props.created} />
-            <div>{this.props.content}</div>
-            <CommentControlPanel />
+            <div className='comment-content'>{this.props.content}</div>
+            <CommentControlPanel showReply={this.showReply} />
           </div>
         </div>
         <CommentReply 
+          isShowing={this.state.isReplyExpanded}
+          onCancel={this.cancelReply}
           idx={this.props.idx}
-          showByDefault={true}
-          showCancel={false}
           commentId={this.props.id}
           onSubmit={this.onSubmitReply} />
         <div>
@@ -51,7 +65,6 @@ export default class Comment extends React.Component {
             this.props.replies != null 
             ?
             this.props.replies.map((reply) => {
-              console.log(reply);
               return (
                 <Comment
                   idx={reply._idx}
@@ -63,7 +76,8 @@ export default class Comment extends React.Component {
                   userId={reply.userId}
                   username={reply.username}
                   created={reply.created}
-                  replies={reply.replies} />
+                  replies={reply.replies}
+                  onReply={this.props.onReply} />
               )
             })
             :
@@ -77,13 +91,21 @@ export default class Comment extends React.Component {
 
 function CommentMetaPanel(props) {
   return (
-    <div>{props.username} {moment().from(props.created, true)} ago</div>
+    <div className='comment-meta-panel'>
+      <span className='username'>{props.username}</span> {moment().from(props.created, true)} ago
+    </div>
   )
 }
 
 function CommentControlPanel(props) {
   return (
-    <div></div>
+    <div className='comment-control-panel'>
+      <button
+        className='comment-control-panel-reply'
+        onClick={props.showReply}>
+        reply
+      </button>
+    </div>
   )
 }
 

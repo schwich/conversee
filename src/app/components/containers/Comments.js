@@ -31,16 +31,16 @@ class Comments extends React.Component {
   }
 
   async onSubmitTopLevelReply(replyText) {
-    console.log(replyText);
     const results = await submitComment(this.props.match.params.postId, replyText)
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <div className='comments-container-top-level-reply'>
           <CommentReply
+            height='8'
+            width='100'
             showByDefault={true}
             onSubmit={this.onSubmitTopLevelReply}
             showCancel={false} />
@@ -60,7 +60,6 @@ class Comments extends React.Component {
               <div>
                 {
                   this.state.comments.replies.map(comment => {
-                    console.log(comment);
                     return (<Comment
                       idx={comment._idx}
                       id={comment._commentId}
