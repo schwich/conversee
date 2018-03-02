@@ -59,8 +59,10 @@ class Comments extends React.Component {
               :
               <div>
                 {
-                  this.state.comments.comments.map(comment => (
-                    <Comment
+                  this.state.comments.replies.map(comment => {
+                    console.log(comment);
+                    return (<Comment
+                      idx={comment._idx}
                       id={comment._commentId}
                       postId={this.props.match.params.postId}
                       nestLevel={1}
@@ -69,9 +71,9 @@ class Comments extends React.Component {
                       userId={comment.userId}
                       username={comment.username}
                       created={comment.created}
-                      replies={comment.replies} />
+                      replies={comment.replies} />)
 
-                  ))
+                  })
                 }
               </div>
 

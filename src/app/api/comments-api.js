@@ -29,7 +29,7 @@ export async function submitComment(postId, content) {
   }
 }
 
-export async function submitReply(postId, commentId, content) {
+export async function submitReply(postId, commentId, content, commentIdx) {
   try {
     const results = await fetch(`${config.BACKEND_API}/posts/${postId}/comments/${commentId}`, {
       headers: {
@@ -37,7 +37,8 @@ export async function submitReply(postId, commentId, content) {
       },
       method: 'POST',
       body: JSON.stringify({
-        content
+        content,
+        commentIdx
       })
     });
     return results.json();

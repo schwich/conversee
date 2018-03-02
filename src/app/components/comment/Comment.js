@@ -18,10 +18,11 @@ export default class Comment extends React.Component {
     this.onSubmitReply = this.onSubmitReply.bind(this);
   }
 
-  async onSubmitReply(replyText) {
+  async onSubmitReply(replyText, commentIdx) {
     event.preventDefault();
     console.log(replyText, this.props.id);
-    await submitReply(this.props.postId, this.props.id, replyText)
+    console.log(replyText, ' ',  commentIdx);
+    await submitReply(this.props.postId, this.props.id, replyText, commentIdx)
   }
 
   render() {
@@ -40,6 +41,7 @@ export default class Comment extends React.Component {
           </div>
         </div>
         <CommentReply 
+          idx={this.props.idx}
           showByDefault={true}
           showCancel={false}
           commentId={this.props.id}
@@ -49,10 +51,13 @@ export default class Comment extends React.Component {
             this.props.replies != null 
             ?
             this.props.replies.map((reply) => {
+              console.log(reply);
               return (
                 <Comment
+                  idx={reply._idx}
                   id={reply._commentId}
                   key={reply._commentId}
+                  postId={this.props.postId}
                   nestLevel={this.props.nestLevel + 1}
                   content={reply.content}
                   userId={reply.userId}

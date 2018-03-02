@@ -159,7 +159,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
 
     await mongo.get().collection('comments').insert({
       postId: `${newPost.id}`,
-      comments: []
+      replies: []
     });
 
     res.json(newPost)
@@ -183,15 +183,34 @@ router.get('/:postId/comments', async (req, res) => {
   }
 })
 
-router.post('/:postId/comments', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get('/:postId/comments/:commentId', async (req, res) => {
   try {
+    const comments = await mongo.get().collection('comments').findOne({ _id: mongo.objectId(req.params.commentId) });
+    res.json(comments);
+  }
+  catch (err) {
+    console.log(err);
+  }
+})
+
+router.post('/:postId/comments', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  // router.post('/:postId/comments', async (req, res) => {
+  try {
+    const existingElemsCount = await mongo.get().collection('comments').findOne({
+      postId: req.params.postId
+    })
+    // console.log('count: ', existingElemsCount.replies.length);
+    // const result = await mongo.get().collection('comments').insertOne({
+
+    // })
     await mongo.get().collection('comments').updateOne(
       { postId: req.params.postId },
       {
         $push: {
-          comments: {
+          replies: {
             _commentId: mongo.createObjectID(),
             userId: req.user.id,
+            _idx: existingElemsCount.replies.length,
             points: 0,
             username: req.user.username,
             content: req.body.content,
@@ -212,12 +231,32 @@ router.post('/:postId/comments', passport.authenticate('jwt', { session: false }
 
 router.post('/:postId/comments/:commentId', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
-    await mongo.get().collection('comments').updateOne(
+
+    console.log(req.body.commentIdx);
+
+    // let path = 'replies';
+    let path = '';
+    for (let part of req.body.commentIdx) {
+      path += `replies.${part}.`;
+    }
+    path += 'replies';
+    // let finalPath = path.slice(0, -1);
+    
+
+    console.log(path);
+
+    const topLevelReplies = await mongo.get().collection('comments').findOne({
+        postId: req.params.postId
+      });
+      console.log(topLevelReplies);
+
+    const result = await mongo.get().collection('comments').updateOne(
       { postId: req.params.postId },
       {
         $push: {
-          "comments.$[commentElement].replies": {
+          [path]: {
             _commentId: mongo.createObjectID(),
+            _idx: '',
             userId: req.user.id,
             username: req.user.username,
             content: req.body.content,
@@ -226,12 +265,35 @@ router.post('/:postId/comments/:commentId', passport.authenticate('jwt', { sessi
             replies: []
           }
         }
-      }, {
-        arrayFilters: [{ "commentElement._commentId": mongo.objectId(req.params.commentId) }]
       }
     )
 
-    res.json({ "result": "success" })
+    res.json(result);
+
+      // const topLevelReplies = await mongo.get().collection('comments').findOne({
+      //   postId: req.params.postId
+      // });
+      // console.log(result.replies);
+    // await mongo.get().collection('comments').updateOne(
+    //   { postId: req.params.postId },
+    //   {
+    //     $push: {
+    //       "replies.$[commentElement].replies": {
+    //         _commentId: mongo.createObjectID(),
+    //         userId: req.user.id,
+    //         username: req.user.username,
+    //         content: req.body.content,
+    //         points: 0,
+    //         created: new Date(),
+    //         replies: []
+    //       }
+    //     }
+    //   }, {
+    //     arrayFilters: [{ "commentElement._commentId": mongo.objectId(req.params.commentId) }]
+    //   }
+    // )
+
+    // res.json({ "result": "success" })
   }
   catch (err) {
     console.log(err);

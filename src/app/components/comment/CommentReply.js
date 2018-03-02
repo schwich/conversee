@@ -18,6 +18,8 @@ export default class CommentReply extends React.Component {
   constructor(props) {
     super(props);
 
+    console.log('CommentReply: ', props.idx);
+
     this.state = {
       replyText: '',
       isReplyExpanded: props.showByDefault ? true : false
@@ -32,7 +34,7 @@ export default class CommentReply extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.state.replyText);
+    this.props.onSubmit(this.state.replyText, this.props.idx);
     if (!this.state.showByDefault) {
       this.setState({
         isReplyExpanded: false
