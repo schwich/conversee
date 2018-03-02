@@ -183,26 +183,13 @@ router.get('/:postId/comments', async (req, res) => {
   }
 })
 
-router.get('/:postId/comments/:commentId', async (req, res) => {
-  try {
-    const comments = await mongo.get().collection('comments').findOne({ _id: mongo.objectId(req.params.commentId) });
-    res.json(comments);
-  }
-  catch (err) {
-    console.log(err);
-  }
-})
-
 router.post('/:postId/comments', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  // router.post('/:postId/comments', async (req, res) => {
   try {
+    // need to get the count of siblings of the array of comments to push to, so I can reply to this comment in the future
     const existingElemsCount = await mongo.get().collection('comments').findOne({
       postId: req.params.postId
     })
-    // console.log('count: ', existingElemsCount.replies.length);
-    // const result = await mongo.get().collection('comments').insertOne({
 
-    // })
     await mongo.get().collection('comments').updateOne(
       { postId: req.params.postId },
       {
@@ -210,7 +197,7 @@ router.post('/:postId/comments', passport.authenticate('jwt', { session: false }
           replies: {
             _commentId: mongo.createObjectID(),
             userId: req.user.id,
-            _idx: existingElemsCount.replies.length,
+            _idx: [existingElemsCount.replies.length], // this is a path to the comment for finding it later
             points: 0,
             username: req.user.username,
             content: req.body.content,
@@ -232,23 +219,24 @@ router.post('/:postId/comments', passport.authenticate('jwt', { session: false }
 router.post('/:postId/comments/:commentId', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
 
-    console.log(req.body.commentIdx);
-
-    // let path = 'replies';
     let path = '';
+    let newCommentIdx = [];
     for (let part of req.body.commentIdx) {
       path += `replies.${part}.`;
+      newCommentIdx.push(part);
     }
     path += 'replies';
-    // let finalPath = path.slice(0, -1);
-    
-
-    console.log(path);
 
     const topLevelReplies = await mongo.get().collection('comments').findOne({
         postId: req.params.postId
       });
-      console.log(topLevelReplies);
+
+    let commentSiblings = topLevelReplies;
+    for (let part of req.body.commentIdx) {
+      commentSiblings = commentSiblings.replies[part];
+    }
+
+    newCommentIdx.push(commentSiblings.replies.length);
 
     const result = await mongo.get().collection('comments').updateOne(
       { postId: req.params.postId },
@@ -256,7 +244,7 @@ router.post('/:postId/comments/:commentId', passport.authenticate('jwt', { sessi
         $push: {
           [path]: {
             _commentId: mongo.createObjectID(),
-            _idx: '',
+            _idx: newCommentIdx,
             userId: req.user.id,
             username: req.user.username,
             content: req.body.content,
@@ -269,31 +257,6 @@ router.post('/:postId/comments/:commentId', passport.authenticate('jwt', { sessi
     )
 
     res.json(result);
-
-      // const topLevelReplies = await mongo.get().collection('comments').findOne({
-      //   postId: req.params.postId
-      // });
-      // console.log(result.replies);
-    // await mongo.get().collection('comments').updateOne(
-    //   { postId: req.params.postId },
-    //   {
-    //     $push: {
-    //       "replies.$[commentElement].replies": {
-    //         _commentId: mongo.createObjectID(),
-    //         userId: req.user.id,
-    //         username: req.user.username,
-    //         content: req.body.content,
-    //         points: 0,
-    //         created: new Date(),
-    //         replies: []
-    //       }
-    //     }
-    //   }, {
-    //     arrayFilters: [{ "commentElement._commentId": mongo.objectId(req.params.commentId) }]
-    //   }
-    // )
-
-    // res.json({ "result": "success" })
   }
   catch (err) {
     console.log(err);
