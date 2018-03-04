@@ -12,7 +12,9 @@ class Logout extends React.Component {
 
   render() {
     return (
-      <a onClick={this.onClick}>
+      <a
+        style={{ cursor: 'pointer' }}
+        onClick={this.onClick}>
         Logout <FontAwesomeIcon icon='sign-out-alt' />
       </a>
     )

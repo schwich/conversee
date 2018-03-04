@@ -194,7 +194,7 @@ function ExpandControl(props) {
           ?
           <FontAwesomeIcon icon='times' />
           :
-          <FontAwesomeIcon icon='align-right' />
+          <FontAwesomeIcon icon='angle-double-down' />
       }
     </button>
   )

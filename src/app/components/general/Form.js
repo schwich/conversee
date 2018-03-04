@@ -68,7 +68,7 @@ export default class Form extends React.Component {
             )
           })
         }
-        <Button text='submit'>submit</Button>
+        <Button type='submit'>submit</Button>
       </form>
     )
   }
