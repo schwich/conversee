@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Ink from 'react-ink';
 
 import './Button.css';
 
@@ -7,7 +8,8 @@ export default class Button extends React.Component {
 
   static propTypes = {
     onClickHandler: PropTypes.func,
-    type: PropTypes.string
+    type: PropTypes.string,
+    showLoading: PropTypes.bool
   }
 
   static defaultProps = {
@@ -18,8 +20,12 @@ export default class Button extends React.Component {
     return (
       <button
         className={`btn ${this.props.className}`}
+        style={{ position: 'relative' }}
         type={this.props.buttonType}
-        onClick={this.props.onClickHandler}>{this.props.children}</button>
+        onClick={this.props.onClickHandler}>
+        <Ink />
+        {this.props.children}
+      </button>
     )
   }
 }

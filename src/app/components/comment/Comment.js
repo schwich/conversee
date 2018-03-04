@@ -12,21 +12,30 @@ import './Comment.css';
 export default class Comment extends React.Component {
 
   state = {
-    isReplyExpanded: false
+    isReplyExpanded: false,
+    replies: null
   }
 
   constructor(props) {
     super(props);
-
+    this.state = {
+      isReplyExpanded: false,
+      replies: this.props.replies
+    }
     this.onSubmitReply = this.onSubmitReply.bind(this);
   }
 
   async onSubmitReply(replyText, commentIdx) {
     event.preventDefault();
 
-    await submitReply(this.props.postId, this.props.id, replyText, commentIdx)
-
-    this.props.onReply()
+    const newComment = await submitReply(this.props.postId, this.props.id, replyText, commentIdx);
+    this.setState({
+      replies: [
+        newComment.comment,
+        ... this.state.replies
+      ],
+      isReplyExpanded: false
+    })
   }
 
   showReply = () => {
@@ -54,7 +63,7 @@ export default class Comment extends React.Component {
             <CommentControlPanel showReply={this.showReply} />
           </div>
         </div>
-        <CommentReply 
+        <CommentReply
           isShowing={this.state.isReplyExpanded}
           onCancel={this.cancelReply}
           idx={this.props.idx}
@@ -62,26 +71,26 @@ export default class Comment extends React.Component {
           onSubmit={this.onSubmitReply} />
         <div>
           {
-            this.props.replies != null 
-            ?
-            this.props.replies.map((reply) => {
-              return (
-                <Comment
-                  idx={reply._idx}
-                  id={reply._commentId}
-                  key={reply._commentId}
-                  postId={this.props.postId}
-                  nestLevel={this.props.nestLevel + 1}
-                  content={reply.content}
-                  userId={reply.userId}
-                  username={reply.username}
-                  created={reply.created}
-                  replies={reply.replies}
-                  onReply={this.props.onReply} />
-              )
-            })
-            :
-            null
+            this.state.replies != null
+              ?
+              this.state.replies.map((reply) => {
+                return (
+                  <Comment
+                    idx={reply._idx}
+                    id={reply._commentId}
+                    key={reply._commentId}
+                    postId={this.props.postId}
+                    nestLevel={this.props.nestLevel + 1}
+                    content={reply.content}
+                    userId={reply.userId}
+                    username={reply.username}
+                    created={reply.created}
+                    replies={reply.replies}
+                    onReply={this.props.onReply} />
+                )
+              })
+              :
+              null
           }
         </div>
       </div>

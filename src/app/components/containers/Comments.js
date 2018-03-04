@@ -31,7 +31,17 @@ class Comments extends React.Component {
   }
 
   async onSubmitTopLevelReply(replyText) {
-    const results = await submitComment(this.props.match.params.postId, replyText)
+    const results = await submitComment(this.props.match.params.postId, replyText);
+    this.setState((prevState) => {
+      return {
+        comments: {
+          replies: [
+            results.comment,
+            ...prevState.comments.replies
+          ]
+        }
+      }
+    })
   }
 
   render() {
@@ -59,6 +69,7 @@ class Comments extends React.Component {
               :
               <div>
                 {
+                  (this.state.comments.replies != null) &&
                   this.state.comments.replies.map(comment => {
                     return (<Comment
                       idx={comment._idx}
@@ -71,7 +82,6 @@ class Comments extends React.Component {
                       username={comment.username}
                       created={comment.created}
                       replies={comment.replies} />)
-
                   })
                 }
               </div>

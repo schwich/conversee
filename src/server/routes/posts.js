@@ -11,8 +11,8 @@ router.get('/:sortType', async (req, res) => {
   switch (req.params.sortType) {
     case 'new':
       sort = 'posts.created DESC'
-    break;
-    default: 
+      break;
+    default:
       sort = 'num_points DESC';
   }
 
@@ -32,7 +32,7 @@ router.get('/:sortType', async (req, res) => {
       LIMIT
         50`, [sort]);
     res.json(data);
-  } 
+  }
   catch (err) {
     console.log(err);
   }
@@ -53,9 +53,9 @@ router.get('/', async (req, res) => {
             posts 
           ORDER BY 
             num_points DESC`
-          );
+    );
     res.json(data);
-      
+
   }
   catch (err) {
     console.log(err);
@@ -82,8 +82,8 @@ router.post('/vote', passport.authenticate('jwt', { session: false }), async (re
       req.body.userId,
       voteValue
     ]);
-  
-    res.status(201).json({'result': 'success'});
+
+    res.status(201).json({ 'result': 'success' });
   }
   catch (err) {
     console.log(err);
@@ -96,8 +96,8 @@ router.post('/unvote', passport.authenticate('jwt', { session: false }), async (
       req.body.userId,
       req.body.postId
     ]);
-  
-    res.json({'result': 'success'})
+
+    res.json({ 'result': 'success' })
   }
   catch (err) {
     console.log(err);
@@ -111,7 +111,7 @@ router.post('/save', passport.authenticate('jwt', { session: false }), async (re
       req.body.postId
     ])
     res.status(201).json({ 'result': 'success' })
-  } 
+  }
   catch (err) {
     console.log(err);
   }
@@ -139,7 +139,7 @@ router.post('/hide', passport.authenticate('jwt', { session: false }), async (re
     ]);
 
     res.status(201).json({ 'result': 'success' })
-  } 
+  }
   catch (err) {
     console.log(err);
   }
@@ -190,18 +190,21 @@ router.post('/:postId/comments', passport.authenticate('jwt', { session: false }
       postId: req.params.postId
     })
 
+    const newCommentId = mongo.createObjectID();
+    const newCommentCreatedAt = new Date();
+
     await mongo.get().collection('comments').updateOne(
       { postId: req.params.postId },
       {
         $push: {
           replies: {
-            _commentId: mongo.createObjectID(),
+            _commentId: newCommentId,
             userId: req.user.id,
             _idx: [existingElemsCount.replies.length], // this is a path to the comment for finding it later
             points: 0,
             username: req.user.username,
             content: req.body.content,
-            created: new Date(),
+            created: newCommentCreatedAt,
             replies: []
           }
         },
@@ -209,7 +212,18 @@ router.post('/:postId/comments', passport.authenticate('jwt', { session: false }
       { upsert: true }
     )
 
-    res.json({ "result": "success" })
+    res.json({
+      comment: {
+        _commentId: newCommentId,
+        _idx: [existingElemsCount.replies.length],
+        userId: req.user.id,
+        username: req.user.username,
+        content: req.body.content,
+        created: newCommentCreatedAt,
+        points: 0,
+        replies: []
+      }
+    });
   }
   catch (err) {
     console.log(err);
@@ -228,8 +242,8 @@ router.post('/:postId/comments/:commentId', passport.authenticate('jwt', { sessi
     path += 'replies';
 
     const topLevelReplies = await mongo.get().collection('comments').findOne({
-        postId: req.params.postId
-      });
+      postId: req.params.postId
+    });
 
     let commentSiblings = topLevelReplies;
     for (let part of req.body.commentIdx) {
@@ -238,25 +252,39 @@ router.post('/:postId/comments/:commentId', passport.authenticate('jwt', { sessi
 
     newCommentIdx.push(commentSiblings.replies.length);
 
+    const newCommentId = mongo.createObjectID();
+    const newCommentCreatedAt = new Date();
+
     const result = await mongo.get().collection('comments').updateOne(
       { postId: req.params.postId },
       {
         $push: {
           [path]: {
-            _commentId: mongo.createObjectID(),
+            _commentId: newCommentId,
             _idx: newCommentIdx,
             userId: req.user.id,
             username: req.user.username,
             content: req.body.content,
             points: 0,
-            created: new Date(),
+            created: newCommentCreatedAt,
             replies: []
           }
         }
       }
     )
 
-    res.json(result);
+    res.json({
+      comment: {
+        _commentId: newCommentId,
+        _idx: newCommentIdx,
+        userId: req.user.id,
+        username: req.user.username,
+        content: req.body.content,
+        created: newCommentCreatedAt,
+        points: 0,
+        replies: []
+      }
+    });
   }
   catch (err) {
     console.log(err);

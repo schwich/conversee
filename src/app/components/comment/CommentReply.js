@@ -37,13 +37,19 @@ export default class CommentReply extends React.Component {
     this.props.onSubmit(this.state.replyText, this.props.idx);
     if (!this.state.showByDefault) {
       this.setState({
-        isReplyExpanded: false
+        isReplyExpanded: false,
+        replyText: ''
+      })
+    }
+    else {
+      this.setState({
+        replyText: ''
       })
     }
   }
 
   render() {
-    if (this.props.isShowing === false ) {
+    if (this.props.isShowing === false) {
       return null;
     }
 

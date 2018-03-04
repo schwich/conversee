@@ -15,7 +15,7 @@ class TopNavBar extends Component {
           to='/'
           exact
           activeClassName='top-bar-active-tab'>
-          Home
+          <FontAwesomeIcon icon='magic' /><span style={{ fontWeight: '300', fontWeight: '400', letterSpacing: '0.2rem', marginLeft: '15px' }}>Converseer</span>
         </NavLink>
         <NavLink
           to='/posts/create'
@@ -33,7 +33,7 @@ class TopNavBar extends Component {
             <NavLink
               to='/register'
               activeClassName='top-bar-active-tab'>
-              Register <FontAwesomeIcon icon='use-plus' />
+              Register <FontAwesomeIcon icon='user-plus' />
             </NavLink>
           </div>
         }
