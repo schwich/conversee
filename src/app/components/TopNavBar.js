@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import Logout from './Logout';
 
@@ -8,70 +8,46 @@ import './TopNavBar.css';
 
 class TopNavBar extends Component {
 
-  state = {
-    activeTab: 'home'
-  }
-
-  handleTabChange = (tabName) => {
-    this.setState({
-      activeTab: tabName
-    })
-  }
-  
   render() {
     return (
-      <div>
-        <ul className='top-bar-nav'>
-          <Link to='/'>
-            <li
-              className={this.state.activeTab === 'home' ? 'top-bar-active-tab' : ''}
-              onClick={() => {this.handleTabChange('home')}}>
-                Home
-            </li>
-          </Link>
-          <Link to='/posts/create'>
-            <li
-              className={this.state.activeTab === 'createPost' ? 'top-bar-active-tab' : ''}
-              onClick={() => {this.handleTabChange('createPost')}}>
-              Create Post <FontAwesomeIcon icon='plus' />
-            </li>
-          </Link> 
-          {
-            this.props.userIsAuthed === false &&
-            <div className='top-bar-nav-right-block'>
-              <Link to='/login'>
-                <li
-                  className={this.state.activeTab === 'login' ? 'top-bar-active-tab' : ''}
-                  onClick={() => {this.handleTabChange('login')}}>
-                    Login <FontAwesomeIcon icon='sign-in-alt' />
-                </li>
-              </Link>
-              <Link to='/register'>
-                <li
-                  className={this.state.activeTab === 'register' ? 'top-bar-active-tab' : ''}
-                  onClick={() => {this.handleTabChange('register')}}>
-                    Register <FontAwesomeIcon icon='user-plus' />
-                </li>
-              </Link>
-            </div>
-          }
-          {
-            this.props.userIsAuthed === true
-            &&
-            <div className='top-bar-nav-right-block'>
-              <li
-                className={this.state.activeTab === 'account' ? 'top-bar-active-tab' : ''}
-                onClick={() => {this.handleTabChange('account')}}>
-                <Link to='/account'>
-                  <FontAwesomeIcon icon='user' /> {this.props.username}
-                </Link>
-              </li>
-              <li>
-                <Logout />
-              </li>
-            </div>
-          }
-        </ul>
+      <div className='top-bar-nav'>
+        <NavLink
+          to='/'
+          exact
+          activeClassName='top-bar-active-tab'>
+          <FontAwesomeIcon icon='magic' /><span style={{ fontWeight: '300', fontWeight: '400', letterSpacing: '0.2rem', marginLeft: '15px' }}>Converseer</span>
+        </NavLink>
+        <NavLink
+          to='/posts/create'
+          activeClassName='top-bar-active-tab'>
+          Create Post <FontAwesomeIcon icon='plus' />
+        </NavLink>
+        {
+          this.props.userIsAuthed === false &&
+          <div className='top-bar-nav-right-block'>
+            <NavLink
+              to='/login'
+              activeClassName='top-bar-active-tab'>
+              Login <FontAwesomeIcon icon='sign-in-alt' />
+            </NavLink>
+            <NavLink
+              to='/register'
+              activeClassName='top-bar-active-tab'>
+              Register <FontAwesomeIcon icon='user-plus' />
+            </NavLink>
+          </div>
+        }
+        {
+          this.props.userIsAuthed === true &&
+          <div className='top-bar-nav-right-block'>
+            <NavLink
+              to={`/account/${this.props.uid}`}
+              activeClassName='top-bar-active-tab'>
+              <FontAwesomeIcon icon='user' /> {this.props.username}
+            </NavLink>
+            <Logout />
+          </div>
+        }
       </div>
     )
   }
@@ -80,9 +56,9 @@ class TopNavBar extends Component {
 function mapStateToProps(state) {
   return {
     userIsAuthed: state.user.authed,
-    username: state.user.username
+    username: state.user.username,
+    uid: state.user.uid
   }
 }
 
-// export default connect(mapStateToProps)(TopNavBar);
 export default withRouter(connect(mapStateToProps)(TopNavBar));

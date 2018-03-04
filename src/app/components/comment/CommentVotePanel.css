@@ -1,0 +1,34 @@
+.comment-vote-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+  padding: 5px;
+}
+
+.comment-vote-panel button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  user-select: none;
+  color: gray;
+}
+
+.comment-vote-panel button:focus {
+  outline: none;
+}
+
+.comment-vote-panel button svg {
+  font-size: 20px;
+}
+.comment-vote-panel button svg:hover {
+  color: var(--secondary-teal);
+}
+
+.comment-vote-panel .voted-up {
+  color: var(--secondary-cobalt);
+}
+
+.comment-vote-panel .voted-down {
+  color: var(--primary-brown);
+}

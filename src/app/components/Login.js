@@ -5,7 +5,7 @@ import { loginUser } from '../api/auth-api';
 
 import { userIsAuthing, userAuthSuccess, userAuthFailure } from '../redux/actions';
 
-import Form from './Form';
+import Form from './general/Form';
 
 import './Login.css';
 
@@ -27,7 +27,7 @@ class Login extends React.Component {
       window.localStorage.setItem('token', response.token);
       window.localStorage.setItem('uid', response.uid);
       window.localStorage.setItem('username', response.username);
-      
+
       this.props.dispatch(userAuthSuccess(response.uid, response.username, response.token));
     }
     catch (error) {
@@ -41,7 +41,7 @@ class Login extends React.Component {
       return (
         <Redirect to={{
           pathname: '/',
-          state: { from: this.props.location } 
+          state: { from: this.props.location }
         }} />
       )
     }
@@ -62,7 +62,7 @@ class Login extends React.Component {
               label: 'password',
               required: true
             },
-          ]} 
+          ]}
         />
       )
     }

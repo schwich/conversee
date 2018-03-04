@@ -18,6 +18,7 @@ const index = require('./routes/index');
 const posts = require('./routes/posts');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
+const account = require('./routes/account');
 
 // init express
 const app = express();
@@ -58,7 +59,7 @@ const jwtOptions = {
 const strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
   console.log('payload received ', jwt_payload);
   // get user from DB
-  db.one('SELECT id FROM users WHERE id = $1', [jwt_payload.id])
+  db.one('SELECT id, username FROM users WHERE id = $1', [jwt_payload.id])
     .then(function (user) {
       if (user) {
         next(null, user);
@@ -77,6 +78,8 @@ app.use('/', index);
 app.use('/api/posts/', posts);
 app.use('/api/users/', users);
 app.use('/api/auth/', auth);
+app.use('/api/account/', account);
+
 
 // middleware for errors
 // catch 404 and forward to error handler
