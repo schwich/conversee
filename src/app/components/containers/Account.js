@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SubTab from '../general/SubTab';
-import { getUserSavedPosts, getUserHiddenPosts } from '../../api/account-api';
+import { getUserSavedPosts, getUserHiddenPosts } from '../../api/users-api';
 import { getUserPosts } from '../../api/users-api';
 import Content from '../content/Content';
 

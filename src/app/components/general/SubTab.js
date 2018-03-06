@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import './SubTab.css';
 
@@ -48,15 +48,17 @@ export default class SubTab extends React.Component {
           {
             this.props.tabs.map(tab => {
               return (
-                <Link
+                <NavLink
                   key={tab.name}
-                  to={tab.link}>
+                  to={tab.link}
+                  exact
+                  activeClassName='subtab-active-tab'>
                   <li
-                    className={this.state.activeTab === tab.name ? this.props.activeClassName : null}
+                    // className={this.state.activeTab === tab.name ? this.props.activeClassName : null}
                     onClick={() => { this.handleTabChange(tab.name) }}>
                     {tab.name}
                   </li>
-                </Link>
+                </NavLink>
               )
             })
           }
