@@ -9,6 +9,13 @@
   --secondary-olive: rgb(124, 134, 115);
   --secondary-green: rgb(74, 93, 77);
   --secondary-tan: rgb(171, 144, 118);
+
+  --shadow-z-0: none;
+  --shadow-z-1: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+  --shadow-z-2: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3);
+  --shadow-z-3: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.3);
+  --shadow-z-4: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.3);
+  --shadow-z-5: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
 }
 
 body {
@@ -38,7 +45,6 @@ a:visited {
 }
 
 .container {
-  margin-top: 40px; 
   width: 85%; 
   margin: 0 auto;
 }

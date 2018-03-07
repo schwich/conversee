@@ -34,6 +34,7 @@ class App extends React.Component {
           <TopNavBar />
           <Switch>
             <Route exact path='/' component={Main} />
+            
             <Route path='/posts/create' component={CreatePost} />
             <Route path='/login' component={Login} />
             <Route path='/account/:userId' component={Account} />
@@ -41,6 +42,8 @@ class App extends React.Component {
             <Route path='/register' component={Register} />
             <Route path='/posts/:postId/comments' component={Comments} />
             <Route path="/posts/:postId" component={Post} />
+
+            <Route exact path='/:postSortType' component={Main} />
           </Switch>
         </div>
       </Router>

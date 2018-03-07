@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SubTab from '../general/SubTab';
-import { getUserSavedPosts, getUserHiddenPosts } from '../../api/account-api';
+import { getUserSavedPosts, getUserHiddenPosts } from '../../api/users-api';
 import { getUserPosts } from '../../api/users-api';
 import Content from '../content/Content';
 
@@ -101,8 +101,8 @@ class Account extends React.Component {
 
     return (
       <div className='user-account-container'>
-        <h2>{username}</h2>
-        <p>This will eventually have all of your account details.</p>
+        <h2 className='username'>{username}</h2>
+
         <SubTab
           defaultTab={accountTabNames.OVERVIEW}
           onTabChange={this.onTabChange}

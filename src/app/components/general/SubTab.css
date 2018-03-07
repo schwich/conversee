@@ -1,20 +1,26 @@
-.subtab-container {
-
-}
-
 .subtab-bar {
   display: flex;
-  border-bottom: 5px solid var(--secondary-teal);
+  box-shadow: var(--shadow-z-3);
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-bottom: 25px;
+}
+
+.subtab-bar a {
+  flex-grow: 1;
+  text-align: center;
+  border-bottom: 3px solid transparent;
 }
 
 .subtab-container li {
   font-size: 20px;
-  font-weight: lighter;
   cursor: pointer;
   padding: 5px 10px 5px 10px;
 }
 
-.subtab-active-tab {
-  background-color: var(--secondary-teal);
-  color: white;
+.subtab-bar .subtab-active-tab {
+  border-bottom: 3px solid var(--secondary-teal);
+  transition: color .4s ease;
+  transition: border-bottom .4s ease;
+  color: var(--secondary-teal);
 }

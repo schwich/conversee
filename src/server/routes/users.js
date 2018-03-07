@@ -50,17 +50,23 @@ router.get('/:userId/votes', passport.authenticate('jwt', { session: false }), a
 })
 
 router.get('/:userId/hiddenPosts', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  // NOTE req.user contains JWT payload after passport.authenticate middleware runs
   try {
     const data = await db.any(`
-      SELECT 
-        post_id
-      FROM 
-        "user-hidden-posts" 
-      WHERE 
-        user_id = $1`, [req.params.userId]);
+    SELECT
+      posts.*
+    FROM
+      posts
+    INNER JOIN 
+      "user-hidden-posts" AS uhp
+    ON
+      uhp.user_id = $1
+    AND
+      uhp.post_id = posts.id
+    `, [req.user.id]);
 
     res.json(data);
-  } 
+  }
   catch (err) {
     console.log(err);
   }
@@ -69,18 +75,22 @@ router.get('/:userId/hiddenPosts', passport.authenticate('jwt', { session: false
 router.get('/:userId/savedPosts', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const data = await db.any(`
-      SELECT 
-        post_id
-      FROM 
-        "user-saved-posts" 
-      WHERE 
-        user_id = $1`, [req.params.userId])
-
+    SELECT
+      posts.*
+    FROM
+      posts
+    INNER JOIN 
+      "user-saved-posts" AS usp
+    ON
+      usp.user_id = $1
+    AND
+      usp.post_id = posts.id
+    `, [req.user.id]);
     res.json(data);
   } 
   catch (err) {
     console.log(err);
-  }
+  } 
 })
 
 module.exports = router;
