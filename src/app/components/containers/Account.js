@@ -101,8 +101,8 @@ class Account extends React.Component {
 
     return (
       <div className='user-account-container'>
-        <h2>{username}</h2>
-        <p>This will eventually have all of your account details.</p>
+        <h2 className='username'>{username}</h2>
+
         <SubTab
           defaultTab={accountTabNames.OVERVIEW}
           onTabChange={this.onTabChange}

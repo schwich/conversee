@@ -12,7 +12,7 @@ class TopNavBar extends Component {
     return (
       <div className='top-bar-nav'>
         <NavLink
-          to='/top'
+          to='/'
           exact
           activeClassName='top-bar-active-tab'>
           <FontAwesomeIcon icon='magic' /><span style={{ fontWeight: '300', fontWeight: '400', letterSpacing: '0.2rem', marginLeft: '15px' }}>Converseer</span>
