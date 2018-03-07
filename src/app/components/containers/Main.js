@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Content from '../content/Content';
 import SubTab from '../general/SubTab';
+import Pagination from '../general/Pagination';
 import { getAllPosts } from '../../api/posts-api';
 import { getUserVotes, getUserHiddenPosts, getUserSavedPosts } from '../../api/users-api';
 import { postsLoaded, userVotesLoaded, userHiddenPostsLoaded, userSavedPostsLoaded } from '../../redux/actions';
+import queryString from 'query-string';
 
 import './Main.css';
 
@@ -24,6 +26,15 @@ class Main extends Component {
 
   constructor(props) {
     super(props);
+
+    let state = {};
+
+    const queryParams = queryString.parse(props.location.search)
+    if (queryParams.page != undefined) {
+      state.pageNum = Number(queryParams.page)
+    }
+
+    this.state = state;
 
     this.handleTabChange = this.handleTabChange.bind(this);
   }
@@ -53,16 +64,25 @@ class Main extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const queryParams = queryString.parse(nextProps.location.search)
+    if (queryParams.page != undefined) {
+      this.setState({
+        pageNum: Number(queryParams.page)
+      })
+    }
+  }
+
   render() {
 
     let { match } = this.props;
 
     let tabs = [
       { name: mainTabNames.TOP, link: `/`},
-      { name: mainTabNames.BEST, link: `/best`},
-      { name: mainTabNames.TRENDING, link: `/trending`},
+      // { name: mainTabNames.BEST, link: `/best`},
+      // { name: mainTabNames.TRENDING, link: `/trending`},
       { name: mainTabNames.NEW, link: `/new`},
-      { name: mainTabNames.CONTROVERSIAL, link: `/controversial`}
+      // { name: mainTabNames.CONTROVERSIAL, link: `/controversial`}
     ];
 
     return (
@@ -92,6 +112,8 @@ class Main extends Component {
               <div>Loading...</div>
           }
         </div>
+
+        <Pagination pageNum={this.state.pageNum} />
       </div>
     );
   }

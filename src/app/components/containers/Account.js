@@ -85,14 +85,14 @@ class Account extends React.Component {
     let tabs = [
       { name: accountTabNames.OVERVIEW, link: `${match.url}` },
       { name: accountTabNames.USER_POSTS, link: `${match.url}/posts` },
-      { name: accountTabNames.USER_COMMENTS, link: `${match.url}/comments` }
+      // { name: accountTabNames.USER_COMMENTS, link: `${match.url}/comments` }
     ]
 
     if (this.props.uid == this.props.match.params.userId) {
       tabs = [
         ...tabs,
         { name: accountTabNames.SAVED_POSTS, link: `${match.url}/posts/saved` },
-        { name: accountTabNames.SAVED_COMMENTS, link: `${match.url}/comments/saved` },
+        // { name: accountTabNames.SAVED_COMMENTS, link: `${match.url}/comments/saved` },
         { name: accountTabNames.UPVOTED, link: `${match.url}/upvoted` },
         { name: accountTabNames.DOWNVOTED, link: `${match.url}/downvoted` },
         { name: accountTabNames.HIDDEN, link: `${match.url}/posts/hidden` }
