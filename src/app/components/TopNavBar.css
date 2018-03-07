@@ -21,9 +21,11 @@
 }
 .top-bar-nav a:hover {
   border-bottom: 5px solid var(--primary-brown);
+  transition: border-bottom .4s ease-out;
   cursor: pointer;
 }
 
 .top-bar-nav .top-bar-active-tab {
   background-color: var(--secondary-cobalt);
+  transition: background-color .3s ease;
 }

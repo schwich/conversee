@@ -9,7 +9,7 @@ export default class SubTab extends React.Component {
 
   static propTypes = {
     defaultTab: PropTypes.string.isRequired,
-    onTabChange: PropTypes.func.isRequired,
+    onTabChange: PropTypes.func.isRequired, // function is called when tab is switched, name of tab is passed back
     tabs: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
       link: PropTypes.string.isRequired
@@ -52,9 +52,8 @@ export default class SubTab extends React.Component {
                   key={tab.name}
                   to={tab.link}
                   exact
-                  activeClassName='subtab-active-tab'>
+                  activeClassName={this.props.activeClassName}>
                   <li
-                    // className={this.state.activeTab === tab.name ? this.props.activeClassName : null}
                     onClick={() => { this.handleTabChange(tab.name) }}>
                     {tab.name}
                   </li>
