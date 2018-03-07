@@ -4,18 +4,39 @@ import { withRouter, NavLink } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import Logout from './Logout';
 
+import { mainTabNames } from './containers/Main'; 
+
 import './TopNavBar.css';
 
+
 class TopNavBar extends Component {
+
+  isTabActive = (match, location) => {
+    const pathname = location.pathname.slice(1);
+    switch (pathname) {
+      case '':
+      case 'top':
+      case 'best':
+      case 'trending':
+      case 'new':
+      case 'controversial':
+        return true;
+      break;
+
+      default:
+        return false;
+    }
+  }
 
   render() {
     return (
       <div className='top-bar-nav'>
         <NavLink
           to='/'
+          isActive={this.isTabActive}
           exact
           activeClassName='top-bar-active-tab'>
-          <FontAwesomeIcon icon='magic' /><span style={{ fontWeight: '300', fontWeight: '400', letterSpacing: '0.2rem', marginLeft: '15px' }}>Converseer</span>
+          <FontAwesomeIcon icon='magic' /><span style={{ fontWeight: '400', letterSpacing: '0.2rem', marginLeft: '15px' }}>Converseer</span>
         </NavLink>
         <NavLink
           to='/posts/create'
