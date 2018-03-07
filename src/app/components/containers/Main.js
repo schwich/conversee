@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Content from '../content/Content';
+import SubTab from '../general/SubTab';
 import { getAllPosts } from '../../api/posts-api';
 import { getUserVotes, getUserHiddenPosts, getUserSavedPosts } from '../../api/users-api';
 import { postsLoaded, userVotesLoaded, userHiddenPostsLoaded, userSavedPostsLoaded } from '../../redux/actions';
 
 import './Main.css';
 
+export const mainTabNames = {
+  TOP: 'Top',
+  BEST: 'Best',
+  TRENDING: 'Trending',
+  NEW: 'New',
+  CONTROVERSIAL: 'Controversial'
+};
+
 class Main extends Component {
 
   state = {
-    posts: null,
-    activeTab: 'top'
+    posts: null
   };
 
   constructor(props) {
@@ -21,10 +29,7 @@ class Main extends Component {
   }
 
   async handleTabChange(tabName) {
-    this.setState({
-      activeTab: tabName
-    })
-    const posts = await getAllPosts(tabName);
+    const posts = await getAllPosts(tabName.toLowerCase());
     this.props.dispatch(postsLoaded(posts))
   };
 
@@ -50,37 +55,22 @@ class Main extends Component {
 
   render() {
 
+    let { match } = this.props;
+
+    let tabs = [
+      { name: mainTabNames.TOP, link: `/`},
+      { name: mainTabNames.BEST, link: `/best`},
+      { name: mainTabNames.TRENDING, link: `/trending`},
+      { name: mainTabNames.NEW, link: `/new`},
+      { name: mainTabNames.CONTROVERSIAL, link: `/controversial`}
+    ];
+
     return (
       <div className='main-container'>
-        <div className='main-container-posts-order-tab-bar'>
-          <ul>
-            <li
-              className={this.state.activeTab === 'top' ? 'active-posts-order-tab' : ''}
-              onClick={() => { this.handleTabChange('top') }}>
-              Top
-            </li>
-            <li
-              className={this.state.activeTab === 'best' ? 'active-posts-order-tab' : ''}
-              onClick={() => { this.handleTabChange('best') }}>
-              Best
-            </li>
-            <li
-              className={this.state.activeTab === 'trending' ? 'active-posts-order-tab' : ''}
-              onClick={() => { this.handleTabChange('trending') }}>
-              Trending
-            </li>
-            <li
-              className={this.state.activeTab === 'new' ? 'active-posts-order-tab' : ''}
-              onClick={() => { this.handleTabChange('new') }}>
-              New
-            </li>
-            <li
-              className={this.state.activeTab === 'controversial' ? 'active-posts-order-tab' : ''}
-              onClick={() => { this.handleTabChange('controversial') }}>
-              Controversial
-            </li>
-          </ul>
-        </div>
+        <SubTab 
+          defaultTab={mainTabNames.TOP}
+          onTabChange={this.handleTabChange}
+          tabs={tabs}/>
         <div className='main-container-posts-container'>
           {
             this.props.posts.posts !== null
