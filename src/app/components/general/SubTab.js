@@ -40,28 +40,26 @@ export default class SubTab extends React.Component {
   }
 
   render() {
-    let { defaultTab } = this.props;
-
     return (
       <div className='subtab-container'>
-        <ul className='subtab-bar'>
+        <nav className='subtab-bar'>
           {
             this.props.tabs.map(tab => {
               return (
                 <NavLink
                   key={tab.name}
                   to={tab.link}
-                  exact
+                  exact={tab.exactPath}
                   activeClassName={this.props.activeClassName}>
-                  <li
+                  <div
                     onClick={() => { this.handleTabChange(tab.name) }}>
                     {tab.name}
-                  </li>
+                  </div>
                 </NavLink>
               )
             })
           }
-        </ul>
+        </nav>
       </div>
     )
   }

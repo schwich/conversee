@@ -17,7 +17,7 @@ class CreatePost extends Component {
     super(props);
 
     let state = {};
-    if (props.match.url = '/posts/create/text') {
+    if (props.location.pathname == '/posts/create/text') {
       state.isText = true;
     }
     else {
@@ -55,8 +55,8 @@ class CreatePost extends Component {
     let { match, username } = this.props;
 
     let tabs = [
-      { name: createPostTabNames.LINK, link: '/posts/create'},
-      { name: createPostTabNames.TEXT, link: `/posts/create/text`}
+      { name: createPostTabNames.LINK, link: '/posts/create', exactPath: true },
+      { name: createPostTabNames.TEXT, link: `/posts/create/text` }
     ];
 
     let inputFields;

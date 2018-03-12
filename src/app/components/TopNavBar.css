@@ -5,7 +5,7 @@
   height: 65px;
   line-height: 48px;
   text-align: center;
-  box-shadow: var(--shadow-z-1);
+  box-shadow: var(--shadow-z-2);
 }
 .top-bar-nav-right-block {
   display: flex;

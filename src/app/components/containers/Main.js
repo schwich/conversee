@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Content from '../content/Content';
 import SubTab from '../general/SubTab';
-import { getAllPosts } from '../../api/posts-api';
+import Pagination from '../general/Pagination';
+import { getAllPosts, getMorePosts } from '../../api/posts-api';
 import { getUserVotes, getUserHiddenPosts, getUserSavedPosts } from '../../api/users-api';
-import { postsLoaded, userVotesLoaded, userHiddenPostsLoaded, userSavedPostsLoaded } from '../../redux/actions';
+import { postsLoaded, morePosts, userVotesLoaded, userHiddenPostsLoaded, userSavedPostsLoaded } from '../../redux/actions';
+import queryString from 'query-string';
 
 import './Main.css';
 
@@ -26,17 +28,52 @@ class Main extends Component {
     super(props);
 
     this.handleTabChange = this.handleTabChange.bind(this);
+    this.handleNextPrevPosts = this.handleNextPrevPosts.bind(this);
   }
 
   async handleTabChange(tabName) {
-    const posts = await getAllPosts(tabName.toLowerCase());
-    this.props.dispatch(postsLoaded(posts))
+    const pageNum = 1;
+    const sortType = tabName.toLowerCase();
+
+    const posts = await getMorePosts(sortType, pageNum);
+    this.props.dispatch(morePosts(posts, pageNum, sortType));
   };
 
+  async handleNextPrevPosts(nextOrPrev, sortType, pageNum) {
+
+    let page;
+    if (nextOrPrev == 'next') {
+      page = pageNum + 1;
+    }
+    else {
+      page = pageNum - 1;
+    }
+
+    const posts = await getMorePosts(sortType, page);
+    this.props.dispatch(morePosts(posts, page, sortType));
+    this.props.history.push(`/${sortType}/page/${page}`);
+  }
+
   async componentDidMount() {
-    // get posts
-    const posts = await getAllPosts(this.state.activeTab);
-    this.props.dispatch(postsLoaded(posts));
+
+    let posts;
+    let page = 1;
+    let sortType = mainTabNames.TOP.toLowerCase();
+    if (this.props.match.params.postSortType) {
+
+      sortType = this.props.match.params.postSortType;
+
+      if (this.props.match.params.pageNum) {
+        page = this.props.match.params.pageNum;
+      }
+
+      posts = await getMorePosts(sortType, page);
+    }
+    else {
+      posts = await getMorePosts(sortType, page)
+    }
+
+    this.props.dispatch(morePosts(posts, page, sortType));
 
     // get the logged in user's votes on the posts (if any)
     if (this.props.userIsAuthed) {
@@ -58,19 +95,20 @@ class Main extends Component {
     let { match } = this.props;
 
     let tabs = [
-      { name: mainTabNames.TOP, link: `/`},
-      { name: mainTabNames.BEST, link: `/best`},
-      { name: mainTabNames.TRENDING, link: `/trending`},
-      { name: mainTabNames.NEW, link: `/new`},
-      { name: mainTabNames.CONTROVERSIAL, link: `/controversial`}
+      { name: mainTabNames.TOP, link: `/top` },
+      { name: mainTabNames.BEST, link: `/best` },
+      { name: mainTabNames.TRENDING, link: `/trending` },
+      { name: mainTabNames.NEW, link: `/new` },
+      { name: mainTabNames.CONTROVERSIAL, link: `/controversial` }
     ];
 
     return (
       <div className='main-container'>
-        <SubTab 
+        <SubTab
           defaultTab={mainTabNames.TOP}
+          activeTab={this.props.postSortType}
           onTabChange={this.handleTabChange}
-          tabs={tabs}/>
+          tabs={tabs} />
         <div className='main-container-posts-container'>
           {
             this.props.posts.posts !== null
@@ -92,6 +130,8 @@ class Main extends Component {
               <div>Loading...</div>
           }
         </div>
+
+        <Pagination onMore={this.handleNextPrevPosts} />
       </div>
     );
   }
@@ -100,6 +140,8 @@ class Main extends Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts,
+    postSortType: state.posts.sortType,
+    postPageNum: state.posts.pageNum,
     userIsAuthed: state.user.authed,
     userId: state.user.uid
   }

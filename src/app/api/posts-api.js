@@ -10,6 +10,17 @@ export async function getAllPosts(activeTab) {
   }
 }
 
+export async function getMorePosts(sortType, pageNum) {
+  try {
+
+    const results = await fetch(`${config.BACKEND_API}/posts/${sortType}/page/${pageNum}`)
+    return results.json();
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
+
 export async function submitPost(post) {
   try {
     const response = await fetch(`${config.BACKEND_API}/posts`, {

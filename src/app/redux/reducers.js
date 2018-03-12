@@ -1,7 +1,9 @@
 import { actionTypes } from './actions';
 
 const initialPostsState = {
-  posts: null
+  posts: null,
+  pageNum: 1,
+  sortType: 'top'
 };
 
 export function posts(state = initialPostsState, action) {
@@ -10,6 +12,14 @@ export function posts(state = initialPostsState, action) {
       return {
         ...state,
         posts: action.posts
+      }
+
+    case actionTypes.posts.MORE_POSTS:
+      return {
+        ... state,
+        posts: action.posts,
+        pageNum: action.pageNum,
+        sortType: action.sortType
       }
 
     case actionTypes.posts.POST_VALIDATION_ERROR:
