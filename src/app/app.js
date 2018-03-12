@@ -1,7 +1,7 @@
 import React from 'react';
 import TopNavBar from './components/TopNavBar';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Main from './components/containers/Main';
 import CreatePost from './components/CreatePost';
 import Login from './components/Login';
@@ -33,7 +33,7 @@ class App extends React.Component {
         <div className='container'>
           <TopNavBar />
           <Switch>
-            <Route exact path='/' component={Main} />
+            <Route exact path='/' render={() => (<Redirect to={{pathname: '/top'}}/>)} />
             
             <Route path='/posts/create' component={CreatePost} />
             <Route path='/login' component={Login} />
@@ -44,6 +44,7 @@ class App extends React.Component {
             <Route path="/posts/:postId" component={Post} />
 
             <Route exact path='/:postSortType' component={Main} />
+            <Route exact path='/:postSortType/page/:pageNum' component={Main} />
           </Switch>
         </div>
       </Router>

@@ -83,9 +83,9 @@ class Account extends React.Component {
     let { match, username } = this.props;
 
     let tabs = [
-      { name: accountTabNames.OVERVIEW, link: `${match.url}` },
-      { name: accountTabNames.USER_POSTS, link: `${match.url}/posts` },
-      { name: accountTabNames.USER_COMMENTS, link: `${match.url}/comments` }
+      { name: accountTabNames.OVERVIEW, link: `${match.url}`, exactPath: true },
+      { name: accountTabNames.USER_POSTS, link: `${match.url}/posts`, exactPath: true },
+      { name: accountTabNames.USER_COMMENTS, link: `${match.url}/comments`, exactPath: true }
     ]
 
     if (this.props.uid == this.props.match.params.userId) {

@@ -5,6 +5,47 @@ const db = require('../db');
 const mongo = require('../mongo');
 const postSorting = require('../algo/post-sorting');
 
+router.get('/:sortType/page/:pageNum', async (req, res) => {
+  let sort;
+  switch (req.params.sortType) {
+    case 'new':
+      sort = 'posts.created DESC'
+      break;
+    default:
+      sort = 'num_points DESC';
+  }
+
+  let offset  = (Number(req.params.pageNum) - 1) * 25;
+
+  console.log('offset: ', offset);
+
+  try {
+    const data = await db.any(`
+    SELECT 
+        posts.id, posts.title, posts.link, posts.content, posts.created, posts.type, 
+          (SELECT COALESCE(SUM(uv.vote), 0) FROM "user-votes" as uv WHERE uv.post_id=posts.id) as num_points, 
+          (SELECT u.username FROM users as u WHERE u.id = posts.owner) as owner, 
+          ARRAY (
+            SELECT tags.name FROM tags INNER JOIN "post-tags" ON "post-tags".tag_id = tags.id 
+            WHERE "post-tags".post_id = posts.id
+          ) as tags 
+    FROM 
+      posts 
+    ORDER BY 
+      $1:value
+    LIMIT
+      25
+    OFFSET 
+      $2
+    `, [sort, offset])
+
+    res.json(data);
+  }
+  catch (err) {
+    console.log(err);
+  }
+})
+
 router.get('/:sortType', async (req, res) => {
 
   let sort;
@@ -30,7 +71,9 @@ router.get('/:sortType', async (req, res) => {
       ORDER BY 
         $1:value
       LIMIT
-        50`, [sort]);
+        25
+
+        `, [sort]);
     res.json(data);
   }
   catch (err) {
@@ -52,7 +95,8 @@ router.get('/', async (req, res) => {
           FROM 
             posts 
           ORDER BY 
-            num_points DESC`
+            num_points DESC
+	  LIMIT 25`
     );
     res.json(data);
 

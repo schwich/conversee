@@ -9,7 +9,8 @@ export default class Button extends React.Component {
   static propTypes = {
     onClickHandler: PropTypes.func,
     type: PropTypes.string,
-    showLoading: PropTypes.bool
+    showLoading: PropTypes.bool, 
+    styles: PropTypes.object
   }
 
   static defaultProps = {
@@ -20,7 +21,7 @@ export default class Button extends React.Component {
     return (
       <button
         className={`btn ${this.props.className}`}
-        style={{ position: 'relative' }}
+        style={{ position: 'relative', ...this.props.styles }}
         type={this.props.buttonType}
         onClick={this.props.onClickHandler}>
         <Ink />

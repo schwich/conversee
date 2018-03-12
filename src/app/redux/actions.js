@@ -1,6 +1,7 @@
 export const actionTypes = {
   posts: {
     POSTS_LOADED: 'POSTS_LOADED',
+    MORE_POSTS: 'MORE_POSTS',
     POST_VALIDATION_ERROR: 'POST_VALIDATION_ERROR'
   },
   user: {
@@ -29,6 +30,15 @@ export function postsLoaded(posts) {
   return {
     type: actionTypes.posts.POSTS_LOADED,
     posts
+  }
+}
+
+export function morePosts(posts, pageNum, sortType) {
+  return {
+    type: actionTypes.posts.MORE_POSTS,
+    posts,
+    pageNum,
+    sortType
   }
 }
 

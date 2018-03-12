@@ -38,6 +38,7 @@
     "passport-jwt": "^3.0.1",
     "pg": "^7.4.1",
     "pg-promise": "^7.4.1",
+    "query-string": "^5.1.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-ink": "^6.2.0",
