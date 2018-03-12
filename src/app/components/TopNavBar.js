@@ -4,7 +4,7 @@ import { withRouter, NavLink } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import Logout from './Logout';
 
-import { mainTabNames } from './containers/Main'; 
+import { mainTabNames } from './containers/Main';
 
 import './TopNavBar.css';
 
@@ -21,7 +21,7 @@ class TopNavBar extends Component {
       case 'new':
       case 'controversial':
         return true;
-      break;
+        break;
 
       default:
         return false;

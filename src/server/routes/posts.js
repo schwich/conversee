@@ -30,7 +30,10 @@ router.get('/:sortType', async (req, res) => {
       ORDER BY 
         $1:value
       LIMIT
-        50`, [sort]);
+        25
+      OFFSET
+        $2
+        `, [sort, (req.query.page - 1) * 25]);
     res.json(data);
   }
   catch (err) {
@@ -52,7 +55,8 @@ router.get('/', async (req, res) => {
           FROM 
             posts 
           ORDER BY 
-            num_points DESC`
+            num_points DESC
+	  LIMIT 25`
     );
     res.json(data);
 
