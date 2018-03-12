@@ -44,6 +44,7 @@ class App extends React.Component {
             <Route path="/posts/:postId" component={Post} />
 
             <Route exact path='/:postSortType' component={Main} />
+            <Route exact path='/:postSortType/page/:pageNum' component={Main} />
           </Switch>
         </div>
       </Router>

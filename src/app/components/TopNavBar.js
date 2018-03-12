@@ -12,19 +12,17 @@ import './TopNavBar.css';
 class TopNavBar extends Component {
 
   isTabActive = (match, location) => {
-    const pathname = location.pathname.slice(1);
-    switch (pathname) {
-      case '':
-      case 'top':
-      case 'best':
-      case 'trending':
-      case 'new':
-      case 'controversial':
-        return true;
+    const pathname = location.pathname.split('/');
+    switch (pathname[1]) {
+      case 'posts':
+      case 'login':
+      case 'register':
+      case 'account':
+        return false;
         break;
 
       default:
-        return false;
+        return true;
     }
   }
 

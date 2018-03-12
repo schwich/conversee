@@ -40,8 +40,6 @@ export default class SubTab extends React.Component {
   }
 
   render() {
-    let { defaultTab } = this.props;
-
     return (
       <div className='subtab-container'>
         <nav className='subtab-bar'>

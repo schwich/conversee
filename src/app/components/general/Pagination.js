@@ -3,53 +3,50 @@ import PropTypes from 'prop-types';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import Button from './Button';
 
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import './Pagination.css';
 
-export default class Pagination extends React.Component {
+class Pagination extends React.Component {
 
   static propTypes = {
-    pageNum: PropTypes.number.isRequired
+    onMore: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      pageNum: props.pageNum
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      pageNum: nextProps.pageNum
-    })
+  handleOnMore = (prevOrNext) => {
+    
+    this.props.onMore(prevOrNext, this.props.sortType, this.props.pageNum);
   }
 
   render() {
-    let num = this.props.pageNum;
-    let showPrev = this.props.showPrev;
-    if (this.props.pageNum === 1) {
+
+    let showPrev = true;
+    if (this.props.pageNum == 1) {
       showPrev = false;
-    }
-    else {
-      showPrev = true;
     }
 
     return (
       <div className='pagination'>
       {
-        showPrev === true 
+       showPrev === true 
         &&
-        <Link to={`?page=${this.state.pageNum - 1}`}>
-          <Button><FontAwesomeIcon icon='angle-left' /> Prev</Button>
-        </Link>
+
+          <Button onClickHandler={() => {this.handleOnMore('prev')}}><FontAwesomeIcon icon='angle-left' /> Prev</Button>
+
       }
-        <Link to={`?page=${this.state.pageNum + 1}`}>
-          <Button>Next <FontAwesomeIcon icon='angle-right' /></Button>
-        </Link>
+          <Button onClickHandler={() => {this.handleOnMore('next')}}>Next <FontAwesomeIcon icon='angle-right' /></Button>
+
       </div>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    pageNum: state.posts.pageNum,
+    sortType: state.posts.sortType
+  }
+}
+
+export default connect(mapStateToProps)(Pagination);
