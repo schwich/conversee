@@ -30,7 +30,7 @@ class TopNavBar extends Component {
     return (
       <div className='top-bar-nav'>
         <NavLink
-          to='/'
+          to='/top'
           isActive={this.isTabActive}
           exact
           activeClassName='top-bar-active-tab'>

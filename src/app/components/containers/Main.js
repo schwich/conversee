@@ -48,7 +48,7 @@ class Main extends Component {
     else {
       page = pageNum - 1;
     }
-  
+
     const posts = await getMorePosts(sortType, page);
     this.props.dispatch(morePosts(posts, page, sortType));
     this.props.history.push(`/${sortType}/page/${page}`);
@@ -95,20 +95,20 @@ class Main extends Component {
     let { match } = this.props;
 
     let tabs = [
-      { name: mainTabNames.TOP, link: `/`},
-      { name: mainTabNames.BEST, link: `/best`},
-      { name: mainTabNames.TRENDING, link: `/trending`},
-      { name: mainTabNames.NEW, link: `/new`},
-      { name: mainTabNames.CONTROVERSIAL, link: `/controversial`}
+      { name: mainTabNames.TOP, link: `/top` },
+      { name: mainTabNames.BEST, link: `/best` },
+      { name: mainTabNames.TRENDING, link: `/trending` },
+      { name: mainTabNames.NEW, link: `/new` },
+      { name: mainTabNames.CONTROVERSIAL, link: `/controversial` }
     ];
 
     return (
       <div className='main-container'>
-        <SubTab 
+        <SubTab
           defaultTab={mainTabNames.TOP}
           activeTab={this.props.postSortType}
           onTabChange={this.handleTabChange}
-          tabs={tabs}/>
+          tabs={tabs} />
         <div className='main-container-posts-container'>
           {
             this.props.posts.posts !== null

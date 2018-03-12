@@ -49,7 +49,7 @@ export default class SubTab extends React.Component {
                 <NavLink
                   key={tab.name}
                   to={tab.link}
-                  exact
+                  exact={tab.exactPath}
                   activeClassName={this.props.activeClassName}>
                   <div
                     onClick={() => { this.handleTabChange(tab.name) }}>
