@@ -15,7 +15,7 @@ router.get('/:sortType/page/:pageNum', async (req, res) => {
       sort = 'num_points DESC';
   }
 
-  let offset  = (Number(req.params.pageNum) - 1) * 25;
+  let offset = (Number(req.params.pageNum) - 1) * 25;
 
   console.log('offset: ', offset);
 
@@ -113,7 +113,7 @@ router.post('/vote', passport.authenticate('jwt', { session: false }), async (re
   }
 
   let voteValue;
-  if (voteValue === 'up') {
+  if (req.body.voteValue === 'up') {
     voteValue = 1;
   }
   else {
