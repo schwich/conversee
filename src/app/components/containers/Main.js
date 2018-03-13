@@ -77,8 +77,7 @@ class Main extends Component {
 
     // get the logged in user's votes on the posts (if any)
     if (this.props.userIsAuthed) {
-      // todo do these run in parallel and if not how do I make them do so?
-      // not use async / await ?
+
       const userVotes = await getUserVotes(this.props.userId);
       this.props.dispatch(userVotesLoaded(userVotes));
 

@@ -9,13 +9,34 @@ import { userVoted, userUnVoted } from '../../redux/actions';
 
 class VotePanel extends React.Component {
 
-  state = {
-    votedUp: false,
-    votedDown: false
-  }
-
   constructor(props) {
     super(props);
+
+    let state = {};
+    if (props.userVotes !== null) {
+      if (props.userVotes[props.postId] != null) {
+        if (props.userVotes[props.postId] === 'up') {
+          state = {
+            votedUp: true,
+            votedDown: false
+          }
+        }
+        else if (props.userVotes[props.postId] === 'down') {
+          state = {
+            votedUp: false,
+            votedDown: true
+          }
+        }
+        else {
+          state = {
+            votedUp: false,
+            votedDown: false
+          }
+        }
+      }
+    }
+
+    this.state = state;
 
     this.handleVote = this.handleVote.bind(this);
   }
@@ -25,6 +46,7 @@ class VotePanel extends React.Component {
     if (nextProps.userVotes !== null) {
       if (nextProps.userVotes[nextProps.postId] != null) {
         if (nextProps.userVotes[nextProps.postId] === 'up') {
+
           this.setState({
             votedUp: true,
             votedDown: false

@@ -16,9 +16,23 @@ class Content extends Component {
   constructor(props) {
     super(props);
 
+    let state = {};
+    if (props.userHiddenPosts !== null) {
+      if (props.userHiddenPosts[props.id] != undefined) {
+        state = {
+          isPostHidden: true
+        }
+      }
+      else {
+        state = {
+          isPostHidden: false
+        }
+      }
+    }
+
     this.state = {
+      ...state,
       isTextPost: props.type === 'text' ? true : false,
-      isPostHidden: false,
       isTextPostExpanded: false
     }
 
@@ -42,7 +56,7 @@ class Content extends Component {
 
     // todo dispatch action to record that post is hidden
     this.props.dispatch(userHidPost(this.props.id))
-    await (hidePost(this.props.id));
+    await hidePost(this.props.id);
   }
 
   onExpandControlClick = () => {
