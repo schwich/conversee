@@ -63,8 +63,9 @@ export function user(state = initialUsersState, action) {
     case actionTypes.user.USER_HIDDEN_POSTS_LOADED:
       let hiddenPosts = {};
       action.userHiddenPosts.map((post) => {
-        hiddenPosts[post.post_id] = post.post_id;
-      })
+        hiddenPosts[post.id] = post.id;
+      });
+
       return {
         ...state,
         userHiddenPosts: hiddenPosts
@@ -73,7 +74,7 @@ export function user(state = initialUsersState, action) {
     case actionTypes.user.USER_SAVED_POSTS_LOADED:
       let savedPosts = {};
       action.userSavedPosts.map((post) => {
-        savedPosts[post.post_id] = post.post_id;
+        savedPosts[post.id] = post.id;
       })
       return {
         ...state,

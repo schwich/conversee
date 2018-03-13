@@ -79,13 +79,13 @@ class Main extends Component {
     if (this.props.userIsAuthed) {
       // todo do these run in parallel and if not how do I make them do so?
       // not use async / await ?
-      const userVotes = await (getUserVotes(this.props.userId));
+      const userVotes = await getUserVotes(this.props.userId);
       this.props.dispatch(userVotesLoaded(userVotes));
 
-      const userHiddenPosts = await (getUserHiddenPosts(this.props.userId));
+      const userHiddenPosts = await getUserHiddenPosts(this.props.userId);
       this.props.dispatch(userHiddenPostsLoaded(userHiddenPosts));
 
-      const userSavedPosts = await (getUserSavedPosts(this.props.userId));
+      const userSavedPosts = await getUserSavedPosts(this.props.userId);
       this.props.dispatch(userSavedPostsLoaded(userSavedPosts));
     }
   }
