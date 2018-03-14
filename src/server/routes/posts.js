@@ -17,8 +17,6 @@ router.get('/:sortType/page/:pageNum', async (req, res) => {
 
   let offset = (Number(req.params.pageNum) - 1) * 25;
 
-  console.log('offset: ', offset);
-
   try {
     const data = await db.any(`
     SELECT 
@@ -28,9 +26,14 @@ router.get('/:sortType/page/:pageNum', async (req, res) => {
           ARRAY (
             SELECT tags.name FROM tags INNER JOIN "post-tags" ON "post-tags".tag_id = tags.id 
             WHERE "post-tags".post_id = posts.id
-          ) as tags 
+          ) as tags ,
+        pcc.num_comments
     FROM 
       posts 
+    LEFT JOIN 
+      "post-comment-counts" pcc
+    ON
+      pcc.post_id = posts.id
     ORDER BY 
       $1:value
     LIMIT

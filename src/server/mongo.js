@@ -2,6 +2,10 @@ const config = require('../../config/config');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID
 
+const Agenda = require('agenda');
+
+const agenda = require('./jobs/Agenda');
+
 let db;
 module.exports = {
   connect: function () {
@@ -9,7 +13,12 @@ module.exports = {
       if (err) { console.log(err); }
       console.log('Succesfully connected to Mongo server');
 
+      // const agenda = new Agenda().mongo(db);
+     
+
       db = client.db(config.MONGO_DB_NAME);
+
+      agenda.init(db);
     })
   },
 

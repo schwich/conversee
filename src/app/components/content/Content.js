@@ -85,7 +85,8 @@ class Content extends Component {
       userVoted,
       type,
       link,
-      content
+      content,
+      numComments
     } = this.props;
 
     return (
@@ -117,7 +118,7 @@ class Content extends Component {
                 owner={owner}
                 subreddit={randomsubReddit()} />
               <ControlPanel
-                numComments={randomNum()}
+                numComments={numComments}
                 onHide={this.onHidePost}
                 postId={id} />
             </div>

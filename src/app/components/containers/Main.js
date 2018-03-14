@@ -123,7 +123,8 @@ class Main extends Component {
                   timestamp={post.created}
                   tags={post.tags}
                   owner={post.owner}
-                  content={post.content} />
+                  content={post.content}
+                  numComments={post.num_comments} />
               })
               :
               <div>Loading...</div>
