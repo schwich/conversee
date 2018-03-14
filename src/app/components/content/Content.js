@@ -13,6 +13,10 @@ import './Content.css';
 
 class Content extends Component {
 
+  static defaultProps = {
+    showAnyway: false
+  }
+
   constructor(props) {
     super(props);
 
@@ -67,7 +71,7 @@ class Content extends Component {
 
   render() {
 
-    if (this.state.isPostHidden) {
+    if (this.state.isPostHidden && !this.props.showAnyway) {
       return null
     }
 

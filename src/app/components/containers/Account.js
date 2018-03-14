@@ -146,6 +146,7 @@ function ShowPosts(props) {
           ?
           props.content.map((post) => {
             return <Content
+              showAnyway={true}
               key={post.id}
               id={post.id}
               type={post.type}
