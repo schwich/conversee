@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { submitPost } from '../api/posts-api';
+import TagEditor from './TagEditor';
 import Button from './general/Button';
 import Form from './general/Form';
 import SubTab from './general/SubTab';
@@ -74,7 +75,7 @@ class CreatePost extends Component {
     }
 
     return (
-      <div>
+      <div className='create-post-container'>
         {
           this.props.error !== null
             ?
@@ -88,10 +89,15 @@ class CreatePost extends Component {
           defaultTab={createPostTabNames.LINK}
           onTabChange={this.handleTabSwitch}
           tabs={tabs} />
-        <div className='form-container'>
-          <Form
-            handleSubmit={this.handleSubmit}
-            inputFields={inputFields} />
+        <div className='create-post-main-container'>
+          <div className='form-parent-container'>
+            <Form
+              handleSubmit={this.handleSubmit}
+              inputFields={inputFields} />
+          </div>
+          <div className='tag-editor-parent-container'>
+            <TagEditor />
+          </div>
         </div>
       </div>
     )

@@ -7,7 +7,7 @@
 }
 
 .form-item-container {
-  max-width: 40%; /* todo media queries */
+  max-width: 100%; /* todo media queries */
   display: flex;
   flex-direction: column;
   margin: 20px 10px 20px 10px;

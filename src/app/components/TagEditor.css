@@ -1,0 +1,58 @@
+.tag-editor-container {
+  /* padding: 10px; */
+  display: flex;
+  flex-direction: column;
+}
+
+.tag-editor-input {
+  display: flex;
+  
+  flex-direction: column;
+  background-color: var(--secondary-cobalt);
+  
+  margin: 20px 10px 20px 10px;
+  padding: 10px;
+  width: 80%;
+}
+
+.tag-editor-input label {
+  font-weight: lighter;
+  font-size: 26px;
+  margin-bottom: 5px;
+}
+
+.tag-editor-suggestions {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  text-align: start;
+}
+
+.tag-suggestion {
+  background-color: var(--secondary-light-brown);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.chosen-tag {
+  background-color: var(--secondary-teal);
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin-right: 5px;
+}
+
+.chosen-tag span {
+  cursor: pointer;
+}
+.chosen-tag span:hover {
+  color: var(--primary-brown);
+}
+
+.tag-editor-chosen-tags-container {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
