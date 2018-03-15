@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import Input from './Input';
 import Button from './Button';
 
 import './Form.css';
@@ -56,14 +56,23 @@ export default class Form extends React.Component {
               <div
                 className='form-item-container'
                 key={inputElement.name}>
-                <label htmlFor={inputElement.name}>{inputElement.label}</label>
-                <input
-                  type={inputElement.type}
+                <Input
                   name={inputElement.name}
+                  labelText={inputElement.label}
+                  type={inputElement.type}
                   value={this.state[inputElement.name]}
                   onChange={this.handleChange}
                   required={inputElement.required}
                 />
+              </div>
+            )
+          })
+        }
+        {
+          React.Children.toArray(this.props.children).map(child => {
+            return (
+              <div className='form-item-container' key={child.key}>
+                {child}
               </div>
             )
           })

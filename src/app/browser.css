@@ -10,6 +10,9 @@
   --secondary-green: rgb(74, 93, 77);
   --secondary-tan: rgb(171, 144, 118);
 
+  --invalid: #dc3545;
+  --valid: #28a745;
+
   --shadow-z-0: none;
   --shadow-z-1: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
   --shadow-z-2: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3);

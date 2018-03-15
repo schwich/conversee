@@ -12,11 +12,4 @@
   flex-direction: column;
   margin: 20px 10px 20px 10px;
   padding: 10px;
-  background: var(--secondary-cobalt);
-}
-
-.form-item-container label {
-  font-size: 26px;
-  font-weight: lighter;
-  margin-bottom: 5px;
 }

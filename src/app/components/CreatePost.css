@@ -27,16 +27,3 @@
   background-color: var(--secondary-teal);
   color: white;
 }
-
-.form-item-container {
-  display: flex;
-  flex-direction: column;
-  margin: 20px 10px 20px 10px;
-  padding: 10px;
-  background: var(--secondary-cobalt);
-}
-
-.form-item-container label {
-  font-size: 28px;
-  font-weight: lighter;
-}

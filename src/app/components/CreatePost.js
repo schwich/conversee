@@ -49,6 +49,7 @@ class CreatePost extends Component {
       ...formValues,
       owner: this.props.owner,
       type: this.state.isText ? 'text' : 'link'
+      // todo tags
     });
   }
 
@@ -64,7 +65,7 @@ class CreatePost extends Component {
     if (this.state.isText === true) {
       inputFields = [
         { name: 'title', type: 'text', label: 'title' },
-        { name: 'content', type: 'text', label: 'text' }
+        { name: 'content', type: 'textarea', label: 'text' }
       ];
     }
     else {
@@ -93,10 +94,9 @@ class CreatePost extends Component {
           <div className='form-parent-container'>
             <Form
               handleSubmit={this.handleSubmit}
-              inputFields={inputFields} />
-          </div>
-          <div className='tag-editor-parent-container'>
-            <TagEditor />
+              inputFields={inputFields}>
+              <TagEditor />
+            </Form>
           </div>
         </div>
       </div>

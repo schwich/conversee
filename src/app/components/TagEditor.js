@@ -1,5 +1,7 @@
 import React from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import Input from './general/Input';
+import ListGroup from './general/ListGroup';
 import { tagSuggest } from '../api/tags-api';
 
 import './TagEditor.css';
@@ -60,6 +62,18 @@ export default class TagEditor extends React.Component {
   }
 
   render() {
+    
+    let suggestions = []
+    if (this.state.suggestions != null ) {
+      this.state.suggestions.map(suggestion => {
+        suggestions.push({
+          key: suggestion.id,
+          listText: suggestion.name,
+          onClick: () => this.chooseTag(suggestion.id, suggestion.name)
+        })
+      })
+    }
+
     return (
       <div className='tag-editor-container'>
         <div className='tag-editor-chosen-tags-container'>
@@ -80,27 +94,20 @@ export default class TagEditor extends React.Component {
           }
         </div>
         <div className='tag-editor-input'>
-          <label htmlFor='addTagInput'>tags</label>
-          <input
-            placeholder='add a tag...'
-            type='text'
+          <Input
+            noAutoComplete
             name='addTagInput'
-            value={this.state.addTagInput}
-            onChange={this.handleChange} />
+            type='text'
+            labelText='tags'
+            onChange={this.handleChange}
+            value={this.state.addTagInput} />
         </div>
 
         <div className='tag-editor-suggestions'>
           {
-            this.state.suggestions != null
+            suggestions != null
               ?
-              this.state.suggestions.map(suggestion => (
-                <div
-                  className='tag-suggestion'
-                  key={suggestion.id}
-                  onClick={() => this.chooseTag(suggestion.id, suggestion.name)}>
-                  {suggestion.name}
-                </div>
-              ))
+              <ListGroup list={suggestions} />
               :
               null
           }

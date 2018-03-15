@@ -4,22 +4,22 @@
   flex-direction: column;
 }
 
-.tag-editor-input {
+/* .tag-editor-input {
   display: flex;
   
   flex-direction: column;
-  background-color: var(--secondary-cobalt);
+  /* background-color: var(--secondary-cobalt); 
   
   margin: 20px 10px 20px 10px;
   padding: 10px;
   width: 80%;
-}
+} */
 
-.tag-editor-input label {
+/* .tag-editor-input label {
   font-weight: lighter;
   font-size: 26px;
   margin-bottom: 5px;
-}
+} */
 
 .tag-editor-suggestions {
   display: flex;
