@@ -195,6 +195,10 @@ router.post('/hide', passport.authenticate('jwt', { session: false }), async (re
 // create post
 router.post('/', passport.authenticate('jwt', { session: false }), async function (req, res) {
 
+  const pgp = require('pg-promise')({
+    // init options
+  });
+
   try {
     const newPost = await db.one(`INSERT INTO posts (title, link, content, num_points, owner, type) VALUES ($1, $2, $3, 0, $4, $5) RETURNING *`, [
       req.body.title,
@@ -208,6 +212,22 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
       postId: `${newPost.id}`,
       replies: []
     });
+
+    if (req.body.tags != null) {
+      // this is an example of a fast multi insert using pg promise
+    
+      const columnSet = new pgp.helpers.ColumnSet(['post_id', 'tag_id'], {table: 'post-tags'});
+      let values = [];;
+      Object.keys(req.body.tags).forEach(tagId => {
+        values.push({
+          post_id: newPost.id,
+          tag_id: tagId
+        })
+      })
+
+      const query = pgp.helpers.insert(values, columnSet);
+      await db.none(query);
+    }
 
     res.json(newPost)
 

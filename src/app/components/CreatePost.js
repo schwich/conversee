@@ -17,7 +17,9 @@ class CreatePost extends Component {
   constructor(props) {
     super(props);
 
-    let state = {};
+    let state = {
+      chosenTags: { }
+    };
     if (props.location.pathname == '/posts/create/text') {
       state.isText = true;
     }
@@ -44,16 +46,39 @@ class CreatePost extends Component {
     }
   }
 
+  addTag = (tagId, tagName) => {
+    this.setState((prevState) => {
+      return {
+        chosenTags: {
+          ...prevState.chosenTags,
+          [tagId]: tagName,
+        }
+      }
+    })
+  }
+
+  removeTag = (tagId) => {
+    this.setState((prevState) => {
+      let chosenTags = { ...prevState.chosenTags };
+      delete chosenTags[tagId];
+      return {
+        chosenTags
+      }
+    })
+  }
+
   async handleSubmit(formValues) {
     const response = await submitPost({
       ...formValues,
       owner: this.props.owner,
-      type: this.state.isText ? 'text' : 'link'
+      type: this.state.isText ? 'text' : 'link',
       // todo tags
+      tags: this.state.chosenTags
     });
   }
 
   render() {
+
     let { match, username } = this.props;
 
     let tabs = [
@@ -95,7 +120,10 @@ class CreatePost extends Component {
             <Form
               handleSubmit={this.handleSubmit}
               inputFields={inputFields}>
-              <TagEditor />
+              <TagEditor 
+                addTag={this.addTag}
+                removeTag={this.removeTag}
+                chosenTags={this.state.chosenTags} />
             </Form>
           </div>
         </div>

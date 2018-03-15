@@ -35,7 +35,8 @@ export async function submitPost(post) {
         link: post.link,
         content: post.content,
         owner: post.owner,
-        type: post.type
+        type: post.type,
+        tags: post.tags
       })
     });
 

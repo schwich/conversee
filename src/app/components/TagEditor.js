@@ -11,7 +11,6 @@ export default class TagEditor extends React.Component {
   state = {
     addTagInput: '',
     suggestions: [],
-    chosenTags: {}
   }
 
   constructor(props) {
@@ -39,26 +38,14 @@ export default class TagEditor extends React.Component {
   }
 
   chooseTag = (tagId, tagName) => {
-    this.setState((prevState) => {
-      return {
-        chosenTags: {
-          ...prevState.chosenTags,
-          [tagId]: tagName,
-        },
-
-        suggestions: []
-      }
-    })
+    this.props.addTag(tagId, tagName);
+    this.setState({
+      suggestions: []
+    });
   }
 
   cancelTag = (tagId) => {
-    this.setState((prevState) => {
-      let chosenTags = { ...prevState.chosenTags };
-      delete chosenTags[tagId];
-      return {
-        chosenTags
-      }
-    })
+    this.props.removeTag(tagId);
   }
 
   render() {
@@ -78,14 +65,14 @@ export default class TagEditor extends React.Component {
       <div className='tag-editor-container'>
         <div className='tag-editor-chosen-tags-container'>
           {
-            this.state.chosenTags != null
+            this.props.chosenTags != null
               ?
-              Object.keys(this.state.chosenTags).map(tagId => {
+              Object.keys(this.props.chosenTags).map(tagId => {
                 return (
                   <div
                     className='chosen-tag'
                     key={tagId}>
-                    {this.state.chosenTags[tagId]} <span onClick={() => this.cancelTag(tagId)}><FontAwesomeIcon icon='times' /></span>
+                    {this.props.chosenTags[tagId]} <span onClick={() => this.cancelTag(tagId)}><FontAwesomeIcon icon='times' /></span>
                   </div>
                 )
               })
