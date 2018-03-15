@@ -170,15 +170,14 @@ function TagPanel(props) {
   return (
     <div className='content-tag-panel'>
       {
-        props.tag != null
+        props.tags != null
           ?
-          props.tags.map((tag) => {
+          props.tags.map((tag, idx) => {
             return (
-              <div className='content-tag'>
-                <a href='#'>
-                  <i className='fa fa-tag' aria-hidden='true' style={{ marginRight: '2px' }}></i>
-                  {tag}
-                </a>
+              <div key={idx} className='content-tag'>
+                <Link to={`/tags/${tag}`}>
+                  <FontAwesomeIcon icon='tag' /> {tag}
+                </Link>
               </div>
             )
           })

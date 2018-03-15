@@ -217,7 +217,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
       // this is an example of a fast multi insert using pg promise
     
       const columnSet = new pgp.helpers.ColumnSet(['post_id', 'tag_id'], {table: 'post-tags'});
-      let values = [];;
+      let values = [];
       Object.keys(req.body.tags).forEach(tagId => {
         values.push({
           post_id: newPost.id,

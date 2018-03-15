@@ -70,15 +70,7 @@
 }
 
 .content-tag {
-  border: 1px solid transparent;
-}
-
-.content-tag:hover {
-  border: 1px solid black;
-}
-
-.content-tag a {
-  color: black;
+  cursor: pointer;
 }
 
 .content-meta-panel {
