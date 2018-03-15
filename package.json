@@ -6,7 +6,7 @@
   "scripts": {
     "app": "webpack-dev-server",
     "server": "nodemon ./bin/www",
-    "job-server-gui": "./node_modules/.bin/agendash --db=mongodb://localhost/converseer --port 3003",
+    "agenda-gui": "./node_modules/.bin/agendash --db=mongodb://localhost/converseer --port 3003",
     "build-app": "webpack",
     "migrations": "./node_modules/.bin/node-pg-migrate up",
     "create-migration": "./node_modules/.bin/node-pg-migrate create ",
