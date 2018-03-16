@@ -1,6 +1,7 @@
 import React from 'react';
 import Content from '../content/Content';
 import Pagination from '../general/Pagination';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import { getPostsByTag, getMorePostsByTag } from '../../api/tags-api';
 import { morePosts } from '../../redux/actions';
@@ -56,6 +57,7 @@ class PostsByTag extends React.Component {
   render() {
     return (
       <div className='posts-by-tag-container'>
+        <h2 style={{fontWeight: 300}}>Posts tagged with <FontAwesomeIcon icon='tag'/> {this.props.match.params.tagName}</h2>
         <div className='posts-by-tag'>
           {
             this.props.posts.posts !== null
