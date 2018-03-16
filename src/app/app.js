@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Account from './components/containers/Account';
 import Register from './components/Register';
 import Post from './components/containers/Post';
+import PostsByTag from './components/containers/PostsByTag';
 import Comments from './components/containers/Comments';
 import { userAuthSuccess } from '../app/redux/actions';
 import fontawesome from '@fortawesome/fontawesome';
@@ -42,6 +43,7 @@ class App extends React.Component {
             <Route path='/register' component={Register} />
             <Route path='/posts/:postId/comments' component={Comments} />
             <Route path="/posts/:postId" component={Post} />
+            <Route path='/tags/:tagName' component={PostsByTag} />
 
             <Route exact path='/:postSortType' component={Main} />
             <Route exact path='/:postSortType/page/:pageNum' component={Main} />
